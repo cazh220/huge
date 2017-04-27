@@ -4,9 +4,9 @@
 <head>
     <title>后台管理系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="http://localhost/thinkphp/public/static/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
-    <link href="http://localhost/thinkphp/public/static/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
-    <link href="http://localhost/thinkphp/public/static/assets/css/main-min.css" rel="stylesheet" type="text/css" />
+    <link href="{$Think.config.host_url}/public/static/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="{$Think.config.host_url}/public/static/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="{$Think.config.host_url}/public/static/assets/css/main-min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -31,13 +31,13 @@
 
     </ul>
 </div>
-<script type="text/javascript" src="http://localhost/thinkphp/public/static/assets/js/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="http://localhost/thinkphp/public/static/assets/js/bui-min.js"></script>
-<script type="text/javascript" src="http://localhost/thinkphp/public/static/assets/js/common/main-min.js"></script>
-<script type="text/javascript" src="http://localhost/thinkphp/public/static/assets/js/config-min.js"></script>
+<script type="text/javascript" src="{$Think.config.host_url}/public/static/assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="{$Think.config.host_url}/public/static/assets/js/bui-min.js"></script>
+<script type="text/javascript" src="{$Think.config.host_url}/public/static/assets/js/common/main-min.js"></script>
+<script type="text/javascript" src="{$Think.config.host_url}/public/static/assets/js/config-min.js"></script>
 <script>
     BUI.use('common/main',function(){
-        var config = [{id:'1',menu:[{text:'系统管理',items:[{id:'12',text:'机构管理',href:'Node/index.html'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'../user/index'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:'Node/index.html'}]}]}];
+        var config = [{id:'1',menu:[{text:'管理员管理',items:[{id:'21',text:'管理员列表',href:'admin/index'}]},{text:'系统管理',items:[{id:'12',text:'机构管理',href:'Node/index.html'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'../user/index'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:'Node/index.html'}]}]}];
         new PageUtil.MainPage({
             modulesConfig : config
         });

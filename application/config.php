@@ -50,6 +50,8 @@ return [
     'class_suffix'           => false,
     // 控制器类后缀
     'controller_suffix'      => false,
+	//host设置
+	'host_url'					 => 'http://huge.com',
 
     // +----------------------------------------------------------------------
     // | 模块设置
