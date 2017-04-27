@@ -35,7 +35,7 @@
     </style>
 </head>
 <body>
-<form action="index.html" method="post" class="definewidth m20">
+<form action="add_admin_user" method="post" class="definewidth m20" onsubmit="return CheckPost()">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <td width="10%" class="tableleft">账号</td>
@@ -52,7 +52,7 @@
     <tr>
         <td class="tableleft">角色</td>
         <td>
-			<select name="parentid">
+			<select name="role_id">
 				<option value="1">管理员</option>
 				<option value='2'/>其它</option>
 			</select>
@@ -60,7 +60,7 @@
     </tr>
     <tr>
         <td class="tableleft">手机号</td>
-        <td><input type="text" name="mobile"/></td>
+        <td><input type="text" id="mobile" name="mobile"/><span id="mobile_note"></span></td>
     </tr>
     <tr>
         <td class="tableleft">状态</td>
@@ -83,6 +83,8 @@
         </td>
     </tr>
 </table>
+<input type="hidden" id="username_f" value="0">
+<input type="hidden" id="password_f" value="0">
 </form>
 </body>
 </html>
@@ -98,6 +100,7 @@
 			var exp = /^\w{4,12}$/;
 			if (!exp.test(username)){
 				$("#username_note").html("<font color='red'>请输入4-12位数字字母或下划线组合</font>");
+				flag = 1;
 				return false;
 			}
 			
@@ -110,6 +113,10 @@
 					if (msg.status == 1)
 					{
 						$("#username_note").html("<font color='red'>"+msg.message+"</font>");
+					}
+					else
+					{
+						$("#username_f").val(1);
 					}
 				}
 			});
@@ -145,13 +152,39 @@
 				$("#repassword_note").html("<font color='red'>密码不一致,请重新输入</font>");
 				return false;
 			}
+			else
+			{
+				$("#password_f").val(1);
+			}
 		});
 		
 		$("#repassword").focus(function(){
 			$("#repassword_note").html("");
 		});
 		
+		$("#mobile").blur(function(){
+			var mobile = $(this).val();
+			if (mobile != ''){
+				var exp = /^1[3|4|5|8][0-9]\d{4,8}$/;
+				if (!exp.test(mobile)){
+					$("#mobile_note").html("<font color='red'>手机号码格式不正确</font>");
+					return false;
+				}
+			}
+		});
 		
-
+		$("#mobile").focus(function(){
+			$("#mobile_note").html("");
+		});
     });
+	
+	function CheckPost(){
+		var username_f = $("#username_f").val();
+		var password_f = $("#password_f").val();
+		if (username_f == 0 || password_f == 0){
+			alert("请检查输入");
+			return false;
+		}
+		
+	}
 </script>
