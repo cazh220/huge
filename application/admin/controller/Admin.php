@@ -44,37 +44,19 @@ class Admin
 	
 	public function add_admin_user()
 	{
-		$username = !empty($_POST['username']) ? trim($_POST['username']) : '';
-		$password = !empty($_POST['password']) ? trim($_POST['password']) : '';
-		$role_id = !empty($_POST['role_id']) ? intval($_POST['role_id']) : 0;
-		$mobile = !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
-		$status = !empty($_POST['status']) ? intval($_POST['status']) : 0;
-		$node	= !empty($_POST['node']) ? $_POST['node'] : '';
+		$username 	= !empty($_POST['username']) ? trim($_POST['username']) : '';
+		$password 	= !empty($_POST['password']) ? trim($_POST['password']) : '';
+		$role_id 	= !empty($_POST['role_id']) ? intval($_POST['role_id']) : 0;
+		$mobile 	= !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
+		$is_frozen	= !empty($_POST['is_frozen']) ? intval($_POST['is_frozen']) : 0;
+		$permission	= !empty($_POST['permission']) ? $_POST['permission'] : '';
 		
-		$action_list = !empty($node) ? json_encode($node) : '';
-		$add_time = date("Y-m-d H:i:s", time());
-		$last_login_time = date("Y-m-d H:i:s", time());
-		$last_ip = $_SERVER['REMOTE_ADDR'];
-		/*
-		$params = [
-			'username'			=> '"$username"',
-			'password'			=> md5($password),
-			'role_id'			=> $role_id,
-			'mobile'			=> $mobile,
-			'status'			=> $status,
-			'action_list'		=> !empty($node) ? json_encode($node) : '',
-			'is_frozen'			=> 0,
-			'add_time'			=> date("Y-m-d H:i:s", time()),
-			'last_login_time'	=> date("Y-m-d H:i:s", time()),
-			'last_ip'			=> $_SERVER['REMOTE_ADDR']
-		];*/
-		//print_r($params);die;
-		//$json_params = json_encode($params);
-		//替换｛｝为[]
-		//$a = str_replace('{', '[', $json_params);
-		//$b = str_replace('}', ']', $a);
+		$action_list 		= !empty($permission) ? json_encode($permission) : '';
+		$add_time 			= date("Y-m-d H:i:s", time());
+		$last_login_time 	= date("Y-m-d H:i:s", time());
+		$last_ip 			= $_SERVER['REMOTE_ADDR'];
 
-		$res = Db::execute('insert into hg_admin_users(username, password, mobile, role_id, action_list, is_frozen, add_time, last_login_time, last_ip)values(:username, :password, :mobile, :role_id, :action_list, :is_frozen, :add_time, :last_login_time, :last_ip)', ['username'=>$username, 'password'=>md5($password), 'role_id'=>$role_id, 'mobile'=>$mobile, 'action_list'=>$action_list, 'is_frozen'=>$status, 'add_time'=>$add_time, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip]);
+		$res = Db::execute('insert into hg_admin_users(username, password, mobile, role_id, action_list, is_frozen, add_time, last_login_time, last_ip)values(:username, :password, :mobile, :role_id, :action_list, :is_frozen, :add_time, :last_login_time, :last_ip)', ['username'=>$username, 'password'=>md5($password), 'role_id'=>$role_id, 'mobile'=>$mobile, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'add_time'=>$add_time, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip]);
 		
 		if ($res == 1)
 		{
@@ -83,7 +65,54 @@ class Admin
 			$view->assign('data', $data);
 			return $view->fetch('index/admin/index');
 		}
+		else
+		{
+			echo "<script>alert('新增管理员失败');history.back();</script>";
+		}
 		
+	}
+	
+	public function edit()
+	{
+		$admin_id = !empty($_GET['admin_id']) ? intval($_GET['admin_id']) : 0;
+		//获取管理员信息
+		$data = Db::query('select * from hg_admin_users where admin_id = :id', ['id'=>$admin_id]);
+		if (!empty($data[0]['action_list']))
+		{
+			$data[0]['action_list'] = json_decode($data[0]['action_list'], true);
+		}
+
+		$view = new View();
+		$view->assign('data', $data[0]);
+		return $view->fetch('index/admin/edit');
+	}
+	
+	public function edit_admin_user()
+	{
+		$admin_id	= !empty($_POST['admin_id']) ? trim($_POST['admin_id']) : 0;
+		$username 	= !empty($_POST['username']) ? trim($_POST['username']) : '';
+		$password 	= !empty($_POST['password']) ? trim($_POST['password']) : '';
+		$role_id 	= !empty($_POST['role_id']) ? intval($_POST['role_id']) : 0;
+		$mobile 	= !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
+		$is_frozen 	= !empty($_POST['is_frozen']) ? intval($_POST['is_frozen']) : 0;
+		$permission	= !empty($_POST['permission']) ? $_POST['permission'] : '';
+		
+		$action_list 		= !empty($permission) ? json_encode($permission) : '';
+		$last_login_time 	= date("Y-m-d H:i:s", time());
+		$last_ip 			= $_SERVER['REMOTE_ADDR'];
+		
+		$res = Db::execute('update hg_admin_users set username = :username, password = :password, mobile = :mobile, role_id = :role_id, action_list = :action_list, is_frozen = :is_frozen, last_login_time = :last_login_time, last_ip = :last_ip where admin_id = :admin_id', ['username'=>$username, 'password'=>$password, 'mobile'=>$mobile, 'role_id'=>$role_id, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip, 'admin_id'=>$admin_id]);
+		if ($res == 1)
+		{
+			$data = Db::query('select * from hg_admin_users');
+			$view = new View();
+			$view->assign('data', $data);
+			return $view->fetch('index/admin/index');
+		}
+		else
+		{
+			echo "<script>alert('编辑管理员失败');history.back();</script>";
+		}
 	}
 	
 	
