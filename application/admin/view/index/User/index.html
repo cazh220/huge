@@ -3,16 +3,17 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="http://localhost/thinkphp/public/static/Css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="http://localhost/thinkphp/public/static/Css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="http://localhost/thinkphp/public/static/Css/style.css" />
-    <script type="text/javascript" src="http://localhost/thinkphp/public/static/Js/jquery.js"></script>
-    <script type="text/javascript" src="http://localhost/thinkphp/public/static/Js/jquery.sorted.js"></script>
-    <script type="text/javascript" src="http://localhost/thinkphp/public/static/Js/bootstrap.js"></script>
-    <script type="text/javascript" src="http://localhost/thinkphp/public/static/Js/ckform.js"></script>
-    <script type="text/javascript" src="http://localhost/thinkphp/public/static/Js/common.js"></script>
-
- 
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
+	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-datetimepicker.min.css" />
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.sorted.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/locales/bootstrap-datetimepicker.fr.js"></script>
 
     <style type="text/css">
         body {
@@ -36,28 +37,26 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="index.html" method="get">    
-    用户名称：
-    <input type="text" name="username" id="username"class="abc input-default" placeholder="" value="">&nbsp;&nbsp;  
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>
+    <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="账户名/手机号/所属单位" value="">&nbsp;&nbsp;<input type="text" name="tech_depart" id="tech_depart"class="abc input-default" placeholder="技工所" value="">&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
-        <th>用户id</th>
-        <th>用户名称</th>
-        <th>真实姓名</th>
-        <th>最后登录时间</th>
+        <th>会员编号</th>
+        <th>账户名</th>
+        <th>会员手机号</th>
+        <th>用户类型</th>
+		<th>单位名称</th>
+		<th>单位地址</th>
+		<th>注册时间</th>
+		<th>备注</th>
+		<th>状态</th>
         <th>操作</th>
     </tr>
     </thead>
 	     <tr>
-            <td>2</td>
-            <td>admin</td>
-            <td>管理员</td>
-            <td></td>
-            <td>
-                <a href="edit.html">编辑</a>                
-            </td>
+            
         </tr>	
 </table>
 </body>
@@ -86,9 +85,37 @@
 			window.location.href=url;		
 		
 		}
-	
-	
-	
-	
 	}
+	
+	$('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	$('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 1,
+		minView: 0,
+		maxView: 1,
+		forceParse: 0
+    });
 </script>

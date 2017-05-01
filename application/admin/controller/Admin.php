@@ -115,5 +115,53 @@ class Admin
 		}
 	}
 	
+	public function edit_password()
+	{
+		$admin_name = !empty($_GET['admin_name']) ? trim($_GET['admin_name']) : '';
+		$admin_id   = !empty($_GET['admin_id']) ? trim($_GET['admin_id']) : '';
+		$view = new View();
+		$view->assign('data', array('admin_id'=>$admin_id, 'admin_name'=>$admin_name));
+		return $view->fetch('index/admin/edit_password');
+	}
+	
+	public function edit_password_action()
+	{
+		$admin_id = !empty($_POST['admin_id']) ? intval($_POST['admin_id']) : 0;
+		$password = !empty($_POST['password']) ? trim($_POST['password']) : '';
+		$repassword = !empty($_POST['repassword']) ? trim($_POST['repassword']) : '';
+		
+		$res = Db::execute('update hg_admin_users set password = :password where admin_id = :admin_id', ['password'=>md5($password), 'admin_id'=>$admin_id]);
+		
+		if ($res == 1)
+		{
+			$data = Db::query('select * from hg_admin_users');
+			$view = new View();
+			$view->assign('data', $data);
+			return $view->fetch('index/admin/index');
+		}
+		else
+		{
+			echo "<script>alert('重置密码失败');history.back();</script>";
+		}
+	}
+	
+	public function delete()
+	{
+		$admin_id = !empty($_GET['admin_id']) ? intval($_GET['admin_id']) : 0;
+		$res = Db::execute('delete from hg_admin_users where admin_id = :admin_id', ['admin_id'=>$admin_id]);
+		
+		if ($res == 1)
+		{
+			$data = Db::query('select * from hg_admin_users');
+			$view = new View();
+			$view->assign('data', $data);
+			return $view->fetch('index/admin/index');
+		}
+		else
+		{
+			echo "<script>alert('删除失败');history.back();</script>";
+		}
+	}
+	
 	
 }
