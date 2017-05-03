@@ -10,4 +10,10 @@ class Gift
         $view = new View();
 		return $view->fetch('index/gift/index');
     }
+	
+	public function add()
+	{
+		$view = new View();
+		return $view->fetch('index/gift/add');
+	}
 }
