@@ -3,14 +3,14 @@
 <head>
     <title>后台管理系统</title>
 	<meta charset="UTF-8">
-   <link rel="stylesheet" type="text/css" href="../Css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../Css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="../Css/style.css" />
-    <script type="text/javascript" src="../Js/jquery.js"></script>
-    <script type="text/javascript" src="../Js/jquery.sorted.js"></script>
-    <script type="text/javascript" src="../Js/bootstrap.js"></script>
-    <script type="text/javascript" src="../Js/ckform.js"></script>
-    <script type="text/javascript" src="../Js/common.js"></script>
+   <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.sorted.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
     <style type="text/css">
         body {
             padding-top: 40px;
@@ -50,15 +50,33 @@
 <body>
 <div class="container">
 
-    <form class="form-signin" method="post" action="../index.html">
-        <h2 class="form-signin-heading">登录系统</h2>
-        <input type="text" name="username" class="input-block-level" placeholder="账号">
-        <input type="password" name="password" class="input-block-level" placeholder="密码">
-        <input type="text" name="verify" class="input-medium" placeholder="验证码">
+    <form class="form-signin" method="post" action="../index/doLogin" onsubmit="return check_login()">
+        <h2 class="form-signin-heading">登录</h2>
+        <input type="text" id="username" name="username" class="input-block-level" placeholder="账号">
+        <input type="password" id="password" name="password" class="input-block-level" placeholder="密码">
+        <input type="text" id="verify_code" name="verify_code" class="input-medium" placeholder="验证码"><img style="padding-bottom:15px" src="{:captcha_src()}" onclick="this.src='{:captcha_src()}?x='+Math.random();" />
        
         <p><button class="btn btn-large btn-primary" type="submit">登录</button></p>
     </form>
 
 </div>
+<script type="text/javascript">
+function check_login(){
+	var username = $("#username").val();
+	var password = $("#password").val();
+	var code     = $("#verify_code").val();
+	
+	if (code == ''){
+		alert("请输入验证码");
+		return false;
+	}
+	
+	if (username == '' || password == ''){
+		alert("请输入用户名和密码");
+		return false;
+	}
+	
+}
+</script>
 </body>
 </html>
