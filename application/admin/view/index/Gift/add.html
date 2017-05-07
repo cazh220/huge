@@ -6,12 +6,14 @@
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
+	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-datetimepicker.min.css" />
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.sorted.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
-
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/locales/bootstrap-datetimepicker.fr.js"></script>
  
 
     <style type="text/css">
@@ -35,7 +37,7 @@
     </style>
 </head>
 <body>
-<form action="index.html" method="post" class="definewidth m20">
+<form action="../gift/doAdd" method="post" class="definewidth m20">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <td width="10%" class="tableleft">奖品名称</td>
@@ -47,7 +49,14 @@
     </tr>
     <tr>
         <td class="tableleft">兑奖日期</td>
-        <td><input type="text" name="exchange"/></td>
+        <td>
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+				<input type="hidden" id="exchange_time" value="" /><br/>
+		</td>
     </tr>
     <tr>
         <td class="tableleft">奖品介绍</td>
@@ -58,10 +67,6 @@
         <td>
            <input type="text" id="credit" name="credit" value="">
         </td>
-    </tr>
-    <tr>
-        <td class="tableleft">更新时间</td>
-        <td><input type="text" name="exchange"/></td>
     </tr>
     <tr>
         <td class="tableleft"></td>
@@ -79,5 +84,16 @@
 				window.location.href="index.html";
 		 });
 
+    });
+	
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
     });
 </script>

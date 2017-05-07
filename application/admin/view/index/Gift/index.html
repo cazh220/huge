@@ -53,9 +53,22 @@
         <th>操作</th>
     </tr>
     </thead>
+	     {volist name="data" id="gift"}
 	     <tr>
-            
-        </tr>	
+            <td>{$gift.gift_photo}</td>
+            <td>{$gift.gift_name}</td>
+            <td>{$gift.credits}</td>
+            <td>{$gift.num}</td>
+			<td>{$gift.sales_num}</td>
+			<td>{$gift.create_time}</td>
+			<td>{$gift.status}</td>
+            <td>
+                <a href="edit?admin_id={$gift.gift_id}">编辑</a>&nbsp;&nbsp;   
+				<a href="edit_password?admin_id={$gift.gift_id}&admin_name={$gift.gift_name}">修改密码</a>&nbsp;&nbsp;
+				<a href="delete?admin_id={$gift.gift_id}">删除</a>
+            </td>
+        </tr>
+	{/volist}		
 </table>
 </body>
 </html>
