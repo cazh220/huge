@@ -43,6 +43,7 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
+		<th><input type="checkbox" id="gift_id_all" name="gift_id_all" value=""/>全选</th>
         <th>礼品图片</th>
         <th>奖品名称</th>
         <th>价格</th>
@@ -55,6 +56,7 @@
     </thead>
 	     {volist name="data" id="gift"}
 	     <tr>
+			<td><input type="checkbox" id="gift_id" name="gift_id[]" value="{$gift.gift_id}"/></td>
             <td>{$gift.gift_photo}</td>
             <td>{$gift.gift_name}</td>
             <td>{$gift.credits}</td>
@@ -63,9 +65,8 @@
 			<td>{$gift.create_time}</td>
 			<td>{$gift.status}</td>
             <td>
-                <a href="edit?admin_id={$gift.gift_id}">编辑</a>&nbsp;&nbsp;   
-				<a href="edit_password?admin_id={$gift.gift_id}&admin_name={$gift.gift_name}">修改密码</a>&nbsp;&nbsp;
-				<a href="delete?admin_id={$gift.gift_id}">删除</a>
+                <a href="edit?gift_id={$gift.gift_id}">编辑奖品</a>&nbsp;&nbsp;   
+				<a href="copy?gift_id={$gift.gift_id}&admin_name={$gift.gift_name}">复制链接</a>&nbsp;&nbsp;
             </td>
         </tr>
 	{/volist}		
