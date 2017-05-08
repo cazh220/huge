@@ -4,9 +4,13 @@ use app\admin\model;
 use think\Controller;
 use think\View;
 use think\Config;
+use think\Session;
+use think\Log;
 
-class Index
+class Index extends Controller
 {
+	static $verify = 0;
+	
     public function index()
     {
 		//print_r(Config::get('host'));die;
@@ -30,7 +34,7 @@ class Index
 		$password 	= !empty($password) ? addslashes(trim($password)) : '';
 		$code 		= !empty($code) ? addslashes(trim($code)) : '';
 
-		if(!captcha_check($code))
+		if(!captcha_check($code) && self::$verify == 1)
 		{
 			header("Content-type:text/html;charset=utf-8");
             exit("<script>alert('验证码错误！');window.history.go(-1);</script>");
@@ -44,6 +48,9 @@ class Index
 			header("Content-type:text/html;charset=utf-8");
             exit("<script>alert('用户名或密码错误！');window.history.go(-1);</script>");
 		}
+		
+		
+		
 		
 		
 	}
