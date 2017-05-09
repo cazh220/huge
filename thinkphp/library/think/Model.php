@@ -1912,5 +1912,21 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     {
         self::event('after_delete', $callback, $override);
     }
+	
+	//拼接sql串
+	public function join2param($param=array(), $decollator=',')
+	{
+		$result = '';
+		$output = array();
+		if (!empty($param) && is_array($param))
+		{
+			foreach($param as $key => $val)
+			{
+				array_push($output, $key."= :".$key);
+			}
+			$result = implode($decollator, $output);
+		}
+		return $result;
+	}
 
 }

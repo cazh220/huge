@@ -37,7 +37,7 @@
 <script type="text/javascript" src="{$Think.config.host_url}/public/static/assets/js/config-min.js"></script>
 <script>
     BUI.use('common/main',function(){
-        var config = [{id:'1',menu:[{text:'管理员管理',items:[{id:'21',text:'管理员列表',href:'admin/index'}]},{text:'会员管理',items:[{id:'22',text:'会员列表',href:'user/index'}]},{text:'积分商城',items:[{id:'23',text:'礼品列表',href:'gift/index'}]},{text:'系统管理',items:[{id:'12',text:'机构管理',href:'Node/index.html'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'../user/index'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:'业务管理',items:[{id:'9',text:'查询业务',href:'Node/index.html'}]}]}];
+        var config = [{$menu}];
         new PageUtil.MainPage({
             modulesConfig : config
         });

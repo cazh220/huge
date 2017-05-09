@@ -4,7 +4,7 @@ use think\Controller;
 use think\View;
 use think\Db;
 
-class Admin
+class Admin extends Controller
 {
     public function index()
     {

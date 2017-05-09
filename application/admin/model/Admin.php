@@ -36,28 +36,16 @@ class Admin extends Model
 	
 	public function updateAdmin($param=array(), $where=array())
 	{
-		$where_str = '';
-		$set = join_params($param);
-		if ()
-		$where = join_params($where, 'AND');
-		
-		$sql = "update hg_admin_users set $set ";
-		
-		$res = Db::execute('update hg_admin_users set username = :username, password = :password, mobile = :mobile, role_id = :role_id, action_list = :action_list, is_frozen = :is_frozen, last_login_time = :last_login_time, last_ip = :last_ip where admin_id = :admin_id', ['username'=>$username, 'password'=>$password, 'mobile'=>$mobile, 'role_id'=>$role_id, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip, 'admin_id'=>$admin_id]);
-	}
-	
-	public function join_params($param=array(), $join=',')
-	{
-		$output = array();
-		if (!empty($param))
+		if (!empty($param) && !empty($where))
 		{
-			foreach($param as $key => $val)
-			{
-				array_push($output, $key."= :".$key);
-			}
-			$where_condition = implode(' ".$join." ', $where_ary);
+			$set = $this->join2param($param, ',');
+			$where_condition = $this->join2param($where, 'AND');
+			$params = array_merge($param, $where);
+			//echo "update hg_admin_users set $set where $where_condition";print_r($params);die;
+			$res = Db::execute("update hg_admin_users set $set where $where_condition", $params);
 		}
-		return $output;
+		
+		return $res==1 ? 1 : 0;
 	}
 
 }
