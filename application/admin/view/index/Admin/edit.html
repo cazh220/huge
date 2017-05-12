@@ -64,7 +64,20 @@
         </tr>
         <tr>
             <td class="tableleft">权限</td>
-            <td></td>
+            <td>
+				<table border="1" style="border-color:#ccc" width="100%">
+				{volist name="prev_data" id="prev"}
+				<tr>
+					<td width="10%"><label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev.action_id}' {if condition = "$prev.checked eq 1"}checked{/if} />{$prev.action_name}</label></td>
+					<td>
+					{volist name="prev.child" id="prev_act"}
+					<label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev_act.action_id}' {if condition = "$prev_act.checked eq 1"}checked{/if} />{$prev_act.action_name}</label>
+					{/volist}
+					</td>
+				</tr>
+				{/volist}
+			</table>
+			</td>
         </tr>
         <tr>
             <td class="tableleft"></td>

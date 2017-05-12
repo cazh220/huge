@@ -35,7 +35,7 @@
     </style>
 </head>
 <body>
-<form action="index.html" method="post" class="definewidth m20">
+<form action="add_admin_user" method="post" class="definewidth m20">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <td width="10%" class="tableleft">账号</td>
@@ -72,8 +72,20 @@
     <tr>
         <td class="tableleft">权限</td>
         <td>
-			<label class='checkbox inline'><input type='checkbox' name='permission[]' value='21' />管理员权限</label>
-			<label class='checkbox inline'><input type='checkbox' name='permission[]' value='22' />授权查看</label>
+			<!--<label class='checkbox inline'><input type='checkbox' name='permission[]' value='21' />管理员权限</label>
+			<label class='checkbox inline'><input type='checkbox' name='permission[]' value='22' />授权查看</label>-->
+			<table border="1" style="border-color:#ccc" width="100%">
+				{volist name="prev_data" id="prev"}
+				<tr>
+					<td width="10%"><label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev.action_id}' />{$prev.action_name}</label></td>
+					<td>
+					{volist name="prev.child" id="prev_act"}
+					<label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev_act.action_id}' />{$prev_act.action_name}</label>
+					{/volist}
+					</td>
+				</tr>
+				{/volist}
+			</table>
 		</td>
     </tr>
     <tr>

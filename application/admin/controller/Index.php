@@ -13,11 +13,6 @@ class Index extends Controller
 	
     public function index()
     {
-		$Menu = model('Menu');
-		$menus = $Menu->getMenu(array('status'=>0, 'action_code'=>'admin,admin_list,user,user_list'));
-		$menu_list = get_menu_list($menus);
-		print_r($menu_list);die;
-		
 		//print_r(Config::get('host'));die;
         $view = new View();
 		$view->assign('menu', Session::get('menu'));
@@ -64,10 +59,8 @@ class Index extends Controller
 		$Menu = model('Menu');
 		$menus = $Menu->getMenu(array('status'=>0, 'action_list'=>$admin_detail[0]['action_list']));
 		$menu_list = get_menu_list($menus);
-		
-		
-		
 		Session::set('menu',$menu_list);
+		Session::set('action_list',$admin_detail[0]['action_list']);
 		
 		$data = array(
 			'last_login_time'	=> date('Y-m-d H:i:s', time()),

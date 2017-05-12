@@ -3,12 +3,18 @@ namespace app\admin\controller;
 use think\Controller;
 use think\View;
 use think\Db;
+use think\Session;
+use think\Log;
+use think\Paginator;
 
 class Admin extends Controller
 {
     public function index()
     {
-		$data = Db::query('select * from hg_admin_users');
+		$a = Db::name('hg_admin_users')->where('is_frozen',0)->paginate(10)->toArray();
+		print_r($a);die;
+		
+		//$data = Db::query('select * from hg_admin_users')->paginate(2);
         $view = new View();
 		$view->assign('data', $data);
 		return $view->fetch('index/admin/index');
@@ -16,10 +22,13 @@ class Admin extends Controller
 	
 	public function add()
 	{
+		//获取权限列表
+		$Admin = model('Admin');
+		$action_list = $Admin->getActionList();
+		$prev_list = get_prev_list($action_list);
 		$view = new View();
-		//$view->assign('data', $data);
+		$view->assign('prev_data', $prev_list);
 		return $view->fetch('index/admin/add');
-		//$res = Db::execute('insert into hg_users(user, name, create_time, credits)values(:user, :name, :create_time, :credits)', ['user'=>'baoyu', 'name'=>'����', 'create_time'=>date('Y-m-d H:i:s', time()), 'credits'=>50]);
 	}
 	
 	//ajax
@@ -51,11 +60,13 @@ class Admin extends Controller
 		$is_frozen	= !empty($_POST['is_frozen']) ? intval($_POST['is_frozen']) : 0;
 		$permission	= !empty($_POST['permission']) ? $_POST['permission'] : '';
 		
-		$action_list 		= !empty($permission) ? json_encode($permission) : '';
+		//$action_list 		= !empty($permission) ? json_encode($permission) : '';
 		$add_time 			= date("Y-m-d H:i:s", time());
 		$last_login_time 	= date("Y-m-d H:i:s", time());
 		$last_ip 			= $_SERVER['REMOTE_ADDR'];
 
+		$Admin = model('Admin');
+		$action_list = $Admin->changePrev($permission);
 		$res = Db::execute('insert into hg_admin_users(username, password, mobile, role_id, action_list, is_frozen, add_time, last_login_time, last_ip)values(:username, :password, :mobile, :role_id, :action_list, :is_frozen, :add_time, :last_login_time, :last_ip)', ['username'=>$username, 'password'=>md5($password), 'role_id'=>$role_id, 'mobile'=>$mobile, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'add_time'=>$add_time, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip]);
 		
 		if ($res == 1)
@@ -77,12 +88,19 @@ class Admin extends Controller
 		$admin_id = !empty($_GET['admin_id']) ? intval($_GET['admin_id']) : 0;
 		//获取管理员信息
 		$data = Db::query('select * from hg_admin_users where admin_id = :id', ['id'=>$admin_id]);
+		/*
 		if (!empty($data[0]['action_list']))
 		{
 			$data[0]['action_list'] = json_decode($data[0]['action_list'], true);
-		}
+		}*/
+		//获取权限列表
+		$Admin = model('Admin');
+		$action_list = $Admin->getActionList();
+		$permission_list = $Admin->getPermissionList($admin_id);
+		$prev_list = get_prev_list($action_list, $permission_list);
 
 		$view = new View();
+		$view->assign('prev_data', $prev_list);
 		$view->assign('data', $data[0]);
 		return $view->fetch('index/admin/edit');
 	}
@@ -97,9 +115,12 @@ class Admin extends Controller
 		$is_frozen 	= !empty($_POST['is_frozen']) ? intval($_POST['is_frozen']) : 0;
 		$permission	= !empty($_POST['permission']) ? $_POST['permission'] : '';
 		
-		$action_list 		= !empty($permission) ? json_encode($permission) : '';
+		//$action_list 		= !empty($permission) ? json_encode($permission) : '';
 		$last_login_time 	= date("Y-m-d H:i:s", time());
 		$last_ip 			= $_SERVER['REMOTE_ADDR'];
+		
+		$Admin = model('Admin');
+		$action_list = $Admin->changePrev($permission);
 		
 		$res = Db::execute('update hg_admin_users set username = :username, password = :password, mobile = :mobile, role_id = :role_id, action_list = :action_list, is_frozen = :is_frozen, last_login_time = :last_login_time, last_ip = :last_ip where admin_id = :admin_id', ['username'=>$username, 'password'=>$password, 'mobile'=>$mobile, 'role_id'=>$role_id, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip, 'admin_id'=>$admin_id]);
 		if ($res == 1)
@@ -162,6 +183,7 @@ class Admin extends Controller
 			echo "<script>alert('删除失败');history.back();</script>";
 		}
 	}
+	
 	
 	
 }

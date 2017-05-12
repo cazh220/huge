@@ -57,6 +57,51 @@ function get_menu_list($menus)
 	}
 }
 
+//获取权限列表
+function get_prev_list($privilege, $session_list='')
+{
+	$out_privilege_list = array();
+	if (!empty($privilege) && is_array($privilege))
+	{
+		//获取顶级目录
+		$out_privilege_list = array();
+		foreach ($privilege as $key => $val)
+		{
+			if ($val['parent_id'] == 0)
+			{
+				//判断是否已有权限
+				$priv = check_admin_priv($val['action_code'], $session_list);
+				$val['checked'] = !empty($priv) ? 1 : 0;
+				$out_privilege_list[] = $val;
+			}
+		}
+		//二级目录
+		foreach ($out_privilege_list as $k => $v)
+		{
+			foreach ($privilege as $key => $value)
+			{
+				if ($value['parent_id'] == $v['action_id'])
+				{
+					$priv_nex = check_admin_priv($value['action_code'], $session_list);
+					$value['checked'] = !empty($priv_nex) ? 1 : 0;
+					$out_privilege_list[$k]['child'][] = $value;
+				}
+			}
+		}
+	}
+	return $out_privilege_list;
+}
+
+function check_admin_priv($priv_action, $session_list) {
+	if ($session_list == 'all') {
+		return true;
+	}
+
+	$r = strpos(',' . $session_list . ',', ',' . $priv_action . ',');
+	
+	if($r !== false) return true;
+}
+
 //检查权限
 /*
 function check_admin_priv($priv_action) 

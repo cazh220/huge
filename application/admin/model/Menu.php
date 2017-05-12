@@ -8,18 +8,17 @@ class Menu extends Model
 {
 	public function getMenu($data)
 	{
-		$str = "";
+		$in_str = "";
 		if (!empty($data))
 		{
-			foreach ($data['action_code'] as $key => $val)
+			$data_tmp = explode(",", $data['action_list']);
+			foreach ($data_tmp as $key => $val)
 			{
-				$str .= "'".$val."',";
+				$in_str .= "'".$val."',";
 			}
-			$str = rtrim($str, ',');
+			$in_str = rtrim($in_str, ',');
 		}
-		echo $str;die;
-		$sql = "SELECT * FROM hg_admin_action WHERE status = ".$data['status']." AND action_code IN ('admin','admin_list','user','user_list')";
-		//echo $sql;die;
+		$sql = "SELECT * FROM hg_admin_action WHERE status = ".$data['status']." AND action_code IN ($in_str)";
 		$res = Db::query($sql);
 		return $res;
 	}

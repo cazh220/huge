@@ -21,6 +21,7 @@ class Admin extends Model
 			$order = " ORDER BY admin_id ASC";
 		}
 		$where_condition .= $order;
+		
 		if (!empty($page))
 		{
 			$start = $page['current_page'] - 1;
@@ -47,5 +48,41 @@ class Admin extends Model
 		
 		return $res==1 ? 1 : 0;
 	}
+	
+	public function getActionList()
+	{
+		$res = Db::query("SELECT * FROM hg_admin_action WHERE status = 0");
+		return $res;
+	}
+	
+	public function changePrev($prev_list=array())
+	{
+		$output = "";
+		if (!empty($prev_list))
+		{
+			$in_str = implode(',', $prev_list);
+			$res = Db::query("select action_code from hg_admin_action where action_id IN (".$in_str.")");
+			if ($res && is_array($res))
+			{
+				foreach($res as $key => $val)
+				{
+					$output_arr[] = $val['action_code'];
+				}
+			}
+			$output = implode(',', $output_arr);
+		}
+		return $output;
+	}
+	
+	//获取权限列表
+	public function getPermissionList($admin_id='')
+	{
+		if (!empty($admin_id))
+		{
+			$res = Db::query("select action_list from hg_admin_users where admin_id = :admin_id", ['admin_id'=>$admin_id]);
+		}
+		return !empty($res[0]['action_list']) ? $res[0]['action_list'] : '';
+	}
+	
 
 }
