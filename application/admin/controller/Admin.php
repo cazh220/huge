@@ -11,12 +11,15 @@ class Admin extends Controller
 {
     public function index()
     {
-		$a = Db::name('hg_admin_users')->where('is_frozen',0)->paginate(10)->toArray();
-		print_r($a);die;
+		$obj_data = Db::name('hg_admin_users')->where('is_frozen',0)->paginate(5);
+		$data = $obj_data->toArray();
+		//print_r($obj_data);die;
 		
 		//$data = Db::query('select * from hg_admin_users')->paginate(2);
+		//var_dump($obj_data->render());die;
         $view = new View();
 		$view->assign('data', $data);
+		$view->assign('page', $obj_data->render());
 		return $view->fetch('index/admin/index');
     }
 	
