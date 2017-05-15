@@ -37,7 +37,7 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="index.html" method="get">    
-    <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="账户名/手机号/所属单位" value="">&nbsp;&nbsp;<input type="text" name="tech_depart" id="tech_depart"class="abc input-default" placeholder="技工所" value="">&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
+    <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="账户名/手机号/所属单位" value="">&nbsp;&nbsp;<input type="text" name="dental" id="dental"class="abc input-default" placeholder="技工所" value="">&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
@@ -55,9 +55,21 @@
         <th>操作</th>
     </tr>
     </thead>
+		{volist id="user" name="user"}
 	     <tr>
-            
-        </tr>	
+			<td>{$user.user_id}</td>
+            <td>{$user.username}</td>
+			<td>{$user.mobile}</td>
+			<td>{$user.user_type}</td>
+			<td>{$user.company_name}</td>
+			<td>{$user.company_addr}</td>
+			<td>{$user.create_time}</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+        </tr>
+		{/volist}		
 </table>
 </body>
 </html>
