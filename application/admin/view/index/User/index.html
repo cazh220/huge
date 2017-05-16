@@ -31,18 +31,24 @@
                 padding-right: 5px;
             }
         }
+		
+		.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}  
+.pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}  
+.pagination .active{background-color: #dd1a20;color: #fff;}  
+.pagination .disabled{color:#aaa;} 
 
 
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="index.html" method="get">    
+<form class="form-inline definewidth m20" action="index" method="get">    
     <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="账户名/手机号/所属单位" value="">&nbsp;&nbsp;<input type="text" name="dental" id="dental"class="abc input-default" placeholder="技工所" value="">&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">导出</button>
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="delete_user">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
+		<th><input type="checkbox" id="all_user_id" name="all_user_id" value="">选择</th>
         <th>会员编号</th>
         <th>账户名</th>
         <th>会员手机号</th>
@@ -55,22 +61,25 @@
         <th>操作</th>
     </tr>
     </thead>
-		{volist id="user" name="user"}
+		{volist id="list" name="user.data"}
 	     <tr>
-			<td>{$user.user_id}</td>
-            <td>{$user.username}</td>
-			<td>{$user.mobile}</td>
-			<td>{$user.user_type}</td>
-			<td>{$user.company_name}</td>
-			<td>{$user.company_addr}</td>
-			<td>{$user.create_time}</td>
+			<td><input type="checkbox" class="c_user_id" id="c_user_id{$list.user_id}" name="user_id[]" value="{$list.user_id}"></td>
+			<td>{$list.user_id}</td>
+            <td>{$list.username}</td>
+			<td>{$list.mobile}</td>
+			<td>{if condition="$list.user_type eq 1"}技工所{elseif condition="$list.user_type eq 2" /}医生{else/}其它{/if}</td>
+			<td>{$list.company_name}</td>
+			<td>{$list.company_addr}</td>
+			<td>{$list.create_time}</td>
 			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td>{if condition="$list.status eq 1"}已审核{else}未审核{/if}</td>
+			<td>
+			<a href="#">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>
+			</td>
         </tr>
 		{/volist}		
 </table>
+{$page}
 </body>
 </html>
 <script>
@@ -81,53 +90,42 @@
 
 				window.location.href="add";
 		 });
-
-
-    });
-
-	function del(id)
-	{
-		
-		
-		if(confirm("确定要删除吗？"))
-		{
-		
-			var url = "index.html";
+		 
+		 $("#all_user_id").click(function(){
+			if ($("#all_user_id").is(':checked'))
+			{
+				$(".c_user_id").each(function(i, n){
+					$(this).prop("checked", true);
+				 });
+			}
+			else
+			{
+				$(".c_user_id").each(function(i, n){
+					$(this).prop("checked", false);
+				 });
+			}
+		 });
+		 
+		 $("#delete_user").click(function(){
+			if(confirm("确定要删除吗？"))
+			{
 			
-			window.location.href=url;		
-		
-		}
-	}
+				
+				var user_id = new Array();
+				$(".c_user_id").each(function(i, n){
+					if ($(this).is(':checked'))
+					{
+						user_id.push($(this).val());
+					}
+				});
+				var user_id_str = user_id.join(',');
+				var url = "delete_user?user_id="+user_id_str;
+				window.location.href=url;		
+			
+			}
+		 });
+
+
+    });
 	
-	$('.form_datetime').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		forceParse: 0,
-        showMeridian: 1
-    });
-	$('.form_date').datetimepicker({
-        language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		minView: 2,
-		forceParse: 0
-    });
-	$('.form_time').datetimepicker({
-        language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 1,
-		minView: 0,
-		maxView: 1,
-		forceParse: 0
-    });
 </script>

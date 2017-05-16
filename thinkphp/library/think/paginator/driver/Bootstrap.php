@@ -112,19 +112,28 @@ class Bootstrap extends Paginator
             if ($this->simple) {
                 return sprintf(
                     '<ul class="pager">%s %s</ul>',
-                    $this->getPreviousButton(),
-                    $this->getNextButton()
+                    $this->getPreviousButton('上一页'),
+                    $this->getNextButton('下一页')
                 );
             } else {
                 return sprintf(
-                    '<ul class="pagination">%s %s %s</ul>',
-                    $this->getPreviousButton(),
+                    '<ul class="pagination">%s %s %s %s</ul>',
+                    $this->getPreviousButton('上一页'),
                     $this->getLinks(),
-                    $this->getNextButton()
+                    $this->getNextButton('下一页'),
+					$this->get_show_info()
                 );
             }
         }
     }
+	
+	/**
+	 * 生成一个统计记录
+	 */
+	public function get_show_info()
+	{  
+		return '<li class="rows">共<b>%TOTAL_ROW%</b>条记录&nbsp;&nbsp;每页<b>%LIST_ROW%</b>条&nbsp;&nbsp;第<b>%NOW_PAGE%</b>页/共<b>%TOTAL_PAGE%</b>页</li>';
+	}
 
     /**
      * 生成一个可点击的按钮
