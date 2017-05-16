@@ -132,7 +132,7 @@ class Bootstrap extends Paginator
 	 */
 	public function get_show_info()
 	{  
-		return '<li class="rows">共<b>%TOTAL_ROW%</b>条记录&nbsp;&nbsp;每页<b>%LIST_ROW%</b>条&nbsp;&nbsp;第<b>%NOW_PAGE%</b>页/共<b>%TOTAL_PAGE%</b>页</li>';
+		return '<li class="rows">共<font color="red"><b>'.$this->total.'</b></font>条记录&nbsp;&nbsp;每页<font color="red"><b>'.$this->listRows().'</b></font>条&nbsp;&nbsp;第<font color="red"><b>'.$this->currentPage().'</b></font>页/共<font color="red"><b>'.ceil($this->total/$this->listRows()).'</b></font>页</li>';
 	}
 
     /**
