@@ -5,21 +5,20 @@ use think\View;
 use think\Db;
 use think\Session;
 use think\Log;
-use think\Paginator;
+
 
 class Admin extends Controller
 {
     public function index()
     {
-		$obj_data = Db::name('hg_admin_users')->where('is_frozen',0)->paginate(5);
+		$Admin = model('Admin');
+		$obj_data = $Admin->getAdminList();
 		$data = $obj_data->toArray();
-		//print_r($obj_data);die;
-		
-		//$data = Db::query('select * from hg_admin_users')->paginate(2);
-		//var_dump($obj_data->render());die;
+		$page = $obj_data->render();
+
         $view = new View();
-		$view->assign('data', $data);
-		$view->assign('page', $obj_data->render());
+		$view->assign('list', $data);
+		$view->assign('page', $page);
 		return $view->fetch('index/admin/index');
     }
 	
@@ -74,10 +73,7 @@ class Admin extends Controller
 		
 		if ($res == 1)
 		{
-			$data = Db::query('select * from hg_admin_users');
-			$view = new View();
-			$view->assign('data', $data);
-			return $view->fetch('index/admin/index');
+			echo "<script>window.location.href='index';</script>";
 		}
 		else
 		{
@@ -91,11 +87,7 @@ class Admin extends Controller
 		$admin_id = !empty($_GET['admin_id']) ? intval($_GET['admin_id']) : 0;
 		//获取管理员信息
 		$data = Db::query('select * from hg_admin_users where admin_id = :id', ['id'=>$admin_id]);
-		/*
-		if (!empty($data[0]['action_list']))
-		{
-			$data[0]['action_list'] = json_decode($data[0]['action_list'], true);
-		}*/
+
 		//获取权限列表
 		$Admin = model('Admin');
 		$action_list = $Admin->getActionList();

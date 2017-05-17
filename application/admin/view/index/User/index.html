@@ -31,11 +31,6 @@
                 padding-right: 5px;
             }
         }
-		
-		.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;}  
-.pagination li{margin:0px 10px; border:1px solid #e6e6e6;padding: 3px 8px;display: inline-block;}  
-.pagination .active{background-color: #dd1a20;color: #fff;}  
-.pagination .disabled{color:#aaa;} 
 
 
     </style>
@@ -43,7 +38,7 @@
 <body>
 <form class="form-inline definewidth m20" action="index" method="get">    
     <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="账户名/手机号/所属单位" value="">&nbsp;&nbsp;<input type="text" name="dental" id="dental"class="abc input-default" placeholder="技工所" value="">&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="delete_user">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">导出</button>
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="delete_user">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
@@ -74,7 +69,7 @@
 			<td></td>
 			<td>{if condition="$list.status eq 1"}已审核{else}未审核{/if}</td>
 			<td>
-			<a href="#">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>
+			<a href="history?user_id={$list.user_id}">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>
 			</td>
         </tr>
 		{/volist}		
@@ -84,7 +79,10 @@
 </html>
 <script>
     $(function () {
-        
+        $('#export').click(function(){
+
+				window.location.href="export";
+		 });
 
 		$('#addnew').click(function(){
 

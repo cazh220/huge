@@ -65,4 +65,27 @@ class User extends Model
 		}
 		return $res;
 	}
+	
+	//插入一条操作记录
+	public function insert_user_action($param=array())
+	{
+		$res = 0;
+		if (!empty($param))
+		{
+			$res = Db::execute("INSERT INTO hg_user_actions SET admin_id = :admin_id, user_id = :user_id, username = :username, content = :content, create_time = :create_time, ip = :ip", $param);
+		}
+		return $res;
+	}
+	
+	public function getHistory($user_id = 0)
+	{
+		$obj_data = Db::name('hg_user_actions');
+		if (!empty($user_id))
+		{
+			$obj_data = $obj_data->where('user_id', $user_id);
+		}
+		$res = $obj_data->order('id desc')->paginate();
+		
+		return $res;
+	}
 }

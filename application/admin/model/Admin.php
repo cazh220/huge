@@ -3,9 +3,23 @@ namespace app\admin\model;
 
 use think\Model;
 use think\Db;
+use think\Paginator;
 
 class Admin extends Model
 {
+	public function getAdminList($param = array())
+	{
+		$obj_data = $obj_data = Db::name('hg_admin_users');
+		if (!empty($param['username']))
+		{
+			$obj_data = $obj_data->where('username', 'like', '%'.$param['username'].'%');
+		}
+		$obj_data = $obj_data->order('admin_id asc')->paginate();
+		
+		return $obj_data;
+	}
+	
+	
 	public function getAdmin($condition=array(), $order=0, $page=array())
 	{
 		$where_ary = array();

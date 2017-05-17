@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\View;
+use think\Session;
 
 class User
 {
@@ -22,7 +23,6 @@ class User
 		
 		$User = Model("User");
 		$res = $User->user_list($param);
-		
 		$page = $res->render();
 		
 		$data = $res->toArray();
@@ -105,6 +105,15 @@ class User
 		
 		if ($res == 1)
 		{
+			$data = array(
+				'admin_id'		=> Session::get('admin_id'),
+				'user_id'		=> 0,
+				'username'		=> Session::get('username'),
+				'content'		=> '新增会员:'.$username,
+				'create_time'	=> date("Y-m-d H:i:s", time()),
+				'ip'			=> $_SERVER['REMOTE_ADDR']	
+			);
+			$User->insert_user_action($data);
 			echo "<script>window.location.href='index';</script>";
 		}
 		else
@@ -219,6 +228,15 @@ class User
 		
 		if ($res == 1)
 		{
+			$data = array(
+				'admin_id'		=> Session::get('admin_id'),
+				'user_id'		=> $user_id,
+				'username'		=> Session::get('username'),
+				'content'		=> '编辑会员:'.$username,
+				'create_time'	=> date("Y-m-d H:i:s", time()),
+				'ip'			=> $_SERVER['REMOTE_ADDR']	
+			);
+			$User->insert_user_action($data);
 			echo "<script>window.location.href='index';</script>";
 		}
 		else
@@ -248,6 +266,138 @@ class User
 		{
 			echo "<script>alert('删除会员失败');history.back();</script>";
 		}
+	}
+	
+	public function export()
+	{
+		require_once VENDOR_PATH.'PHPExcel.php';
+		$objPHPExcel = new \PHPExcel();
+        $name = '会员名单';
+        $name = iconv('UTF-8', 'GBK', $name);
+        $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
+        
+		//获取列表
+		$User = Model("User");
+		$list = $User->user_list()->toArray();
+
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('J1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('K1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('L1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('M1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('N1')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('O1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('P1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('Q1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('R1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('S1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('T1')->getFont()->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
+        ->setCellValue('A1', '账户名')
+        ->setCellValue('B1', '手机号')
+        ->setCellValue('C1', '真实姓名')
+        ->setCellValue('D1', '密码')
+        ->setCellValue('E1', '会员类型')
+        ->setCellValue('F1', '性别')
+		->setCellValue('G1', '电子邮箱')
+		->setCellValue('H1', '出生年月')
+		->setCellValue('I1', '单位名称')
+		->setCellValue('J1', '单位地址')
+		->setCellValue('K1', '单位电话')
+		->setCellValue('L1', '部门')
+		->setCellValue('M1', '职位')
+		->setCellValue('N1', '累计积分')
+		->setCellValue('O1', '已兑换积分')
+		->setCellValue('P1', '积分余额')
+		->setCellValue('Q1', '人员数')
+		->setCellValue('R1', '邮编')
+		->setCellValue('S1', '审核状态')
+        ->setCellValue('T1', '创建时间');
+		
+        $num = 0;
+        if (!empty($list['data']) && is_array($list['data']))
+        {
+            foreach($list['data'] as $k => $v){
+                $num=$k+2;
+				if($v['user_type'] == 1)
+				{
+					$user_type = '技工所';
+				}
+				else if($v['user_type'] == 1)
+				{
+					$user_type = '医生';
+				}
+				else
+				{
+					$user_type = '其他';
+				}
+				
+				if ($v['sex'] == 1)
+				{
+					$sex = '男';
+				}
+				else if ($v['sex'] == 2)
+				{
+					$sex = '女';
+				}
+				else
+				{
+					$sex = '未知';
+				}
+                $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
+                ->setCellValue('A'.$num, $v['username'])
+                ->setCellValue('B'.$num, $v['mobile'])
+                ->setCellValue('C'.$num, $v['realname'])
+				->setCellValue('D'.$num, $v['password'])
+                ->setCellValue('E'.$num, $user_type)
+                ->setCellValue('F'.$num, $v['sex'])
+                ->setCellValue('G'.$num, $v['email'])
+                ->setCellValue('H'.$num, $v['birthday'])
+				->setCellValue('I'.$num, $v['company_name'])
+				->setCellValue('J'.$num, $v['company_addr'])
+				->setCellValue('K'.$num, $v['company_phone'])
+				->setCellValue('L'.$num, $v['department'])
+				->setCellValue('M'.$num, $v['position'])
+				->setCellValue('N'.$num, $v['total_credits'])
+				->setCellValue('O'.$num, $v['exchanged_credits'])
+				->setCellValue('P'.$num, $v['left_credits'])
+				->setCellValue('Q'.$num, $v['persons_num'])
+				->setCellValue('R'.$num, $v['zipcode'])
+				->setCellValue('S'.$num, $v['status'])
+				->setCellValue('T'.$num, $v['create_time']);
+            }
+        }
+
+        $objPHPExcel->getActiveSheet()->setTitle('会员名单');
+        $objPHPExcel->setActiveSheetIndex(0);
+        header('Content-Type: applicationnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+        header('Cache-Control: max-age=0');
+        $objWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
+        $objWriter->save('php://output');
+        exit;
+	}
+	
+	public function history()
+	{
+		$user_id = input("user_id");
+		$user_id = !empty($user_id) ? intval($user_id) : 0;
+		
+		$User = Model("User");
+		$list = $User->getHistory($user_id);
+		
+		$view = new View();
+		$view->assign('list', $list->toArray());
+		$view->assign('page', $list->render());
+		return $view->fetch('index/user/user_action');
 	}
 	
 	
