@@ -30,7 +30,7 @@ class Patient
 		$view = new View();
 		$view->assign('user', $data);
 		$view->assign('page', $page);
-		return $view->fetch('index/user/index');
+		return $view->fetch('index/patient/index');
     }
 	
 	//添加
