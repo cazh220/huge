@@ -33,6 +33,7 @@ class Patient
 		return $view->fetch('index/user/index');
     }
 	
+	//添加
 	public function add()
 	{
 		$year = range(1920,2050);
