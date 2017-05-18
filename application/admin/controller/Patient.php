@@ -8,7 +8,7 @@ class Patient
 {
     public function index()
     {
-		echo "Test";die;
+		echo "Test";die;11
 		//筛选参数
 		$keyword = input("keyword");
 		$dental = input("dental");
