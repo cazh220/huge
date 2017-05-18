@@ -104,26 +104,27 @@ class Admin extends Controller
 	{
 		$admin_id	= !empty($_POST['admin_id']) ? trim($_POST['admin_id']) : 0;
 		$username 	= !empty($_POST['username']) ? trim($_POST['username']) : '';
-		$password 	= !empty($_POST['password']) ? trim($_POST['password']) : '';
 		$role_id 	= !empty($_POST['role_id']) ? intval($_POST['role_id']) : 0;
 		$mobile 	= !empty($_POST['mobile']) ? trim($_POST['mobile']) : '';
 		$is_frozen 	= !empty($_POST['is_frozen']) ? intval($_POST['is_frozen']) : 0;
 		$permission	= !empty($_POST['permission']) ? $_POST['permission'] : '';
 		
-		//$action_list 		= !empty($permission) ? json_encode($permission) : '';
 		$last_login_time 	= date("Y-m-d H:i:s", time());
 		$last_ip 			= $_SERVER['REMOTE_ADDR'];
 		
 		$Admin = model('Admin');
 		$action_list = $Admin->changePrev($permission);
 		
-		$res = Db::execute('update hg_admin_users set username = :username, password = :password, mobile = :mobile, role_id = :role_id, action_list = :action_list, is_frozen = :is_frozen, last_login_time = :last_login_time, last_ip = :last_ip where admin_id = :admin_id', ['username'=>$username, 'password'=>$password, 'mobile'=>$mobile, 'role_id'=>$role_id, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip, 'admin_id'=>$admin_id]);
+		$res = Db::execute('update hg_admin_users set username = :username, mobile = :mobile, role_id = :role_id, action_list = :action_list, is_frozen = :is_frozen, last_login_time = :last_login_time, last_ip = :last_ip where admin_id = :admin_id', ['username'=>$username, 'mobile'=>$mobile, 'role_id'=>$role_id, 'action_list'=>$action_list, 'is_frozen'=>$is_frozen, 'last_login_time'=>$last_login_time, 'last_ip'=>$last_ip, 'admin_id'=>$admin_id]);
 		if ($res == 1)
 		{
+			echo "<script>window.location.href='index';</script>";
+			/*
 			$data = Db::query('select * from hg_admin_users');
 			$view = new View();
 			$view->assign('data', $data);
 			return $view->fetch('index/admin/index');
+			*/
 		}
 		else
 		{
@@ -150,10 +151,13 @@ class Admin extends Controller
 		
 		if ($res == 1)
 		{
+			/*
 			$data = Db::query('select * from hg_admin_users');
 			$view = new View();
 			$view->assign('data', $data);
 			return $view->fetch('index/admin/index');
+			*/
+			echo "<script>window.location.href='index';</script>";
 		}
 		else
 		{
