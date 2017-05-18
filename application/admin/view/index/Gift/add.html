@@ -4,6 +4,7 @@
     <title></title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
 	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-datetimepicker.min.css" />
@@ -50,12 +51,11 @@
     <tr>
         <td class="tableleft">兑奖日期</td>
         <td>
-                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="width:20%">
+                    <input class="form-control" size="16" type="text" value="" readonly style="height:32px;">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-				<input type="hidden" id="exchange_time" value="" /><br/>
+				<input type="hidden" id="dtp_input2" value="" /><br/>
 		</td>
     </tr>
     <tr>
