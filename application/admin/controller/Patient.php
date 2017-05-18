@@ -6,6 +6,7 @@ use think\Session;
 
 class Patient
 {
+	//患者列表
     public function index()
     {
 		//筛选参数
