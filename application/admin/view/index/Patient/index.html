@@ -42,7 +42,11 @@
                     <input class="form-control" size="16" type="text" value="" readonly style="height:32px;">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-				<input type="hidden" id="dtp_input2" value="" />&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
+				<input type="hidden" id="dtp_input2" value="" />~<div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="width:20%">
+                    <input class="form-control" size="16" type="text" value="" readonly style="height:32px;">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input2" value="" />  
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="import">导入</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
@@ -63,22 +67,22 @@
         <th>操作</th>
     </tr>
     </thead>
-		{volist id="list" name="user.data"}
+		{volist id="list" name="patient.data"}
 	     <tr>
-			<td><input type="checkbox" class="c_user_id" id="c_user_id{$list.user_id}" name="user_id[]" value="{$list.user_id}"></td>
-			<td>{$list.user_id}</td>
-            <td>{$list.username}</td>
+			<td><input type="checkbox" class="c_patient_id" id="c_user_id{$list.patient_id}" name="patient_id[]" value="{$list.patient_id}"></td>
+			<td>{$list.patient_id}</td>
+            <td>{$list.name}</td>
+			<td>{if condition="$list.sex eq 1"}女{else /}男{/if}</td>
+			<td>{$list.birthday}</td>
 			<td>{$list.mobile}</td>
-			<td>{if condition="$list.user_type eq 1"}技工所{elseif condition="$list.user_type eq 2" /}医生{else/}其它{/if}</td>
-			<td>{$list.company_name}</td>
-			<td>{$list.company_addr}</td>
-			<td>{$list.create_time}</td>
-			<td></td>
-			<td>{if condition="$list.status eq 1"}已审核{else}未审核{/if}</td>
-			<td></td>
-			<td></td>
+			<td>上海</td>
+			<td>{$list.false_tooth_name}</td>
+			<td>{$list.tooth_position}</td>
+			<td>{$list.production_unit}</td>
+			<td>{$list.hospital}</td>
+			<td>{$list.operator}</td>
 			<td>
-			<a href="history?user_id={$list.user_id}">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>
+			<a href="patient_detail?patient_id={$list.patient_id}">详情</a>
 			</td>
         </tr>
 		{/volist}		

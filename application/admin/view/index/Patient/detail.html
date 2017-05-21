@@ -37,22 +37,22 @@
 </head>
 <body>
 <form class="form-inline definewidth m20">  
-<button type="button" class="btn btn-success" id="edit_user" style="float:right; margin-bottom:15px">编辑</button>
-<input type="hidden" id="user_id" value="{$detail.user_id}" >
+<button type="button" class="btn btn-success" id="edit_patient" style="float:right; margin-bottom:15px">编辑</button>
+<input type="hidden" id="patient_id" value="{$detail.patient_id}" >
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
-        <th width="10%">真实姓名</th>
-		<td width="20%">{$detail.realname}</td>
-		<th width="10%">性别</th>
-		<td width="25%">{if condition="$detail.sex eq 1"}男{elseif condition="$detail.sex eq 2" /}女{else /}未知{/if}</td>
+        <th width="10%">患者姓名</th>
+		<td width="20%">{$detail.name}</td>
+		<th width="10%">患者性别</th>
+		<td width="25%">{if condition="$detail.sex eq 0"}男{else /}女{/if}</td>
 		<th width="10%">手机</th>
 		<td width="25%">{$detail.mobile}</td>
     </tr>
 	<tr>
 		<th width="10%">电子邮箱</th>
 		<td>{$detail.email}</td>
-		<th width="10%">生日</th>
+		<th width="10%">乘胜年月</th>
 		<td>{$detail.birthday}</td>
 		<th width="10%">城市</th>
 		<td>上海</td>
@@ -60,38 +60,28 @@
 </table>
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
-        <th width="10%">单位名称</th>
-		<td width="20%">{$detail.company_name}</td>
-		<th width="10%">部门</th>
-		<td width="25%">{$detail.department}</td>
-		<th width="10%">职位</th>
-		<td width="25%">{$detail.position}</td>
+        <th width="10%">门诊医院</th>
+		<td width="20%">{$detail.hospital}</td>
+		<th width="10%">主治医生</th>
+		<td width="25%">{$detail.doctor}</td>
+		<th width="10%">牙位</th>
+		<td width="25%">{$detail.tooth_position}</td>
     </tr>
 	<tr>
-		<th width="10%">单位电话</th>
-		<td>{$detail.company_phone}</td>
-		<th width="10%">单位地址</th>
-		<td colspan="3">{$detail.company_addr}</td>
+		<th width="10%">义齿类别</th>
+		<td>{$detail.false_tooth_name}</td>
+		<th width="10%">防伪码</th>
+		<td>{$detail.security_code}</td>
+		<th width="10%">扫码次数</th>
+		<td>10</td>
 	</tr>
 	<tr>
-        <th width="10%">会员类型</th>
-		<td width="20%">{if condition="$detail.user_type eq 1"}技工所{elseif condition="$detail.user_type eq 2" /}医生{else /}其它{/if}</td>
-		<th width="10%">扫描次数</th>
-		<td width="25%">5</td>
-		<th width="10%">最后扫码时间</th>
-		<td width="25%">2017-05-01 00:23:12</td>
-    </tr>
-	<tr>
-        <th width="10%">累计积分</th>
-		<td width="20%">{$detail.total_credits}</td>
-		<th width="10%">已兑积分</th>
-		<td width="25%">{$detail.exchanged_credits}</td>
-		<th width="10%">积分余额</th>
-		<td width="25%">{$detail.left_credits}</td>
-    </tr>
-	<tr>
-        <th width="10%">收货地址</th>
-		<td colspan="5">上海市杨浦区大湖泊</td>
+        <th width="10%">制作单位</th>
+		<td width="20%">{$detail.production_unit}</td>
+		<th width="10%">录入时间</th>
+		<td width="25%">{$detail.create_time}</td>
+		<th width="10%">录入人</th>
+		<td width="25%">{$detail.operator}</td>
     </tr>
 </table>
 </body>
@@ -99,10 +89,10 @@
 <script>
     $(function () {
         
-		var user_id = $("#user_id").val();
-		$('#edit_user').click(function(){
+		var patient_id = $("#patient_id").val();
+		$('#edit_patient').click(function(){
 
-				window.location.href="edit_user?user_id="+user_id;
+				window.location.href="edit_patient?patient_id="+patient_id;
 		 });
 
 
