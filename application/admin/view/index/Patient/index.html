@@ -13,6 +13,7 @@
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/clipboard.min.js"></script>
 	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/locales/bootstrap-datetimepicker.fr.js"></script>
 
@@ -32,21 +33,22 @@
                 padding-right: 5px;
             }
         }
-
+		
+		.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;} 
 
     </style>
 </head>
 <body>
 <form class="form-inline definewidth m20" action="index" method="get">    
-    <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="患者姓名/医疗机构/制作单位" value="">&nbsp;&nbsp;<div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="width:20%">
-                    <input class="form-control" size="16" type="text" value="" readonly style="height:32px;">
+    <div style="float:left"><input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="患者姓名/医疗机构/制作单位" value=""></div>&nbsp;&nbsp;&nbsp;&nbsp;<div style="float:left; height:32px; line-height:32px; margin-left:15px"><label>录入时间:<label></div><div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="width:15%;float:left">
+                    <input class="form-control" size="12" type="text" value="" readonly style="height:32px;">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-				<input type="hidden" id="dtp_input2" value="" />~<div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="width:20%">
-                    <input class="form-control" size="16" type="text" value="" readonly style="height:32px;">
+				<input type="hidden" id="dtp_input1" name="start_time" value="" /><div style="float:left;height:32px;line-height:28px">~</div> <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="width:15%">
+                    <input class="form-control" size="12" type="text" value="" readonly style="height:32px;">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-				<input type="hidden" id="dtp_input2" value="" />  
+				<input type="hidden" id="dtp_input2" name="end_time" value="" />  
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="import">导入</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
@@ -149,5 +151,6 @@
 		minView: 2,
 		forceParse: 0
     });
+	
 	
 </script>

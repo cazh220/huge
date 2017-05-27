@@ -117,7 +117,7 @@ class Bootstrap extends Paginator
                 );
             } else {
                 return sprintf(
-                    '<ul class="pagination">%s %s %s %s</ul>',
+                    '<ul class="pagination2">%s %s %s %s</ul>',
                     $this->getPreviousButton('上一页'),
                     $this->getLinks(),
                     $this->getNextButton('下一页'),
