@@ -49,4 +49,24 @@ class Gift extends Model
 		$res = Db::query("select *  from hg_gift $where_condition", $data);
 		return $res;
 	}
+	
+	public function delete_gift($gift_id=0)
+	{
+		$res = 0;
+		if (!empty($gift_id))
+		{
+			$res = Db::execute("DELETE FROM hg_gift WHERE gift_id = :gift_id", ['gift_id'=>$gift_id]);
+		}
+		return $res;
+	}
+	
+	public function off_shelf($gift_id='')
+	{
+		$res = 0;
+		if (!empty($gift_id))
+		{
+			$res = Db::table('hg_gift')->where('gift_id','in',$gift_id)->update(['status' => 1]);
+		}
+		return $res;
+	}
 }

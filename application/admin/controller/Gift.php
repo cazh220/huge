@@ -8,7 +8,8 @@ class Gift
 	public function index()
     {
 		$Gift = model('Gift');
-		$data = $Gift->getGift();
+		$where['status'] = 0;
+		$data = $Gift->getGift($where);
         $view = new View();
 		$view->assign('data', $data);
 		return $view->fetch('index/gift/index');
@@ -48,6 +49,48 @@ class Gift
 		else
 		{
 			echo "<script>windows.location.href='".$url."';</script>";
+		}
+	}
+	
+	public function delete_gift()
+	{
+		$gift_id = input("gift_id");
+		if (!empty($gift_id))
+		{
+			$Gift = Model("Gift");
+			$gift_arr = explode(",", $gift_id);
+			foreach($gift_arr as $key => $val)
+			{
+				$res = $Gift->delete_gift($val);
+			}
+		}
+		
+		if ($res == 1)
+		{
+			echo "<script>window.location.href='index';</script>";
+		}
+		else
+		{
+			echo "<script>alert('删除礼品失败');history.back();</script>";
+		}
+	}
+	
+	public function offline()
+	{
+		$gift_id = input("gift_id");
+		if (!empty($gift_id))
+		{
+			$Gift = Model("Gift");
+			$res = $Gift->off_shelf($gift_id);
+		}
+		
+		if ($res)
+		{
+			echo "<script>window.location.href='index';</script>";
+		}
+		else
+		{
+			echo "<script>alert('下架礼品失败');history.back();</script>";
 		}
 	}
 }

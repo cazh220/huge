@@ -57,7 +57,7 @@
     </thead>
 	     {volist name="data" id="gift"}
 	     <tr>
-			<td><input type="checkbox" id="gift_id" name="gift_id[]" value="{$gift.gift_id}"/></td>
+			<td><input type="checkbox" class="gift_id" id="gift_id" name="gift_id[]" value="{$gift.gift_id}"/></td>
             <td>{$gift.gift_photo}</td>
             <td>{$gift.gift_name}</td>
             <td>{$gift.credits}</td>
@@ -82,23 +82,56 @@
 
 				window.location.href="add";
 		 });
+		 
+		 $("#gift_id_all").click(function(){
+			if ($("#gift_id_all").is(':checked'))
+			{
+				$(".gift_id").each(function(i, n){
+					$(this).prop("checked", true);
+				 });
+			}
+			else
+			{
+				$(".gift_id").each(function(i, n){
+					$(this).prop("checked", false);
+				 });
+			}
+		 });
+		 
+		 $("#delete").click(function(){
+			if(confirm("确定要删除吗？"))
+			{
+				var gift_id = new Array();
+				$(".gift_id").each(function(i, n){
+					if ($(this).is(':checked'))
+					{
+						gift_id.push($(this).val());
+					}
+				});
+				var gift_id_str = gift_id.join(',');
+				var url = "delete_gift?gift_id="+gift_id_str;
+				window.location.href=url;		
+			}
+		 });
+		 
+		 $("#unshow").click(function(){
+			if(confirm("确定要下架吗？"))
+			{
+				var gift_id = new Array();
+				$(".gift_id").each(function(i, n){
+					if ($(this).is(':checked'))
+					{
+						gift_id.push($(this).val());
+					}
+				});
+				var gift_id_str = gift_id.join(',');
+				var url = "offline?gift_id="+gift_id_str;
+				window.location.href=url;		
+			}
+		 });
 
 
     });
-
-	function del(id)
-	{
-		
-		
-		if(confirm("确定要删除吗？"))
-		{
-		
-			var url = "index.html";
-			
-			window.location.href=url;		
-		
-		}
-	}
 	
 	$('.form_datetime').datetimepicker({
         //language:  'fr',
