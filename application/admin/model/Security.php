@@ -37,4 +37,14 @@ class Security extends Model
 		return $res;
 	}
 	
+	public function insert_code($param=array())
+	{
+		if(!empty($param) && is_array($param))
+		{
+			$res = Db::table('hg_security_code')->insert($param);
+		}
+		
+		return $res;
+	}
+	
 }

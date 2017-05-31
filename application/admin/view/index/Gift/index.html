@@ -15,6 +15,7 @@
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
 	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/locales/bootstrap-datetimepicker.fr.js"></script>
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/clipboard/clipboard.min.js"></script>
 
     <style type="text/css">
         body {
@@ -67,7 +68,7 @@
 			<td>{$gift.status}</td>
             <td>
                 <a href="edit?gift_id={$gift.gift_id}">编辑奖品</a>&nbsp;&nbsp;   
-				<a href="copy?gift_id={$gift.gift_id}&admin_name={$gift.gift_name}">复制链接</a>&nbsp;&nbsp;
+				<a href="#" data-clipboard-text="{$Think.config.host_url}copy?gift_id={$gift.gift_id}&admin_name={$gift.gift_name}" class="copy">复制链接</a>&nbsp;&nbsp;
             </td>
         </tr>
 	{/volist}		
@@ -163,5 +164,14 @@
 		minView: 0,
 		maxView: 1,
 		forceParse: 0
+    });
+	
+	var clipboard = new Clipboard('.copy');
+    clipboard.on('success', function(e) {
+		alert("复制成功");
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
     });
 </script>

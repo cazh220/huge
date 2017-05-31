@@ -47,16 +47,34 @@ class Security
 	{
 		$Security = model('Security');
 		$code = $Security->last_code();
+		if(empty($code))
+		{
+			$code = 0;
+		}
+		
 		$security_code_arr = array();
 		for($i=1; $i<=$this->num; $i++)
 		{	
 			
 			$_code = $code + $i;
+			if(strlen($_code) < $this->size)
+			{
+				//补齐位数
+				$l = $this->size - strlen($_code);
+				for($m=0; $m<$l; $m++)
+				{
+					$_code = '0'.$_code;
+				}
+			}
 			array_push($security_code_arr, $_code);
 		}
-		$security_code = implode(',',$security_code_arr);
+		//$security_code = implode(',',$security_code_arr);
 		
-		print_r($security_code);die;
+		//插入db
+		$data = array();
+		
+		
+		return $security_code;
 	}
 
 }

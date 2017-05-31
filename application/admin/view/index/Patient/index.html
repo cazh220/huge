@@ -4,7 +4,7 @@
     <title>患者列表</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.min.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
 	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-datetimepicker.min.css" />
@@ -39,12 +39,12 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="index" method="get">    
-    <div style="float:left"><input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="患者姓名/医疗机构/制作单位" value=""></div>&nbsp;&nbsp;&nbsp;&nbsp;<div style="float:left; height:32px; line-height:32px; margin-left:15px"><label>录入时间:<label></div><div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="width:15%;float:left">
+<form class="form-inline definewidth m20 fome_h" action="index" method="get">    
+    <div style="float:left"><input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="患者姓名/医疗机构/制作单位" value=""></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class="form_label"><label>录入时间:<label></div><div class="input-group date form_date col-md-5 text_s" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
                     <input class="form-control" size="12" type="text" value="" readonly style="height:32px;">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
-				<input type="hidden" id="dtp_input1" name="start_time" value="" /><div style="float:left;height:32px;line-height:28px">~</div> <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="width:15%">
+				<input type="hidden" id="dtp_input1" name="start_time" value="" /><div class="form_label">~</div> <div class="input-group date form_date col-md-5 text_s" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                     <input class="form-control" size="12" type="text" value="" readonly style="height:32px;">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
