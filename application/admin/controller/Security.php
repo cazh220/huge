@@ -72,8 +72,16 @@ class Security
 		
 		//插入db
 		$data = array();
-		
-		
+		foreach($security_code_arr as $key => $val)
+		{
+			$data[$key] = array(
+				'security_code'	=> $val,
+				'create_time'	=> date("Y-m-d H:i:s", time()),
+				'update_time'	=> date("Y-m-d H:i:s", time()),
+				'qrcode'		=> '',
+				'prefix'		=> $this->prefix
+			);
+		}
 		return $security_code;
 	}
 
