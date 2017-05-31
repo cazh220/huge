@@ -12,7 +12,7 @@ class Security
 		$data = $Gift->getGift($where);
         $view = new View();
 		$view->assign('data', $data);
-		return $view->fetch('index/gift/index');
+		return $view->fetch('index/security/index');
     }
 	
 	public function create()
@@ -29,18 +29,15 @@ class Security
 		$this->export = input('export');
 
 		
-		$this->security_code();
-		/*
-		$ressult = $Security->addGift($param);
-		$url = $_SERVER['HTTP_ORIGIN']."/public/admin.php/admin/gift/index";
-		if ($ressult == 0)
+		$res = $this->security_code();
+		if (!$res)
 		{
-			echo "<script>alert('新建礼品失败');history.back();</script>";
+			echo "<script>alert('生成防伪码失败');history.back();</script>";
 		}
 		else
 		{
-			echo "<script>windows.location.href='".$url."';</script>";
-		}*/
+			echo "<script>windows.location.href='./index';</script>";
+		}
 	}
 	
 	private function security_code()
@@ -74,15 +71,17 @@ class Security
 		$data = array();
 		foreach($security_code_arr as $key => $val)
 		{
-			$data[$key] = array(
+			$data = array(
 				'security_code'	=> $val,
 				'create_time'	=> date("Y-m-d H:i:s", time()),
 				'update_time'	=> date("Y-m-d H:i:s", time()),
 				'qrcode'		=> '',
 				'prefix'		=> $this->prefix
 			);
+			$Security->insert_code($data);
 		}
-		return $security_code;
+		
+		return true;
 	}
 
 }

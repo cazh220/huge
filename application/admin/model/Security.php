@@ -47,4 +47,9 @@ class Security extends Model
 		return $res;
 	}
 	
+	public function code_list()
+	{
+		
+	}
+	
 }

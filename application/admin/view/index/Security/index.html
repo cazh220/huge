@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>患者列表</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.min.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
 	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-datetimepicker.min.css" />
@@ -13,6 +13,7 @@
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
+	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/clipboard.min.js"></script>
 	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/locales/bootstrap-datetimepicker.fr.js"></script>
 
@@ -32,45 +33,58 @@
                 padding-right: 5px;
             }
         }
-
+		
+		.pagination{text-align:center;margin-top:20px;margin-bottom: 20px;} 
 
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="index" method="get">    
-    <input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="账户名/手机号/所属单位" value="">&nbsp;&nbsp;<input type="text" name="dental" id="dental"class="abc input-default" placeholder="技工所" value="">&nbsp;&nbsp;<input type="text" name="hospital" id="hospital"class="abc input-default" placeholder="门诊医院" value="">   
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="delete_user">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
+<form class="form-inline definewidth m20 fome_h" action="index" method="get">    
+    <div style="float:left"><input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="患者姓名/医疗机构/制作单位" value=""></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class="form_label"><label>录入时间:<label></div><div class="input-group date form_date col-md-5 text_s" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="12" type="text" value="" readonly style="height:32px;">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input1" name="start_time" value="" /><div class="form_label">~</div> <div class="input-group date form_date col-md-5 text_s" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="12" type="text" value="" readonly style="height:32px;">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input2" name="end_time" value="" />  
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="import">导入</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
 		<th><input type="checkbox" id="all_user_id" name="all_user_id" value="">选择</th>
-        <th>会员编号</th>
-        <th>账户名</th>
-        <th>会员手机号</th>
-        <th>用户类型</th>
-		<th>单位名称</th>
-		<th>单位地址</th>
-		<th>注册时间</th>
-		<th>备注</th>
-		<th>状态</th>
+        <th>编号</th>
+        <th>患者名</th>
+        <th>性别</th>
+        <th>出生年月</th>
+		<th>联系电话</th>
+		<th>城市</th>
+		<th>修复体类别</th>
+		<th>牙位</th>
+		<th>制作单位</th>
+		<th>医疗机构</th>
+		<th>录入人</th>
         <th>操作</th>
     </tr>
     </thead>
-		{volist id="list" name="user.data"}
+		{volist id="list" name="patient.data"}
 	     <tr>
-			<td><input type="checkbox" class="c_user_id" id="c_user_id{$list.user_id}" name="user_id[]" value="{$list.user_id}"></td>
-			<td>{$list.user_id}</td>
-            <td>{$list.username}</td>
+			<td><input type="checkbox" class="c_patient_id" id="c_user_id{$list.patient_id}" name="patient_id[]" value="{$list.patient_id}"></td>
+			<td>{$list.patient_id}</td>
+            <td>{$list.name}</td>
+			<td>{if condition="$list.sex eq 1"}女{else /}男{/if}</td>
+			<td>{$list.birthday}</td>
 			<td>{$list.mobile}</td>
-			<td>{if condition="$list.user_type eq 1"}技工所{elseif condition="$list.user_type eq 2" /}医生{else/}其它{/if}</td>
-			<td>{$list.company_name}</td>
-			<td>{$list.company_addr}</td>
-			<td>{$list.create_time}</td>
-			<td></td>
-			<td>{if condition="$list.status eq 1"}已审核{else}未审核{/if}</td>
+			<td>上海</td>
+			<td>{$list.false_tooth_name}</td>
+			<td>{$list.tooth_position}</td>
+			<td>{$list.production_unit}</td>
+			<td>{$list.hospital}</td>
+			<td>{$list.operator}</td>
 			<td>
-			<a href="history?user_id={$list.user_id}">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>
+			<a href="patient_detail?patient_id={$list.patient_id}">详情</a>
 			</td>
         </tr>
 		{/volist}		
@@ -126,5 +140,17 @@
 
 
     });
+	
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	
 	
 </script>
