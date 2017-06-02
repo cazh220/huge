@@ -10,8 +10,8 @@ class Security extends Model
 	public function last_code()
 	{
 		$obj_data = Db::name('hg_security_code');
-		$res = $obj_data->order('code_id desc')->find(1);
-		return $res['security_code'];
+		$res = $obj_data->order('code_id desc')->limit(1)->value('security_code');
+		return $res;
 	}
 	
 	public function get_order($param=array())
@@ -39,17 +39,42 @@ class Security extends Model
 	
 	public function insert_code($param=array())
 	{
+		//事务操作
 		if(!empty($param) && is_array($param))
 		{
-			$res = Db::table('hg_security_code')->insert($param);
+			Db::startTrans();
+			try{
+				foreach($param as $key => $value)
+				{
+					Db::table('hg_security_code')->insert($value);
+				}
+				// 提交事务
+				Db::commit();    
+			} catch (\Exception $e) {
+				// 回滚事务
+				Db::rollback();
+				return false;
+			}
 		}
 		
-		return $res;
+		return true;
 	}
 	
-	public function code_list()
+	public function code_list($param=array())
 	{
+		$obj_data = $obj_data = Db::name('hg_security_code');
+		if (!empty($param['_code']))
+		{
+			$obj_data = $obj_data->where('security_code', $param['_code']);
+		}
 		
+		if (!empty($param['start_time']) && !empty($param['end_time']))
+		{
+			$obj_data = $obj_data->where('create_time', 'between', [$param['start_time'], $param['end_time']]);
+		}
+		$obj_data = $obj_data->order('code_id desc')->paginate();
+		
+		return $obj_data;
 	}
 	
 }
