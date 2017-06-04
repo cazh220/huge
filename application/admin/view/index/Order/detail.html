@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>订单详情</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
@@ -36,63 +36,76 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20">  
-<button type="button" class="btn btn-success" id="edit_user" style="float:right; margin-bottom:15px">编辑</button>
-<input type="hidden" id="user_id" value="{$detail.user_id}" >
-</form>
+<label style="margin-left:27px">订单详情</label>
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
-        <th width="10%">真实姓名</th>
-		<td width="20%">{$detail.realname}</td>
-		<th width="10%">性别</th>
-		<td width="25%">{if condition="$detail.sex eq 1"}男{elseif condition="$detail.sex eq 2" /}女{else /}未知{/if}</td>
-		<th width="10%">手机</th>
-		<td width="25%">{$detail.mobile}</td>
+        <th width="20%">提交会员</th>
+		<td width="30%">{$detail.0.username}</td>
+		<th width="20%">下单时间</th>
+		<td width="30%">{$detail.0.create_time}</td>
     </tr>
 	<tr>
-		<th width="10%">电子邮箱</th>
-		<td>{$detail.email}</td>
-		<th width="10%">生日</th>
-		<td>{$detail.birthday}</td>
-		<th width="10%">城市</th>
-		<td>上海</td>
+		<th width="20%">会员类别</th>
+		<td width="30%">{if $detail.0.user_type == 1}技工所{elseif $detail.0.user_type == 2}医生{else}其他{/if}</td>
+		<th width="20%">积分支付</th>
+		<td width="30%">{$detail.0.total_credits}</td>
 	</tr>	
+	<tr>
+		<th width="20%">订单编号</th>
+		<td width="30%">{$detail.0.order_no}</td>
+		<th width="20%">处理状况</th>
+		<td width="30%">{$detail.0.order_status}</td>
+	</tr>
 </table>
+
+<label style="margin-left:27px; margin-top:20px">兑换奖品</label>
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
-        <th width="10%">单位名称</th>
-		<td width="20%">{$detail.company_name}</td>
-		<th width="10%">部门</th>
-		<td width="25%">{$detail.department}</td>
-		<th width="10%">职位</th>
-		<td width="25%">{$detail.position}</td>
+        <th width="20%">图片</th>
+		<th width="20%">产品名称</th>
+		<th width="20%">支付积分</th>
+		<th width="20%">数量</th>
+		<th width="20%">小计</th>
+    </tr>
+	{volist name="detail" id="list"}
+	<tr>
+		<td>{$list.gift_pic}</td>
+		<td>{$list.gift_name}</td>
+		<td>{$list.price}</td>
+		<td>{$list.amount}</td>
+		<td>{$list.amount*$list.price}</td>
+	</tr>
+	{/volist}
+</table>
+
+<table class="table table-bordered table-hover definewidth m10">
+    <tr>
+        <th width="50%" colspan="2">收货信息</th>
+		<th width="50%" colspan="2">物流信息</th>
     </tr>
 	<tr>
-		<th width="10%">单位电话</th>
-		<td>{$detail.company_phone}</td>
-		<th width="10%">单位地址</th>
-		<td colspan="3">{$detail.company_addr}</td>
+		<td width="15%">收货人姓名</td>
+		<td width="35%">张三</td>
+		<td width="15%">运送方式</td>
+		<td width="35%">快递</td>
 	</tr>
 	<tr>
-        <th width="10%">会员类型</th>
-		<td width="20%">{if condition="$detail.user_type eq 1"}技工所{elseif condition="$detail.user_type eq 2" /}医生{else /}其它{/if}</td>
-		<th width="10%">扫描次数</th>
-		<td width="25%">5</td>
-		<th width="10%">最后扫码时间</th>
-		<td width="25%">2017-05-01 00:23:12</td>
-    </tr>
+		<td width="15%">电话</td>
+		<td width="35%">18721225190</td>
+		<td width="15%">物流公司名称</td>
+		<td width="35%">顺丰</td>
+	</tr>
 	<tr>
-        <th width="10%">累计积分</th>
-		<td width="20%">{$detail.total_credits}</td>
-		<th width="10%">已兑积分</th>
-		<td width="25%">{$detail.exchanged_credits}</td>
-		<th width="10%">积分余额</th>
-		<td width="25%">{$detail.left_credits}</td>
-    </tr>
+		<td width="15%">地址</td>
+		<td width="35%">上海</td>
+		<td width="15%">运单号</td>
+		<td width="35%">123456789065</td>
+	</tr>
 	<tr>
-        <th width="10%">收货地址</th>
-		<td colspan="5">上海市杨浦区大湖泊</td>
-    </tr>
+		<td colspan="2"></td>
+		<td width="15%">发货时间</td>
+		<td width="35%">2016-06-04 11:23:42</td>
+	</tr>
 </table>
 </body>
 </html>

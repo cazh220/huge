@@ -21,18 +21,17 @@ class Order
 		return $view->fetch('index/order/index');
     }
 	
-	//添加
-	public function patient_detail()
+	//详情
+	public function detail()
 	{
-		$patient_id = input("patient_id");
-		$patient_id = !empty($patient_id) ? intval($patient_id) : 0;
+		$order_id = input("order_id");
 		
-		$Patient = Model("Patient");
-		$res = $Patient->patient_detail($patient_id);
+		$Order = Model("Order");
+		$res = $Order->order_detail($order_id);
 		$view = new View();
-		$view->assign('detail', $res['data'][0]);
+		$view->assign('detail', $res);
 		
-		return $view->fetch('index/patient/detail');
+		return $view->fetch('index/order/detail');
 	}
 	
 	public function edit_patient()

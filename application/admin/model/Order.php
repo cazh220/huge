@@ -30,4 +30,11 @@ class Order extends Model
 		return $obj_data->paginate(10);
 	}
 	
+	public function order_detail($order_id)
+	{
+		$res = Db::query("SELECT * FROM hg_order a left join hg_order_gift b ON a.order_id = b.order_id left join hg_user c ON a.user_id = c.user_id WHERE a.order_id = :order_id", ['order_id'=>$order_id]);
+		
+		return !empty($res) ? $res : array();
+	}
+	
 }
