@@ -54,7 +54,7 @@
 			<td>{$list.ship_id}</td>
 			<td>{$list.total_credits}</td>
 			<td>{$list.update_time}</td>
-			<td><a href="history?user_id={$list.user_id}">已发送</a>&nbsp;&nbsp;<a href="order/detail?order_id={$list.order_id}">详情</a>
+			<td>{if $list.order_status == 0}待确认{elseif $list.order_status == 1}<a href="order/send?order_id={$list.order_id}">待发货</a>{else}已发货{/if}&nbsp;&nbsp;<a href="order/detail?order_id={$list.order_id}">详情</a>
 			</td>
         </tr>
 		{/volist}		

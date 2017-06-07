@@ -158,6 +158,14 @@ class Order
 			return json_encode(array('status'=>0, 'message'=>'确认失败'));
 		}
 	}
+	
+	public function send()
+	{
+		$order_id = input("order_id");
+		$Order = Model("Order");
+		$result = $Order->update_order_status(2, $order_id);
+		echo "<script>window.location.href='index';</script>";
+	}
 
 	
 }
