@@ -18,7 +18,7 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="index.html" method="get">    
-    <input type="text" name="gift" id="gift" class="abc input-default" placeholder="奖品名称" value="">&nbsp;&nbsp;&nbsp;&nbsp;<select id="type" name="type" style="padding-bottom:3px; height:34px"><option value="">全部</option><option value="1">礼品</option><option value="2">商品</option></select>
+    <input type="text" name="gift_name" id="gift" class="abc input-default" placeholder="奖品名称" value="{$Request.get.gift_name}">&nbsp;&nbsp;&nbsp;&nbsp;<select id="type" name="type" style="padding-bottom:3px; height:34px"><option value="">全部</option><option value="1">礼品</option><option value="2">商品</option></select>
     &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="unshow">下架</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="delete">删除</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
@@ -38,7 +38,7 @@
 	     {volist name="data" id="gift"}
 	     <tr>
 			<td><input type="checkbox" class="gift_id" id="gift_id" name="gift_id[]" value="{$gift.gift_id}"/></td>
-            <td>{$gift.gift_photo}</td>
+            <td><image src="../../../../public/uploads/{$gift.gift_photo}" width="25px" height="25px"></td>
             <td>{$gift.gift_name}</td>
             <td>{$gift.credits}</td>
             <td>{$gift.num}</td>
@@ -52,6 +52,7 @@
         </tr>
 	{/volist}		
 </table>
+{$page}
 </body>
 </html>
 <script>

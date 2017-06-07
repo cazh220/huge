@@ -37,6 +37,7 @@
 </head>
 <body>
 <label style="margin-left:27px">订单详情</label>
+<input type="hidden" id="order_id" name="order_id" value="{$detail.0.order_id}">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <th width="20%">提交会员</th>
@@ -54,7 +55,7 @@
 		<th width="20%">订单编号</th>
 		<td width="30%">{$detail.0.order_no}</td>
 		<th width="20%">处理状况</th>
-		<td width="30%">{$detail.0.order_status}</td>
+		<td width="30%"><span id="order_status">{if $detail.0.order_status == 0}<font color="red">待确认</font>{elseif $detail.0.order_status == 1}已发货{else}已完成{/if}</span></td>
 	</tr>
 </table>
 
@@ -78,35 +79,78 @@
 	{/volist}
 </table>
 
-<table class="table table-bordered table-hover definewidth m10">
+<table class="table table-bordered table-hover definewidth m10" id="tb1">
     <tr>
         <th width="50%" colspan="2">收货信息</th>
 		<th width="50%" colspan="2">物流信息</th>
     </tr>
 	<tr>
-		<td width="15%">收货人姓名</td>
+		<th width="15%">收货人姓名</th>
 		<td width="35%">张三</td>
-		<td width="15%">运送方式</td>
+		<th width="15%">运送方式</th>
 		<td width="35%">快递</td>
 	</tr>
 	<tr>
-		<td width="15%">电话</td>
+		<th width="15%">电话</th>
 		<td width="35%">18721225190</td>
-		<td width="15%">物流公司名称</td>
+		<th width="15%">物流公司名称</th>
 		<td width="35%">顺丰</td>
 	</tr>
 	<tr>
-		<td width="15%">地址</td>
+		<th width="15%">地址</th>
 		<td width="35%">上海</td>
-		<td width="15%">运单号</td>
+		<th width="15%">运单号</th>
 		<td width="35%">123456789065</td>
 	</tr>
 	<tr>
 		<td colspan="2"></td>
-		<td width="15%">发货时间</td>
+		<th width="15%">发货时间</th>
 		<td width="35%">2016-06-04 11:23:42</td>
 	</tr>
+	<tr>
+		<td colspan="4">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="4" style="height:40px; text-align:center"><button id="edit_ship" type="submit" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;{if $detail.0.order_status == 0}<button id="confirm_order" type="submit" class="btn btn-primary">确认</button>{/if}</td>
+	</tr>
 </table>
+<form action="detail" method="POST">  
+<table class="table table-bordered table-hover definewidth m10" id="tb2" style="display:none">
+    <tr>
+        <th width="50%" colspan="2">收货信息</th>
+		<th width="50%" colspan="2">物流信息</th>
+    </tr>
+	<tr>
+		<th width="15%">收货人姓名</th>
+		<td width="35%"><input type="text" id="username" name="username" value="张三"></td>
+		<th width="15%">运送方式</th>
+		<td width="35%"><input type="text" id="ship_way" name="ship_way"  value="快递"></td>
+	</tr>
+	<tr>
+		<th width="15%">电话</th>
+		<td width="35%"><input type="text" id="mobile" name="mobile" value="18721225190"></td>
+		<th width="15%">物流公司名称</th>
+		<td width="35%"><input type="text" id="ship_name" name="ship_name" value="顺丰快递"></td>
+	</tr>
+	<tr>
+		<th width="15%">地址</th>
+		<td width="35%"><input type="text" id="address" name="address" value="上海"></td>
+		<th width="15%">运单号</th>
+		<td width="35%"><input type="text" id="ship_no" name="ship_no" value="12345678025"></td>
+	</tr>
+	<tr>
+		<td colspan="2"></td>
+		<th width="15%">发货时间</th>
+		<td width="35%"><input type="text" id="send_time" name="send_time" value="2017-05-15 12:12:34"></td>
+	</tr>
+	<tr>
+		<td colspan="4">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="4" style="height:40px; text-align:center"><button id="confirm" type="submit" class="btn btn-primary">确认</button></td>
+	</tr>
+</table>
+</form>
 </body>
 </html>
 <script>
@@ -118,7 +162,24 @@
 				window.location.href="edit_user?user_id="+user_id;
 		 });
 
+		$("#edit_ship").click(function(){
+			$("#tb1").css("display","none");
+			$("#tb2").css("display","");
+		});
+		
+		var order_id = $("#order_id").val();
+		$("#confirm_order").click(function(){
 
+			$.ajax({
+				type:'POST',
+				url:'confirm_order',
+				data:'order_id='+order_id+"&order_status=1",
+				dataType:'json',
+				success:function(msg){
+					window.location.reload();
+				}
+			});
+		});
     });
 
 </script>

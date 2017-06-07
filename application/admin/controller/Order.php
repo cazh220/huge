@@ -25,6 +25,10 @@ class Order
 	public function detail()
 	{
 		$order_id = input("order_id");
+		if($_POST)
+		{
+			print_r($_POST);die;
+		}
 		
 		$Order = Model("Order");
 		$res = $Order->order_detail($order_id);
@@ -135,6 +139,23 @@ class Order
 		else
 		{
 			echo "<script>alert('编辑患者失败');history.back();</script>";
+		}
+	}
+	
+	public function confirm_order()
+	{
+		$order_id = input("order_id");
+		$order_status = input("order_status");
+		
+		$Order = Model("Order");
+		$result = $Order->update_order_status($order_status, $order_id);
+		if($result)
+		{
+			return json_encode(array('status'=>1, 'message'=>'确认成功'));
+		}
+		else
+		{
+			return json_encode(array('status'=>0, 'message'=>'确认失败'));
 		}
 	}
 

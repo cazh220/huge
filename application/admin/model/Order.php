@@ -37,4 +37,15 @@ class Order extends Model
 		return !empty($res) ? $res : array();
 	}
 	
+	//更改订单状态
+	public function update_order_status($status=0, $order_id=0)
+	{
+		$res = 0;
+		if(!empty($order_id))
+		{
+			$res = Db::query("UPDATE hg_order SET order_status = :order_status WHERE order_id = :order_id", ['order_status'=>$status, 'order_id'=>$order_id]);
+		}
+		return $res;
+	}
+	
 }
