@@ -37,7 +37,7 @@
 </head>
 <body>
 <label style="margin-left:27px">订单详情</label>
-<input type="hidden" id="order_id" name="order_id" value="{$detail.0.order_id}">
+<!-- <input type="hidden" id="order_id" name="order_id" value="{$detail.0.order_id}"> -->
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <th width="20%">提交会员</th>
@@ -86,35 +86,36 @@
     </tr>
 	<tr>
 		<th width="15%">收货人姓名</th>
-		<td width="35%">张三</td>
+		<td width="35%">{$detail.0.consignee}</td>
 		<th width="15%">运送方式</th>
-		<td width="35%">快递</td>
+		<td width="35%">{$detail.0.ship_way_name}</td>
 	</tr>
 	<tr>
 		<th width="15%">电话</th>
-		<td width="35%">18721225190</td>
+		<td width="35%">{$detail.0.mobile}</td>
 		<th width="15%">物流公司名称</th>
-		<td width="35%">顺丰</td>
+		<td width="35%">{$detail.0.ship_company_name}</td>
 	</tr>
 	<tr>
 		<th width="15%">地址</th>
-		<td width="35%">上海</td>
+		<td width="35%">{$detail.0.address}</td>
 		<th width="15%">运单号</th>
-		<td width="35%">123456789065</td>
+		<td width="35%">{$detail.0.ship_no}</td>
 	</tr>
 	<tr>
 		<td colspan="2"></td>
 		<th width="15%">发货时间</th>
-		<td width="35%">2016-06-04 11:23:42</td>
+		<td width="35%">{$detail.0.send_time}</td>
 	</tr>
 	<tr>
 		<td colspan="4">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="4" style="height:40px; text-align:center"><button id="edit_ship" type="submit" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;{if $detail.0.order_status == 0}<button id="confirm_order" type="submit" class="btn btn-primary">确认</button>{/if}</td>
+		<td colspan="4" style="height:40px; text-align:center">{if $detail.0.order_status != 2}<button id="edit_ship" type="submit" class="btn btn-primary">编辑</button>{/if}&nbsp;&nbsp;&nbsp;&nbsp;{if $detail.0.order_status == 0}<button id="confirm_order" type="submit" class="btn btn-primary">确认</button>{/if}</td>
 	</tr>
 </table>
 <form action="detail" method="POST">  
+<input type="hidden" id="order_id" name="order_id" value="{$detail.0.order_id}">
 <table class="table table-bordered table-hover definewidth m10" id="tb2" style="display:none">
     <tr>
         <th width="50%" colspan="2">收货信息</th>
@@ -122,27 +123,38 @@
     </tr>
 	<tr>
 		<th width="15%">收货人姓名</th>
-		<td width="35%"><input type="text" id="username" name="username" value="张三"></td>
+		<td width="35%"><input type="text" id="username" name="username" value="{$detail.0.consignee}"></td>
 		<th width="15%">运送方式</th>
-		<td width="35%"><input type="text" id="ship_way" name="ship_way"  value="快递"></td>
+		<td width="35%"><select id="ship_way" name="ship_way">
+							<option value="0" {if $detail.0.ship_way == 0}selected{/if}>快递</option>
+							<option value="1" {if $detail.0.ship_way == 1}selected{/if}>自取</option>
+						</select></td>
 	</tr>
 	<tr>
 		<th width="15%">电话</th>
 		<td width="35%"><input type="text" id="mobile" name="mobile" value="18721225190"></td>
 		<th width="15%">物流公司名称</th>
-		<td width="35%"><input type="text" id="ship_name" name="ship_name" value="顺丰快递"></td>
+		<td width="35%"><select id="ship_name" name="ship_name">
+							<option value="1" {if $detail.0.ship_company == 1}selected{/if}>顺丰快递</option>
+							<option value="2" {if $detail.0.ship_company == 2}selected{/if}>申通快递</option>
+							<option value="3" {if $detail.0.ship_company == 3}selected{/if}>韵达快递</option>
+							<option value="4" {if $detail.0.ship_company == 4}selected{/if}>中通快递</option>
+							<option value="5" {if $detail.0.ship_company == 5}selected{/if}>圆通快递</option>
+							<option value="6" {if $detail.0.ship_company == 6}selected{/if}>邮政快递</option>
+							<option value="7" {if $detail.0.ship_company == 7}selected{/if}>其它</option>
+						</select></td>
 	</tr>
 	<tr>
 		<th width="15%">地址</th>
-		<td width="35%"><input type="text" id="address" name="address" value="上海"></td>
+		<td width="35%"><input type="text" id="address" name="address" value="{$detail.0.address}"></td>
 		<th width="15%">运单号</th>
-		<td width="35%"><input type="text" id="ship_no" name="ship_no" value="12345678025"></td>
+		<td width="35%"><input type="text" id="ship_no" name="ship_no" value="{$detail.0.mobile}"></td>
 	</tr>
-	<tr>
-		<td colspan="2"></td>
-		<th width="15%">发货时间</th>
-		<td width="35%"><input type="text" id="send_time" name="send_time" value="2017-05-15 12:12:34"></td>
-	</tr>
+	<!-- <tr> -->
+		<!-- <td colspan="2"></td> -->
+		<!-- <th width="15%">发货时间</th> -->
+		<!-- <td width="35%"><input type="text" id="send_time" name="send_time" value="2017-05-15 12:12:34"></td> -->
+	<!-- </tr> -->
 	<tr>
 		<td colspan="4">&nbsp;</td>
 	</tr>

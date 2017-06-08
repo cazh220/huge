@@ -6,6 +6,20 @@ use think\Session;
 
 class Order
 {
+	public static $ship_way = array(
+		'0'	=> '快递',
+		'1'	=> '自取'
+	);
+	public static $ship_company = array(
+		'1'	=> '顺丰',
+		'2'	=> '申通',
+		'3'	=> '韵达',
+		'4'	=> '中通',
+		'5'	=> '圆通',
+		'6'	=> '邮政',
+		'7'	=> '其它'
+	);
+	
 	//换领订单列表
     public function index()
     {
@@ -15,6 +29,20 @@ class Order
 		$page = $res->render();
 		
 		$data = $res->toArray();
+		//获取区域
+		$Region = Model("Region");
+		if(!empty($data['data']) && is_array($data['data']))
+		{
+			foreach($data['data'] as $key => $value)
+			{
+				$data['data'][$key]['province_name'] = $Region->get_area($value['province']);
+				$data['data'][$key]['city_name'] = $Region->get_area($value['city']);
+				$data['data'][$key]['district_name'] = $Region->get_area($value['district']);
+				$data['data'][$key]['ship_way_name'] = self::$ship_way[$value['ship_way']];
+				$data['data'][$key]['ship_company_name'] = self::$ship_company[$value['ship_company']];
+			}
+		}
+		
 		$view = new View();
 		$view->assign('order', $data);
 		$view->assign('page', $page);
@@ -25,14 +53,53 @@ class Order
 	public function detail()
 	{
 		$order_id = input("order_id");
+		$Order = Model("Order");
+		
 		if($_POST)
 		{
-			print_r($_POST);die;
+			//更新收货与物流信息
+			$consignee	= input("username");
+			$ship_way	= input("ship_way");
+			$mobile		= input("mobile");
+			$ship_company	= input("ship_name");
+			$address	= input("address");
+			$ship_no	= input("ship_no");
+			//$send_time	= input("send_time");
+			$order_id	= input("order_id");
+			
+			$data = array(
+				'consignee'	=> $consignee,
+				'ship_way'	=> $ship_way,
+				'mobile'	=> $mobile,
+				'ship_company'=> $ship_company,
+				'address'	=> $address,
+				'ship_no'	=> $ship_no,
+				'update_ship_time'	=> date("Y-m-d H:i:s"),
+				'order_id'	=> $order_id
+			);
+
+			$result = $Order->update_ship($data);
+			/*
+			if(!$result)
+			{
+				echo "<script>alert('更新失败');</script>";
+			}
+			*/
 		}
 		
-		$Order = Model("Order");
+		
 		$res = $Order->order_detail($order_id);
 		$view = new View();
+		
+		if(!empty($res))
+		{
+			foreach($res as $key => $val)
+			{
+				$res[$key]['ship_way_name'] = self::$ship_way[$val['ship_way']];
+				$res[$key]['ship_company_name'] = self::$ship_company[$val['ship_company']];
+			}
+		}
+
 		$view->assign('detail', $res);
 		
 		return $view->fetch('index/order/detail');
@@ -159,11 +226,12 @@ class Order
 		}
 	}
 	
-	public function send()
+	public function order_status()
 	{
 		$order_id = input("order_id");
+		$order_status = input("order_status");
 		$Order = Model("Order");
-		$result = $Order->update_order_status(2, $order_id);
+		$result = $Order->update_order_status($order_status, $order_id);
 		echo "<script>window.location.href='index';</script>";
 	}
 

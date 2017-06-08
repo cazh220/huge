@@ -47,14 +47,14 @@
             <td>奖品名称</td>
 			<td>2</td>
 			<td>{$list.user_id}</td>
-			<td>{$list.province}-{$list.city}-{$list.district}</td>
-			<td>配送名称</td>
+			<td>{$list.province_name}-{$list.city_name}-{$list.district_name}</td>
+			<td>{$list.ship_way_name}</td>
 			<td>{$list.create_time}</td>
-			<td>快递公司</td>
-			<td>{$list.ship_id}</td>
+			<td>{$list.ship_company_name}</td>
+			<td>{$list.ship_no}</td>
 			<td>{$list.total_credits}</td>
 			<td>{$list.update_time}</td>
-			<td>{if $list.order_status == 0}待确认{elseif $list.order_status == 1}<a href="order/send?order_id={$list.order_id}">待发货</a>{else}已发货{/if}&nbsp;&nbsp;<a href="order/detail?order_id={$list.order_id}">详情</a>
+			<td>{if $list.order_status == 0}<a href="javascript:onclick=order_s('订单确认？', {$list.order_id}, 1, '{$Think.config.host_url}')"><font color="red">待确认</font></a>{elseif $list.order_status == 1}<font color="yellow"><a href="javascript:onclick=order_s('确认发货？', {$list.order_id}, 2, '{$Think.config.host_url}')">待发货</a></font>{else}<font color="green">已发货</font>{/if}&nbsp;&nbsp;<a href="{$Think.config.host_url}/public/admin.php/admin/order/detail?order_id={$list.order_id}">详情</a>
 			</td>
         </tr>
 		{/volist}		
@@ -111,4 +111,15 @@
 
     });
 	
+	
+	function order_s(msg, order_id, order_status, url)
+	{
+		url = url+'/public/admin.php/admin/order/order_status?order_id='+order_id+'&order_status='+order_status;
+		//alert(url);return false;
+		if(confirm(msg))
+		{
+			window.location.href=url;
+		}
+		return false;
+	}
 </script>

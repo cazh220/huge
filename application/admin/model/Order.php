@@ -43,7 +43,29 @@ class Order extends Model
 		$res = 0;
 		if(!empty($order_id))
 		{
-			$res = Db::query("UPDATE hg_order SET order_status = :order_status WHERE order_id = :order_id", ['order_status'=>$status, 'order_id'=>$order_id]);
+			if ($status == 1)
+			{//确认
+				$res = Db::query("UPDATE hg_order SET order_status = :order_status, confirm_time = :confirm_time WHERE order_id = :order_id", ['order_status'=>$status, 'confirm_time'=>date("Y-m-d H:i:s"), 'order_id'=>$order_id]);
+			}
+			elseif($status == 2)
+			{//发货
+				$res = Db::query("UPDATE hg_order SET order_status = :order_status, send_time = :send_time WHERE order_id = :order_id", ['order_status'=>$status, 'send_time'=>date("Y-m-d H:i:s"), 'order_id'=>$order_id]);
+			}
+			else
+			{
+				$res = Db::query("UPDATE hg_order SET order_status = :order_status WHERE order_id = :order_id", ['order_status'=>$status, 'order_id'=>$order_id]);
+			}
+		}
+		return $res;
+	}
+	
+	//更新物流信息
+	public function update_ship($data = array())
+	{
+		$res = 0;
+		if(!empty($data))
+		{
+			$res = Db::query("UPDATE hg_order SET consignee = :consignee, ship_way = :ship_way, mobile = :mobile, ship_company = :ship_company, address = :address, ship_no = :ship_no, update_ship_time = :update_ship_time WHERE order_id = :order_id", ['consignee'=>$data['consignee'], 'ship_way'=>$data['ship_way'], 'mobile'=>$data['mobile'], 'ship_company'=>$data['ship_company'], 'address'=>$data['address'], 'ship_no'=>$data['ship_no'], 'update_ship_time'=>$data['update_ship_time'],'order_id'=>$data['order_id']]);
 		}
 		return $res;
 	}
