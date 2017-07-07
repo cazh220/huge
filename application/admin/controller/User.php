@@ -12,13 +12,19 @@ class User
 		$keyword = input("keyword");
 		$dental = input("dental");
 		$hospital = input("hospital");
+		$start_time = input("start_time");
+		$end_time = input("end_time");
 		$keyword = !empty($keyword) ? addslashes(trim($keyword)) : '';
 		$dental = !empty($dental) ? addslashes(trim($dental)) : '';
 		$hospital = !empty($hospital) ? addslashes(trim($hospital)) : '';
+		$start_time = !empty($start_time) ? addslashes(trim($start_time)) : '';
+		$end_time = !empty($end_time) ? addslashes(trim($end_time)) : '';
 		$param = array(
 			'keyword'	=> $keyword,
 			'dental'	=> $dental,
-			'hospital'	=> $hospital
+			'hospital'	=> $hospital,
+			'start_time'=> $start_time,
+			'end_time'	=> $end_time
 		);
 		
 		$User = Model("User");
@@ -267,6 +273,31 @@ class User
 			echo "<script>alert('删除会员失败');history.back();</script>";
 		}
 	}
+	
+	//审核状态
+	public function audit()
+	{
+		$user_id = input("user_id");
+		$type = input("type");
+		
+		$status = ($type=='pass') ? 1 : 2;
+		if (!empty($user_id))
+		{
+			$User = Model("User");
+			$res = $User->audit_user($user_id, $status);
+		}
+		
+		if ($res == 1)
+		{
+			echo "<script>window.location.href='index';</script>";
+		}
+		else
+		{
+			echo "<script>alert('审核失败');history.back();</script>";
+		}
+		
+	}
+	
 	
 	public function export()
 	{

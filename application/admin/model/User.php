@@ -36,6 +36,11 @@ class User extends Model
 			$obj_data = $obj_data->where('hospital', 'like', '%'.$param['hospital']);
 		}
 		
+		if (!empty($param['start_time']) && !empty($param['end_time']))
+		{
+			$obj_data = $obj_data->where('create_time',['>=',$param['start_time']],['<=',$param['end_time']],'and');
+		}
+		
 		return $obj_data->paginate(10);
 	}
 	
@@ -62,6 +67,16 @@ class User extends Model
 		if (!empty($user_id))
 		{
 			$res = Db::execute("DELETE FROM hg_user WHERE user_id = :user_id", ['user_id'=>$user_id]);
+		}
+		return $res;
+	}
+	
+	//审核
+	public function audit_user($user_id=0, $status=0)
+	{
+		if (!empty($user_id))
+		{
+			$res = Db::execute("UPDATE hg_user SET status = :status  WHERE user_id = :user_id", ['status'=>$status,'user_id'=>$user_id]);
 		}
 		return $res;
 	}

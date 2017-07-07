@@ -31,6 +31,13 @@ class Stock
 		return $view->fetch('index/stock/index');
     }
 	
+	//添加出库
+	public function add()
+	{
+		$view = new View();
+		return $view->fetch('index/stock/create');
+	}
+	
 
 	
 }
