@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/style.css" />
+	
+	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/wx/css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/wx/css/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/wx/css/icon.css" />
+
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/jquery.sorted.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
+	
+	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/jquery.js"></script>
+	<script type="text/javascript" src="http://www.jeasyui.net/Public/js/easyui/jquery.easyui.min.js"></script>
+	
+	<!--<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>-->
+
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+		.main{
+			padding:20px 40px;
+		}
+		.left{
+			width:40%;
+            border: solid 1px #00868B; 
+            float: left;
+		}
+		.right{
+			width:50%;
+            float:left;
+            border: solid 1px #00868B;
+            margin-left: 100px
+		}
+
+
+    </style>
+</head>
+<body>
+<div class="main">
+<div class="left">
+	
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-panel" style="padding:5px">
+		<ul id="tt" class="easyui-tree" data-options="
+				url: 'http://huge.com/tree.json',
+				method: 'get',
+				animate: true,
+				onClick:function(node){
+					//console.log(node);
+					$('#menu_name').val(node.text);
+					$('#menu_id').val(node.id);
+				},
+				/*
+				onDblClick: function(node){
+					$(this).tree('beginEdit',node.target);
+					console.log(node);
+				},*/
+				onAfterEdit: function(node) {
+					console.log(node);
+					var data = {'id':node['id'],'text':node['text']};
+					$.ajax({
+						url:'http://dev220.duapp.com/Category.php?act=edit',
+						method:'POST',
+						data:data,
+						dataType:'json',
+						success:function(msg){
+							if(msg.status)
+							{
+								alert(msg.message);
+							}
+						}
+					});
+				},
+				onContextMenu: function(e,node){
+					e.preventDefault();
+					$(this).tree('select',node.target);
+					$('#mm').menu('show',{
+						left: e.pageX,
+						top: e.pageY
+					});
+				}
+			"></ul>
+	</div>
+	<div id="mm" class="easyui-menu" style="width:120px;">
+		<div onclick="append()" data-options="iconCls:'icon-add'">Append</div>
+		<div onclick="removeit()" data-options="iconCls:'icon-remove'">Remove</div>
+		<div onclick="edit()" data-options="iconCls:'icon-edit'">Edit</div>
+		<div class="menu-sep"></div>
+		<div onclick="expand()">Expand</div>
+		<div onclick="collapse()">Collapse</div>
+	</div>
+    
+
+</div>
+<div class="right">
+    <form action="index.html" method="post" class="definewidth m20">
+        <table class="table table-bordered table-hover m10">
+            <tr>
+                <td class="tableleft">菜单名称</td>
+                <td><input type="text" name="menu_name" id="menu_name" value="" disabled/></td>
+				<input type="hidden" id="menu_id" name="menu_id" value="">
+            </tr>
+            <tr>
+                <td class="tableleft">链接地址</td>
+                <td><input type="text" name="url" id="url" value=""/></td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button type="submit" class="btn btn-primary" type="button">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</div>
+
+</body>
+</html>
+<script>
+    $(function () {
+
+    });
+	
+	function append(){
+		var t = $('#tt');
+		var node = t.tree('getSelected');
+		t.tree('append', {
+			parent: (node?node.target:null),
+			data: [{
+				text: 'new item1'
+			}]
+		});
+	}
+	function removeit(){
+		var node = $('#tt').tree('getSelected');
+		$('#tt').tree('remove', node.target);
+	}
+	function collapse(){
+		var node = $('#tt').tree('getSelected');
+		$('#tt').tree('collapse',node.target);
+	}
+	function expand(){
+		var node = $('#tt').tree('getSelected');
+		$('#tt').tree('expand',node.target);
+	}
+	
+	function edit(){
+		var node = $('#tt').tree('getSelected');
+		$('#tt').tree('beginEdit',node.target);
+	}
+	
+	
+</script>

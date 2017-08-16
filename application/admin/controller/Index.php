@@ -94,6 +94,15 @@ class Index extends Controller
 		print_r(json_decode($a, true));
 	}
 	
+	//注销登录
+	public function logout()
+	{
+		unset($_SESSION);
+		header("Location:http://huge.com/public/admin.php/admin/index/login");
+		exit();
+		//echo "1111111";
+	}
+	
 	
 	
 }
