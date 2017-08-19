@@ -1,11 +1,11 @@
-Hello, {$data.1.name}!!
+
 
 {volist name='data' id='vo'}
 <hr>
-id:{$vo.id}<br>
-user:{$vo.user}<br>
-name:{$vo.name}<br>
+id:{$vo.user_id}<br>
+user:{$vo.username}<br>
+name:{$vo.realname}<br>
 create_time:{$vo.create_time}<br>
-credits:{$vo.credits}<br>
+credits:{$vo.total_credits}<br>
 
 {/volist}

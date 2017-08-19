@@ -71,7 +71,7 @@
 					<td width="10%"><label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev.action_id}' {if condition = "$prev.checked eq 1"}checked{/if} />{$prev.action_name}</label></td>
 					<td>
 					{volist name="prev.child" id="prev_act"}
-					<label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev_act.action_id}' {if condition = "$prev_act.checked eq 1"}checked{/if} />{$prev_act.action_name}</label>
+					<label class='checkbox inline'><input type='checkbox' name='permission[]' value='{$prev_act.action_id}' {if condition = "$prev_act.checked eq 1"}checked{/if} /><span style="margin-left:18px">{$prev_act.action_name}</span></label>
 					{/volist}
 					</td>
 				</tr>
