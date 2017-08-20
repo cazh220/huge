@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
+
 use think\Controller;
+use think\Model;
 use think\Db;
 use think\View;
 
@@ -20,8 +22,47 @@ class Index
 	
 	public function register()
 	{
+		//获取区域省
+		$Region = model('Region');
+		$province = $Region->get_province();
+
 		$view = new View();
+		$view->assign('province', $province);
 		return $view->fetch('register');
+	}
+	
+	//注册
+	public function do_register()
+	{
+		$mobile = trim($_POST['mobile']);
+		$code = trim($_POST['code']);
+		$realname = trim($_POST['username']);
+		$password = trim($_POST['password']);
+		$user_type = intval($_POST['user_type']);
+		$company_name = trim($_POST['company_name']);
+		$company_addr = trim($_POST['company_addr']);
+		$position = trim($_POST['position']);
+		$province = intval($_POST['province']);
+		$city = intval($_POST['city']);
+		$district = intval($_POST['district']);
+		
+		//上传图片
+
+		$param = array(
+			'mobile'	=> $mobile,
+			'realname'	=> $realname,
+			'password'	=> $password,
+			'user_type'	=> $user_type,
+			'company_name'	=> $company_name,
+			'company_addr'	=> $company_addr,
+			'position'		=> $position,
+			'province'		=> $province,
+			'city'			=> $city,
+			'district'		=> $district
+		);
+		
+		print_r($_POST);
+		print_r($_FILES);
 	}
 	
 	/*
