@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/index/css/new/index.css">
 <script src="{$Think.config.host_url}/public/static/index/css/new/jquery.min.js"></script>
 <script src="{$Think.config.host_url}/public/static/index/css/new/modernizr.custom.97074.js"></script>
+<script src="{$Think.config.host_url}/public/static/index/js/my.js"></script>
 	<!--
 	描述：header开始
 -->
@@ -40,13 +41,10 @@
 	        	<div class="loginTitle">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</div>
 	        	<div class="content">
 	        		<div class="formModule">
-					 <form name="form1" method="post" action="http://www.zhulu.com/e/member/doaction.php">
-    <input type="hidden" name="ecmsfrom" value="">
-    <input type="hidden" name="enews" value="login">
-	<input name="tobind" type="hidden" id="tobind" value="0">	
-	        		<label>账号</label><input id="user" type="text" name="username" placeholder="用户名/邮箱"><br>
+					 <form name="form1" method="post" action="http://">
+	        		<label>账号</label><input id="user" type="text" name="mobile" placeholder="用户名/邮箱" style="background-color: transparent;"><br>
 		        	<label>密码</label><input id="password" type="password" name="password" placeholder="请输入密码" value=""><br>
-		        	<label></label>	<input id="login" type="submit" name="Submit" value="登录" style=""><br>
+		        	<label></label>	<input id="login" type="button" name="button" value="登录" style="" onclick="login_s()"><br>
 		        		<p><a href="http://www.zhulu.com/e/member/GetPassword/">忘记密码？</a><a href="http://www.zhulu.com/e/member/register/" style="color:#ffc000;text-decoration: underline;">立即注册</a></p>
 						</form>
 					</div>

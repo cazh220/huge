@@ -24,7 +24,7 @@ class Sms
 		$ob= simplexml_load_string($xmlfile);
 		$jsonStr = json_encode($ob);
 		$result = json_decode($jsonStr, true);
-
+		
 		if($ob->returnstatus == 'Faild')
 		{
 			$data = array('status'=>0, 'message'=>$result['message']);
@@ -32,11 +32,47 @@ class Sms
 		else
 		{
 			//写入到数据库
-			$data = array('status'=>1, 'message'=>'验证码已发送');
+			$param = array(
+				'mobile'		=> $mobile,
+				'code'			=> $code,
+				'update_time'	=> date("Y-m-d H:i:s", time())
+			);
+			$Sms = model('Sms');
+			$sms_res = $Sms->write_code($param);
+			if($sms_res)
+			{
+				$data = array('status'=>1, 'message'=>'验证码已发送');
+			}
+			else
+			{
+				$data = array('status'=>0, 'message'=>'验证码发送失败');
+			}
+			
 		}
 		
 		exit(json_encode($data));
 		
+	}
+	
+	//验证码校验
+	public function check_sms()
+	{
+		$mobile = $_GET['mobile'];
+		$code = $_GET['code'];
+		
+		$Sms = model('Sms');
+		$res = $Sms->check_sms($mobile, $code);
+		//var_dump($res[0]['count']);die;
+		if($res[0]['count'] == 0)
+		{
+			$data = array('status'=>1, 'message'=>'验证码校验失败');
+		}
+		else
+		{
+			$data = array('status'=>0, 'message'=>'ok');
+		}
+		
+		exit(json_encode($data));
 	}
 	
 	//生成验证码

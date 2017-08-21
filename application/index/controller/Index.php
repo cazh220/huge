@@ -5,12 +5,15 @@ use think\Controller;
 use think\Model;
 use think\Db;
 use think\View;
+use think\Session;
 
 class Index
 {
 	public function index()
 	{
+		//var_dump(Session::get('user.mobile'));die;
 		$view = new View();
+		$view->assign('user', Session::get('user.mobile'));
 		return $view->fetch('index');
 	}
 	
@@ -50,6 +53,7 @@ class Index
 
 		$param = array(
 			'mobile'	=> $mobile,
+			'username'	=> $mobile,
 			'realname'	=> $realname,
 			'password'	=> $password,
 			'user_type'	=> $user_type,
@@ -58,11 +62,74 @@ class Index
 			'position'		=> $position,
 			'province'		=> $province,
 			'city'			=> $city,
-			'district'		=> $district
+			'district'		=> $district,
+			'last_login'	=> date("Y-m-d H:i:s", time()),
+			'last_ip'		=> $_SERVER["REMOTE_ADDR"]
 		);
+		//echo ROOT_PATH;die;
+		$upload = $this->upload();
+		if($upload['status']==0)
+		{
+			//错误
+			echo "<script>alert('注册失败');history.go(-1);</script>";
+		}
+		else
+		{
+			$param['head_img'] = $upload['image'];
+		}
 		
-		print_r($_POST);
-		print_r($_FILES);
+		$User = model('User');
+		
+		$res = $User->register($param);
+		if(empty($res))
+		{
+			echo "<script>alert('注册失败');history.go(-1);</script>";
+			exit();
+		}
+		
+		header("Location:http://huge.com/public/index.php/index/index");
+		exit();
+		
+	}
+	
+	
+	private function upload()
+	{
+		$files = request()->file('head');
+		// 移动到框架应用根目录/public/uploads/ 目录下
+		$info = $files->move(ROOT_PATH . 'public' . DS . 'uploads');
+		if($info){
+			// 成功上传后 获取上传信息
+			//return array('name'=>$info->getFilename(), 'status'=>1);
+			return array('status'=>1, 'image'=>$info->getSavename());
+		}else{
+			// 上传失败获取错误信息
+			//return array('error'=>$files->getError(), 'status'=>0);
+			return array('status'=>0, 'image'=>'');
+		} 
+		
+	}
+	
+	//登录
+	public function do_login()
+	{
+		$mobile = $_GET['mobile'];
+		$password = $_GET['password'];
+		
+		$User = model('User');
+		$res = $User->check_user($mobile, $password);
+		//var_dump($res);die;
+		if(empty($res))
+		{
+			exit(json_encode(array('status'=>1, 'message'=>'账号或密码不正确')));
+		}
+		
+		//var_dump($res[0]);die;
+		//写入session
+		Session::set('user.user_id',$res[0]['user_id']);
+		Session::set('user.mobile',$res[0]['mobile']);
+		header("Location:http://huge.com/public/index.php/index/index");
+		exit();
 	}
 	
 	/*
