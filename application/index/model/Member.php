@@ -4,8 +4,17 @@ namespace app\index\model;
 use think\Model;
 use think\Db;
 
-class User extends Model
+class Member extends Model
 {
+	//获取我的详情
+	public function get_my_detail($user_id)
+	{
+		$res = Db::query("SELECT * FROM hg_user WHERE user_id = :user_id", ['user_id'=>$user_id]);
+		
+		return !empty($res) ? $res : array();
+	}
+	
+	
 	public function register($param)
 	{
 		$sql = "INSERT INTO hg_user SET ";

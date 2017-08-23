@@ -96,6 +96,7 @@ function check_user()
 					}
 					else
 					{
+						//$("$_mobile").val(mobile);
 						//校验密码
 						var fpassword = $("#password").val();
 						var repassword = $("#repassword").val();
@@ -153,6 +154,7 @@ function login_s()
 		return false;
 	}
 	var password = $("#password").val();
+	console.log(password);
 	if(password == '')
 	{
 		alert('请填写密码');
@@ -178,4 +180,112 @@ function login_s()
 	});
 	
 	
+}
+
+function update_pwd()
+{
+	//校验手机
+	var mobile = $("#mobile").val();
+	if(mobile=='')
+	{
+		alert('请填写手机号');
+		return false;
+	}
+	//校验短信验证码ajax
+	var code = $("#code").val();
+	if(code == '')
+	{
+		alert('请填写短信验证码');
+		return false;
+	}
+	else
+	{
+		$.ajax({
+			url:'http://huge.com/public/index.php/index/sms/check_sms',
+				type:'get',
+				data:'mobile='+mobile+'&code='+code,
+				dataType:'json',
+				success:function(msg){
+					if(msg.status==1)
+					{
+						alert(msg.message);
+						return false;
+					}
+					else
+					{
+						//校验密码
+						var fpassword = $("#password").val();
+						var repassword = $("#repassword").val();
+						if(fpassword == '')
+						{
+							alert('请填写密码');
+							return false;
+						}
+						
+						if(repassword == '')
+						{
+							alert('请填写确认密码');
+							return false;
+						}
+						
+						if(fpassword != repassword)
+						{
+							alert('密码不一致');
+							return false;
+						}
+						
+						$("#userinfoform").submit();
+					}
+					//console.log(msg);
+				}
+		});
+	}
+}
+
+//防伪码查询
+function checksecuritycode()
+{
+	var security_code = $("#security_code").val();
+	if(security_code == '')
+	{
+		alert('请填写防伪码');
+		return false;
+	}
+	
+	$("#userinfoform").submit();
+	
+}
+
+//快捷查询
+function fast_checksecuritycode()
+{
+	var security_code = $("#security_code").val();
+	if(security_code == '')
+	{
+		alert('请填写防伪码');
+		return false;
+	}
+	
+	$.ajax({
+		url:'http://huge.com/public/index.php/index/security/query_security_code',
+			type:'POST',
+			data:'security_code='+security_code,
+			dataType:'json',
+			success:function(msg){
+				if(msg.status==1)
+				{
+					var txt = '';
+					txt += "<b>查询结果：</b>你查询的防伪码是正品！使用者："+msg.patient;
+					$("#search_result").html(txt);
+					return false;
+				}
+				else
+				{
+					var txt = '';
+					txt += "<b>查询结果：</b>你的防伪码可能还未录入系统;";
+					$("#search_result").html(txt);
+				}
+				//console.log(msg);
+			}
+	});
 }

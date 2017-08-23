@@ -132,6 +132,48 @@ class Index
 		exit();
 	}
 	
+	public function logout()
+	{
+		//Session::flush();
+		Session::delete('user.user_id');
+		Session::delete('user.mobile');
+		header("Location:http://huge.com/public/index.php/index/index");
+		exit();
+	}
+	
+	//重置密码
+	public function resetpwd()
+	{
+
+		$view = new View();
+		$view->assign('mobile', Session::get('user.mobile'));
+		return $view->fetch('resetpwd');
+	}
+	
+	//密码重置
+	public function update_pwd()
+	{
+		$mobile = trim($_POST['_mobile']);
+		$password = trim($_POST['password']);
+		
+		$User = model('User');
+		$res = $User->update_pwd($mobile, $password);
+		
+		if(empty($res))
+		{
+			echo "<script>alert('修改失败');history.go(-1);</script>";
+			exit();
+		}
+		else
+		{
+			echo "<script>alert('修改成功');window.location.href='http://huge.com/public/index.php/index/index/login';</script>";
+			//header("Location:http://huge.com/public/index.php/index/index/login");
+			exit();
+		}
+	}
+
+	
+	
 	/*
     public function index()
     {

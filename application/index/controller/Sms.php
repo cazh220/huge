@@ -8,9 +8,9 @@ use think\View;
 
 class Sms
 {	
-	private static $user = 'dd1678';
+	private static $user = 'huge';//'dd1678';
 	private static $password = '123456';
-	private static $id = 15450;
+	private static $id = 15454;//15450;
 	private static $api_url = 'http://www.qf106.com/sms.aspx?action=send';
 	
 	public function sendsms()
