@@ -54,6 +54,23 @@ class Member extends Model
 		return $res;
 	}
 	
+	//更新用户信息
+	public function update_user($data, $where)
+	{
+		$sql = "UPDATE hg_user SET ";
+		if(!empty($data))
+		{
+			foreach($data as $key => $val)
+			{
+				$sql .= $key ." = '".$val."',";
+			}
+		}
+		$sql = rtrim($sql,',');
+		$sql .= " WHERE user_id = ".$where['user_id'];//echo $sql;die;
+		$res = Db::execute($sql);
+		return $res;
+	}
+	
 }
 
 	
