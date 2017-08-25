@@ -231,7 +231,7 @@
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/EditInfo/">修改资料</a>
+													<a href="edit_member">修改资料</a>
 												</td>
 											</tr>
 											<tr>
@@ -430,7 +430,7 @@
 </tbody></table>
 <br>
 <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
-  <form name="userinfoform" method="post" enctype="multipart/form-data" action="http://www.zhulu.com/e/member/doaction.php"></form>
+  <form name="userinfoform" method="post" enctype="multipart/form-data" action="do_edit_member"></form>
     <input type="hidden" name="enews" value="EditInfo">
 	<input type="hidden" name="user_id" value="{$user.user_id}">
     <tbody><tr class="header"> 
@@ -560,15 +560,11 @@
 </div>
 <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/index/css/new/style.css">
 
-<!--
-        	作者：363248783@qq.com
-        	时间：2016-06-19
-        	描述：footer开始
-        -->
-	<div class="footer">
+
+<div class="footer">
 		<div class="wrap">
 			<div class="f_logo fl">
-				<img src="./修改资料_files/footer_logo.png">
+				<!--<img src="{$Think.config.host_url}/public/static/index/css/new/footer_logo.png">-->
 			</div>
 			<div class="link fl">
 				<p>友情链接：</p>
@@ -578,47 +574,33 @@
 				<a href="http://yangcongbao.com/" target="_blank">洋葱报</a>
 				<a href="http://www.0731zkw.com/" target="_blank">湖南自考网</a>
 			</div>
-			<div class="wx t-cen fr">
-				<img src="./修改资料_files/wx.jpg">
-				<p>扫一扫，关注逐鹿网</p>
-			</div>
+			<!--<div class="wx t-cen fr">
+				<img src="./wx.jpg">
+				<p>扫一扫，关注沪鸽网</p>
+			</div>-->
 		</div>
 
 		<div class="keep">
 			<div class="wrap">
 				<ul class="row">
 					<li>
-						<a href="http://www.zhulu.com/e/member/EditInfo/#">关于逐鹿 </a>
+						<a href="#">关于沪鸽 </a>
 					</li>
 					<li>
-						<a href="http://www.zhulu.com/e/member/EditInfo/#">加入我们</a>
+						<a href="#">加入我们</a>
 					</li>
 					<li>
-						<a href="http://www.zhulu.com/e/member/EditInfo/#"> 联系方式 </a>
+						<a href="#"> 联系方式 </a>
 					</li>
 					<li>
-						<a href="http://www.zhulu.com/e/member/EditInfo/#"> 合作伙伴</a>
-					</li>
-					<li>
-						<a href="http://www.zhulu.com/baiduSitemap.xml"> sitemap </a>
-					</li>
-					<li>
-						<script type="text/javascript">
-							var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-							document.write(unescape("%3Cspan id='cnzz_stat_icon_1259638556'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/stat.php%3Fid%3D1259638556%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
-						</script><span id="cnzz_stat_icon_1259638556"><a href="http://www.cnzz.com/stat/website.php?web_id=1259638556" target="_blank" title="站长统计"><img border="0" hspace="0" vspace="0" src="./修改资料_files/pic.gif"></a></span><script src="./修改资料_files/stat.php" type="text/javascript"></script><script src="./修改资料_files/core.php" charset="utf-8" type="text/javascript"></script>
+						<a href="#"> 合作伙伴</a>
 					</li>
 				</ul>
 
-				<p class="t-cen">Copyright © 2015 逐鹿网 All Rights Reserved 京ICP备15001344号-1</p>
+				<p class="t-cen">Copyright © 2017 沪鸽 All Rights Reserved 沪ICP备15001344号</p>
 			</div>
 		</div>
 	</div>
-	<!--
-        	作者：363248783@qq.com
-        	时间：2016-06-19
-        	描述：footer结束
-        -->
 
 
 

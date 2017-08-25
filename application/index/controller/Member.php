@@ -69,6 +69,12 @@ class Member
 		return $view->fetch('edit_member');
 	}
 	
+	public function do_edit_member()
+	{
+		print_r($_FILES);
+		print_r($_POST);die;
+	}
+	
 	public function search_security_code()
 	{
 		$security_code = $_POST['security_code'];
