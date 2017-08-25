@@ -3,8 +3,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-		<title>积分商城</title>
-		<script src="{$Think.config.host_url}/public/static/index/js/jquery.js"></script>
+		<title>我的购物车</title>
 		<style>
 			a {
 				text-decoration: none;
@@ -194,21 +193,6 @@
 					document.images.menushopimg.src = "/public/static/index/css/new/add.gif";
 				}
 			}
-			
-			function add_cart(val)
-			{
-				$.ajax({
-					type:"post",
-					url:"add_cart",
-					data:'id='+val,
-					dataType:'json',
-					success:function(msg)
-					{
-						//console.log(msg);
-						alert(msg.message);
-					}
-				});
-			}
 		</script>
 	</head>
 
@@ -285,7 +269,7 @@
 							</tbody>
 							
 							<tbody><tr class="header" id="domenuspaceid" onmouseup="turnit(domenuspace,&#39;menuspaceimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">积分商城</td>
+								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">会员空间</td>
 							</tr>
 							</tbody><tbody id="domenuspace" style="display:">
 								<tr>
@@ -293,12 +277,12 @@
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="index">积分商城</a>
+													<a href="http://www.zhulu.com/e/space/?userid=173">预览空间</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="../cart">我的购物车</a>
+													<a href="http://www.zhulu.com/e/member/mspace/SetSpace.php">设置空间</a>
 												</td>
 											</tr>
 											<tr>
@@ -345,30 +329,34 @@ function CheckAll(form)
             </tr>
         </tbody></table>
         <br>
-        <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
-          <form name="listmsg" method="post" action="http://www.zhulu.com/e/member/doaction.php" onsubmit="return confirm(&#39;确认要删除?&#39;);"></form>
+        <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder" style="text-align: center;">
+          <form style="text-align: center;" name="listmsg" method="post" action="http://www.zhulu.com/e/member/doaction.php" onsubmit="return confirm(&#39;确认要删除?&#39;);"></form>
             <tbody><tr class="header"> 
-              <td width="100%" height="23" colspan="4"> <div align="center"></div></td>
+              <td width="8%" height="23"> <div align="center"></div></td>
+              <td width="10%"><div align="center">序号</div></td>
+              <td width="15%"><div align="center">兑换奖品</div></td>
+              <td width="10%"><div align="center">奖品积分</div></td>
+              <td width="10%"><div align="center">奖品数量</div></td>
+			  <td width="10%"><div align="center">奖品单位</div></td>
+			  <td width="22%"><div align="center">奖品图片</div></td>
+			  <td width="15%"><div align="center">操作</div></td>
             </tr>
-            <tr bgcolor="#FFFFFF">
-            	<td>
-            		{volist name='goods' id='item' key='key'}
-            		
-					<table align="center" style="margin: 10px; width: 218px; float: left; border-left: dashed 1px #00868B;border-top: dashed 1px #00868B;border-right: dashed 1px #00868B;border-bottom: dashed 1px #00868B;">
-		              		<tr>
-		              			<td rowspan="3" width="80px"><img src="{$Think.config.host_url}/public/uploads/{$item.gift_photo}" width="80px" height="80px"></td>
-		              			<td><b>{$item.gift_name}</b></td>
-		              		</tr>
-		              		<tr>
-		              			<td><font color="red">{$item.credits}积分</font></td>
-		              		</tr>
-		              		<tr>
-		              			<td><input type="button" id="buy" onclick="add_cart({$item.gift_id})" value="加入购物车" style="background-color:#008800; color: #FFF; cursor: hand;"></td>
-		              		</tr>
-		              	</table>
-            		{/volist}
-            	</td>
+            <tr bgcolor="#FFFFFF"> 
+              <td><div align="center"> <input type="checkbox" name="chkall" value="on" onclick="CheckAll(this.form)"></div></td>
+              <td colspan="12"><input type="submit" name="Submit2" value="删除选中"><input name="enews" type="hidden" value="DelMsg_all"></td>
             </tr>
+			{volist name='goods' id='item'}
+            <tr bgcolor="#FFFFFF"> 
+              <td><div align="center"><input type="checkbox" id="patient_c"></div></td>
+			  <td>{$item.id}</td>
+			  <td>{$item.gift_name}</td>
+			  <td>{$item.credits}</td>
+			  <td>{$item.num}</td>
+			  <td>份</td>
+			  <td><img src="{$Think.config.host_url}/public/uploads/{$item.gift_photo}" width="76px" height="50px" style="margin: 5px;"></td>
+			  <td>删除</td>
+            </tr>
+            {/volist}
         </tbody></table>
     </td>
   </tr>

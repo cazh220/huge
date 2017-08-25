@@ -7,17 +7,18 @@ use think\Db;
 use think\View;
 use think\Session;
 
-class Shop
+class Cart
 {	
+	//购物车列表
 	public function index()
 	{
 		$user_id = Session::get('user.user_id');
 		$param = array('page'=>1, 'page_size'=>10);
-		$Shop = model('Shop');
-		$goods_list = $Shop->goods_list($param);
-		//print_r($goods_list);die;
+		$Cart = model('Cart');
+		$cart_goods_list = $Cart->good_cart_goods($param);
+		//print_r($cart_goods_list);die;
 		$view = new View();
-		$view->assign('goods', $goods_list);
+		$view->assign('goods', $cart_goods_list);
 		return $view->fetch('index');
 	}
 	

@@ -4,15 +4,15 @@ namespace app\index\model;
 use think\Model;
 use think\Db;
 
-class Shop extends Model
+class Cart extends Model
 {
 	
-	//获取列表
-	public function goods_list($param)
+	//获取购物车信息
+	public function good_cart_goods($param)
 	{
 		$start = ($param['page']-1)*$param['page_size'];
 		$size = $param['page_size'];
-		$res = Db::query("SELECT * FROM hg_gift ORDER BY gift_id DESC LIMIT $start, $size");
+		$res = Db::query("SELECT * FROM hg_cart a LEFT JOIN hg_gift b ON a.goods_id = b.gift_id ORDER BY a.add_time DESC LIMIT $start, $size");
 		
 		return !empty($res) ? $res : array();
 	}

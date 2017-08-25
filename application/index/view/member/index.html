@@ -3,8 +3,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-		<title>
-			会员中心		</title>
+		<title>会员中心</title>
 		<style>
 			a {
 				text-decoration: none;
@@ -156,10 +155,10 @@
 			function todisplay(ss, phome) {
 				if(ss.style.display == "") {
 					ss.style.display = "none";
-					theimg = "/skin/member/images/add.gif";
+					theimg = "/public/static/index/css/new/add.gif";
 				} else {
 					ss.style.display = "";
-					theimg = "/skin/member/images/noadd.gif";
+					theimg = "/public/static/index/css/new/noadd.gif";
 				}
 				return theimg;
 			}
@@ -171,27 +170,27 @@
 			function DisplayAllMenu(imgname) {
 				if(imgname != 'menumemberimg' && domenumember.style.display == "") {
 					domenumember.style.display = "none";
-					document.images.menumemberimg.src = "/skin/member/images/add.gif";
+					document.images.menumemberimg.src = "/public/static/index/css/new/add.gif";
 				}
 				if(imgname != 'menumsgimg' && domenumsg.style.display == "") {
 					domenumsg.style.display = "none";
-					document.images.menumsgimg.src = "/skin/member/images/add.gif";
+					document.images.menumsgimg.src = "/public/static/index/css/new/add.gif";
 				}
 				if(imgname != 'menuinfoimg' && domenuinfo.style.display == "") {
 					domenuinfo.style.display = "none";
-					document.images.menuinfoimg.src = "/skin/member/images/add.gif";
+					document.images.menuinfoimg.src = "/public/static/index/css/new/add.gif";
 				}
 				if(imgname != 'menuspaceimg' && domenuspace.style.display == "") {
 					domenuspace.style.display = "none";
-					document.images.menuspaceimg.src = "/skin/member/images/add.gif";
+					document.images.menuspaceimg.src = "/public/static/index/css/new/add.gif";
 				}
 				if(imgname != 'menupayimg' && domenupay.style.display == "") {
 					domenupay.style.display = "none";
-					document.images.menupayimg.src = "/skin/member/images/add.gif";
+					document.images.menupayimg.src = "/public/static/index/css/new/add.gif";
 				}
 				if(imgname != 'menushopimg' && domenushop.style.display == "") {
 					domenushop.style.display = "none";
-					document.images.menushopimg.src = "/skin/member/images/add.gif";
+					document.images.menushopimg.src = "/public/static/index/css/new/add.gif";
 				}
 			}
 		</script>
@@ -217,21 +216,21 @@
 	
 		<div class="wrap" style="margin-bottom:120px">
 			<div style="margin:10px 0">
-				<a href="http://www.zhulu.com/">首页</a>&nbsp;&gt;&nbsp;<a href="http://www.zhulu.com/e/member/cp/">会员中心</a>			</div>
+				<a href="http://huge.com/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="http://huge.com/public/index.php/index/member/">会员中心</a>			</div>
 			<table width="960" border="0" align="center" cellpadding="12" cellspacing="1" bgcolor="#7fb926">
 				<tbody><tr>
 					<td width="20%" valign="top" bgcolor="#FFFFFF">
 												<table width="180" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
 							<tbody><tr class="header" id="domenumemberid" onmouseup="turnit(domenumember,&#39;menumemberimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/noadd.gif" name="menumemberimg" width="20" height="9" border="0">帐号</td>
+								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menumemberimg" width="20" height="9" border="0">帐号</td>
 							</tr>
-							</tbody><tbody id="domenumember">
+							</tbody><tbody id="domenumember" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="edit_member">修改资料</a>
+													<a href="../member/edit_member">修改资料</a>
 												</td>
 											</tr>
 											<tr>
@@ -241,22 +240,7 @@
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/my/">帐号状态</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/fava/">收藏夹</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/friend/">好友列表</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/memberconnect/ListBind.php">绑定外部登录</a>
+													<a href="../patient/">患者列表</a>
 												</td>
 											</tr>
 										</tbody></table>
@@ -264,131 +248,44 @@
 								</tr>
 							</tbody>
 							<tbody><tr class="header" id="domenumsgid" onmouseup="turnit(domenumsg,&#39;menumsgimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menumsgimg" width="20" height="9" border="0">站内消息</td>
+								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menumsgimg" width="20" height="9" border="0">积分管理</td>
 							</tr>
-							</tbody><tbody id="domenumsg" style="display:none">
+							</tbody><tbody id="domenumsg" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-											<tbody><tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/msg/AddMsg/?enews=AddMsg">发送消息</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/msg/">消息列表</a>
-												</td>
-											</tr>
+											<tbody>
+												<tr>
+													<td bgcolor="#FFFFFF">
+														<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
+															<tbody><tr>
+																<td height="32">
+																	<a href="../credits/search_credits">积分查询</a>
+																</td>
+															</tr>
+															<tr>
+																<td height="32">
+																	<a href="http://www.zhulu.com/e/member/msg/">积分明细</a>
+																</td>
+															</tr>
+														</tbody></table>
+													</td>
+												</tr>
 										</tbody></table>
 									</td>
 								</tr>
 							</tbody>
-							<tbody><tr class="header" id="domenuinfoid" onmouseup="turnit(domenuinfo,&#39;menuinfoimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuinfoimg" width="20" height="9" border="0">投稿</td>
-							</tr>
-							</tbody><tbody id="domenuinfo" style="display:none">
-								<tr>
-									<td bgcolor="#FFFFFF">
-										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-																							<tbody><tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=1">
-															管理
-																新闻																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=1">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=2">
-															管理
-																软件																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=2">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=3">
-															管理
-																图片																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=3">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=4">
-															管理
-																FLASH																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=4">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=7">
-															管理
-																文章																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=7">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=8">
-															管理
-																分类信息																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=8">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																						</tbody></table>
-									</td>
-								</tr>
-							</tbody>
+							
 							<tbody><tr class="header" id="domenuspaceid" onmouseup="turnit(domenuspace,&#39;menuspaceimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">会员空间</td>
+								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">商城管理</td>
 							</tr>
-							</tbody><tbody id="domenuspace" style="display:none">
+							</tbody><tbody id="domenuspace" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/space/?userid=173">预览空间</a>
+													<a href="../shop/">积分商城</a>
 												</td>
 											</tr>
 											<tr>
@@ -420,7 +317,9 @@
 									<a href="http://www.zhulu.com/e/member/doaction.php?enews=exit" onclick="return confirm(&#39;确认要退出?&#39;);">退出</a>
 								</td>
 							</tr>
-						</tbody></table>
+						</tbody>
+			
+			</table>
 											</td>
 					<td width="80%" height="420" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="1" cellpadding="3" class="tableborder">
   <tbody><tr class="header" style="text-align:center"> 
