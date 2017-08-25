@@ -7,36 +7,20 @@ use think\Db;
 use think\View;
 use think\Session;
 
-class Member
+class Patient
 {	
 	public function index()
 	{
 		//获取我的信息
 		$user_id = Session::get('user.user_id');
-		$Member = model('Member');
-		$user = $Member->get_my_detail($user_id);
-		//print_r($user);die;
-		if($user[0]['user_type'] == 1)
-		{
-			$user[0]['user_type_name'] = '技工';
-		}
-		else
-		{
-			$user[0]['user_type_name'] = '医生';
-		}
-		//print_r($user);die;
-		//获取区域名称
-		$Region = model('Region');
-		$province_name = $Region->get_area($user[0]['province']);
-		$city_name = $Region->get_area($user[0]['city']);
-		$district_name = $Region->get_area($user[0]['district']);
 		
-		$user[0]['province_name'] = $province_name ? $province_name : '';
-		$user[0]['city_name'] = $city_name ? $city_name : '';
-		$user[0]['district_name'] = $district_name ? $district_name : '';
-		
+		$param = array('page'=>1, 'page_size'=>10);
+		$Patient = model('Patient');
+		$res = $Patient->patient_list($param);
+		//print_r($res);die;
 		$view = new View();
-		$view->assign('user', $user[0]);
+		//$view->assign('user', $user[0]);
+		$view->assign('list', $res);
 		return $view->fetch('index');
 	}
 
@@ -139,6 +123,7 @@ class Member
 			//return array('error'=>$files->getError(), 'status'=>0);
 			return array('status'=>0, 'image'=>'');
 		} 
+		
 	}
 	
 	public function search_security_code()

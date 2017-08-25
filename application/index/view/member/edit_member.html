@@ -430,7 +430,8 @@
 </tbody></table>
 <br>
 <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
-  <form name="userinfoform" method="post" enctype="multipart/form-data" action="do_edit_member"></form>
+
+  <form name="userinfoform" method="post" enctype="multipart/form-data" action="do_edit_member">
     <input type="hidden" name="enews" value="EditInfo">
 	<input type="hidden" name="user_id" value="{$user.user_id}">
     <tbody><tr class="header"> 
@@ -536,7 +537,7 @@
 			</tr>
 			<tr>
 				<td width="16%" height="25" bgcolor="ffffff">会员头像</td>
-				<td bgcolor="ffffff"><input type="file" name="userpicfile">&nbsp;&nbsp;</td>
+				<td bgcolor="ffffff"><input type="file" name="head">&nbsp;&nbsp;</td>
 			</tr>
 		</tbody>
 		</table>      
@@ -547,7 +548,7 @@
       <td height="25" bgcolor="#FFFFFF"> <input type="submit" name="Submit" value="修改信息">
       </td>
     </tr>
-  
+  </form>
 </tbody></table>
     </td>
   </tr>
