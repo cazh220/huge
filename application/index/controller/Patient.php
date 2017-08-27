@@ -21,6 +21,7 @@ class Patient
 		$view = new View();
 		//$view->assign('user', $user[0]);
 		$view->assign('list', $res);
+		$view->assign('user', Session::get('user.mobile'));
 		return $view->fetch('index');
 	}
 

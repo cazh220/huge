@@ -37,6 +37,7 @@ class Member
 		
 		$view = new View();
 		$view->assign('user', $user[0]);
+		$view->assign('users', Session::get('user.mobile'));
 		return $view->fetch('index');
 	}
 
@@ -58,6 +59,14 @@ class Member
 		$month_s = !empty($temp[1]) ? intval($temp[1]) : '';
 		$day_s = !empty($temp[2]) ? intval($temp[2]) : '';
 		
+		//省市区
+		$Region = model('Region');
+		$province_list = $Region->get_province();
+		//获取市列表
+		$city_list = $Region->get_region($user[0]['province']);
+		//获取区域
+		$district_list = $Region->get_region($user[0]['city']);
+		
 		$view = new View();
 		$view->assign('user', $user[0]);
 		$view->assign('year', $year);
@@ -66,6 +75,14 @@ class Member
 		$view->assign('year_s', $year_s);
 		$view->assign('month_s', $month_s);
 		$view->assign('day_s', $day_s);
+		$view->assign('province_list', $province_list);
+		$view->assign('city_list', $city_list);
+		$view->assign('district_list', $district_list);
+		$view->assign('province_s', $user[0]['province']);
+		$view->assign('city_s', $user[0]['city']);
+		$view->assign('district_s', $user[0]['district']);
+		
+		$view->assign('users', Session::get('user.mobile'));
 		return $view->fetch('edit_member');
 	}
 	
@@ -84,7 +101,7 @@ class Member
 				$head_img = $upload['image'];
 			}
 		}
-		
+		//print_r($_POST);die;
 		
 		$year = $_POST['year'];
 		$month = $_POST['month'] < 10 ? '0'.$_POST['month'] : $_POST['month'];
@@ -102,6 +119,9 @@ class Member
 			'position'		=> $_POST['position'],
 			'company_info'	=> $_POST['company_info'],
 			'email'			=> $_POST['email'],
+			'province'		=> $_POST['province'],
+			'city'			=> $_POST['city'],
+			'district'		=> $_POST['district']
 		);
 		
 		$where['user_id'] = $_POST['user_id'];
@@ -181,5 +201,47 @@ class Member
 		exit(json_encode($return_data));
 	}
 	
+	
+	//修改密码
+	public function edit_password()
+	{
+		$user_id = Session::get('user.user_id');
+		$Member = model('Member');
+		$user = $Member->get_my_detail($user_id);
+		//print_r($user);die;
+		
+		$view = new View();
+		$view->assign('user', Session::get('user.mobile'));
+		$view->assign('user_detail', $user[0]);
+		return $view->fetch('edit_password');
+	}
+	
+	//修改密码操作
+	public function do_update_password()
+	{
+		$user_id = intval($_POST['user_id']);
+		$old_pwd = trim($_POST['oldpwd']);
+		$new_pwd = trim($_POST['newpwd']);
+		//确认老密码是否正确
+		$Member = model('Member');
+		$user = $Member->get_my_detail($user_id);
+		if($user[0]['password'] != $old_pwd)
+		{
+			echo "<script>alert('老密码不正确');history.go(-1);</script>";
+			exit();
+		}
+		
+		$res = $Member->update_pwd_byuserid($user_id, $new_pwd);
+		if(empty($res))
+		{
+			echo "<script>alert('修改失败');history.go(-1);</script>";
+		}
+		else
+		{
+			echo "<script>alert('修改成功');</script>";
+		}
+		header("Location:http://huge.com/public/index.php/index/member/");
+		exit();
+	}
 
 }

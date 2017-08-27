@@ -202,21 +202,29 @@
 			<h1 class="logo fl">
 				<a href="http://huge.com/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
 			</h1>
+			
 			<div class="info fr">
 				<div class="login fr">
+					{if condition="$users neq ''"}
+					<font color="#ccc">欢迎您，{$users}! <span>|</span>
+					<!--<a href="http://huge.com/public/index.php/index/index/resetpwd">修改密码</a><span>|</span>-->
+					<a href="http://huge.com/public/index.php/index/member/">会员中心</a><span>|</span>
+					<a href="http://huge.com/public/index.php/index/index/logout">退出</a></font>
+					{else /}
 					<a href="http://huge.com/public/index.php/index/index/register">注册</a><span>|</span>
 					<a href="http://huge.com/public/index.php/index/index/login">登录</a>
 					<!-- 登录 -->
-
+					{/if}
 				</div>
 			</div>
+			
 		</div>
 	</header>
 	
 	
 		<div class="wrap" style="margin-bottom:120px">
 			<div style="margin:10px 0">
-				<a href="http://huge.com/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="http://huge.com/public/index.php/index/member/">会员中心</a>			</div>
+				<a href="{$Think.config.host_url}/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="{$Think.config.host_url}/public/index.php/index/member/">会员中心</a>			</div>
 			<table width="960" border="0" align="center" cellpadding="12" cellspacing="1" bgcolor="#7fb926">
 				<tbody><tr>
 					<td width="20%" valign="top" bgcolor="#FFFFFF">
@@ -230,17 +238,17 @@
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="../member/edit_member">修改资料</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/member/edit_member">修改资料</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/EditInfo/EditSafeInfo.php">修改安全信息</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/member/edit_password">修改安全信息</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="../patient/">患者列表</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/patient/">患者列表</a>
 												</td>
 											</tr>
 										</tbody></table>
@@ -259,15 +267,15 @@
 													<td bgcolor="#FFFFFF">
 														<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 															<tbody><tr>
-																<td height="32">
-																	<a href="../credits/search_credits">积分查询</a>
-																</td>
-															</tr>
-															<tr>
-																<td height="32">
-																	<a href="http://www.zhulu.com/e/member/msg/">积分明细</a>
-																</td>
-															</tr>
+															<td height="32">
+																<a href="{$Think.config.host_url}/public/index.php/index/credits/search_credits">积分查询</a>
+															</td>
+														</tr>
+														<tr>
+															<td height="32">
+																<a href="{$Think.config.host_url}/public/index.php/index/credits/detail">积分明细</a>
+															</td>
+														</tr>
 														</tbody></table>
 													</td>
 												</tr>
@@ -283,38 +291,28 @@
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-											<tbody><tr>
+											<tbody>
+											<tr>
 												<td height="32">
-													<a href="../shop/">积分商城</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/shop/index">积分商城</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/SetSpace.php">设置空间</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/cart/index">我的购物车</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/ChangeStyle.php">选择模板</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/gbook.php">管理留言</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/feedback.php">管理反馈</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/order/index">我的兑换订单</a>
 												</td>
 											</tr>
 										</tbody></table>
 									</td>
-								</tr>
 							</tbody>
 							<tbody><tr class="header">
 								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/noadd.gif" width="20" height="9" border="0">
-									<a href="http://www.zhulu.com/e/member/doaction.php?enews=exit" onclick="return confirm(&#39;确认要退出?&#39;);">退出</a>
+									<a href="{$Think.config.host_url}/public/index.php/index/index/logout">退出</a>
 								</td>
 							</tr>
 						</tbody>

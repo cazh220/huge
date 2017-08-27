@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- saved from url=(0034)http://www.zhulu.com/e/member/msg/ -->
+<!-- saved from url=(0033)http://www.zhulu.com/e/member/cp/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-		<title>患者列表</title>
+		<title>积分明细</title>
 		<style>
 			a {
 				text-decoration: none;
@@ -200,12 +200,12 @@
 		<header>
 		<div class="wrap">
 			<h1 class="logo fl">
-				<a href="{$Think.config.host_url}/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
+				<a href="http://huge.com/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
 			</h1>
 			<div class="info fr">
 				<div class="login fr">
-					{if condition="$user neq ''"}
-					<font color="#ccc">欢迎您，{$user}! <span>|</span>
+					{if condition="$users neq ''"}
+					<font color="#ccc">欢迎您，{$users}! <span>|</span>
 					<!--<a href="http://huge.com/public/index.php/index/index/resetpwd">修改密码</a><span>|</span>-->
 					<a href="{$Think.config.host_url}/public/index.php/index/member/">会员中心</a><span>|</span>
 					<a href="{$Think.config.host_url}/public/index.php/index/index/logout">退出</a></font>
@@ -219,10 +219,11 @@
 		</div>
 	</header>
 	
+	
 		<div class="wrap" style="margin-bottom:120px">
 			<div style="margin:10px 0">
-				<a href="{$Think.config.host_url}/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="{$Think.config.host_url}/public/index.php/index/member/">会员中心</a>&nbsp;&gt;&nbsp;患者列表		</div>
-			<table width="1200" border="0" align="center" cellpadding="12" cellspacing="1" bgcolor="#7fb926">
+				<a href="{$Think.config.host_url}/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="{$Think.config.host_url}/public/index.php/index/credits/search_credits">积分管理</a>&nbsp;&gt;&nbsp;积分明细</div>
+				<table width="1200" border="0" align="center" cellpadding="12" cellspacing="1" bgcolor="#7fb926">
 				<tbody><tr>
 					<td width="20%" valign="top" bgcolor="#FFFFFF">
 												<table width="180" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
@@ -259,16 +260,23 @@
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-											<tbody><tr>
-												<td height="32">
-													<a href="{$Think.config.host_url}/public/index.php/index/credits/search_credits">我的积分</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="{$Think.config.host_url}/public/index.php/index/credits/detail">积分明细</a>
-												</td>
-											</tr>
+											<tbody>
+												<tr>
+													<td bgcolor="#FFFFFF">
+														<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
+															<tbody><tr>
+																<td height="32">
+																	<a href="{$Think.config.host_url}/public/index.php/index/credits/search_credits">我的积分</a>
+																</td>
+															</tr>
+															<tr>
+																<td height="32">
+																	<a href="{$Think.config.host_url}/public/index.php/index/credits/detail">积分明细</a>
+																</td>
+															</tr>
+														</tbody></table>
+													</td>
+												</tr>
 										</tbody></table>
 									</td>
 								</tr>
@@ -308,62 +316,53 @@
 								</td>
 							</tr>
 						</tbody></table>
-											</td>
-					<td width="80%" height="420" valign="top" bgcolor="#FFFFFF"><script>
-function CheckAll(form)
-  {
-  for (var i=0;i<form.elements.length;i++)
-    {
-    var e = form.elements[i];
-    if (e.name != 'chkall')
-       e.checked = form.chkall.checked;
-    }
-  }
-</script> 
-        <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
-            <tbody><tr>
-              <td width="50%" height="30" bgcolor="#FFFFFF">&nbsp;</td>
-              <td width="50%" bgcolor="#FFFFFF"><div align="right"></div></td>
+			</td>
+					<td width="80%" height="420" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="1" cellpadding="3" class="tableborder">
+  <tbody><tr class="header" style="text-align:center"> 
+    <td height="40">我的积分</td>
+  </tr>
+  <tr> 
+    <td height="25" bgcolor="#FFFFFF"> <table width="100%" border="0" cellspacing="1" cellpadding="3">
+        <tbody><tr> 
+          <td> <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder" style="text-align:center">
+              <tbody><tr class="header"> 
+              <td width="10%"><div align="center">ID</div></td>
+              <td width="30%"><div align="center">类别</div></td>
+              <td width="30%"><div align="center">积分数量</div></td>
+			  <td width="30%"><div align="center">时间</td>
             </tr>
-        </tbody></table>
-        <br>
-        <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
-          <form name="listmsg" method="post" action="http://www.zhulu.com/e/member/doaction.php" onsubmit="return confirm(&#39;确认要删除?&#39;);"></form>
-            <tbody><tr class="header"> 
-              <td width="4%" height="23"> <div align="center"></div></td>
-              <td width="5%"><div align="center">序号</div></td>
-              <td width="10%"><div align="center">防伪码</div></td>
-              <td width="10%"><div align="center">所属单位</div></td>
-              <td width="10%"><div align="center">患者姓名</div></td>
-			  <td width="5%"><div align="center">性别</div></td>
-			  <td width="5%"><div align="center">年龄</div></td>
-			  <td width="10%"><div align="center">门诊医院</div></td>
-			  <td width="7%"><div align="center">主治医生</div></td>
-			  <td width="12%"><div align="center">牙位</div></td>
-			  <td width="10%"><div align="center">义齿类别</div></td>
-			  <td width="10%"><div align="center">患者手机号</div></td>
-            </tr>
-            <tr bgcolor="#FFFFFF"> 
-              <td><div align="center"> <input type="checkbox" name="chkall" value="on" onclick="CheckAll(this.form)"></div></td>
-              <td colspan="12"><input type="submit" name="Submit2" value="删除选中"><input name="enews" type="hidden" value="DelMsg_all"></td>
-            </tr>
-			{volist name='list' id='item'}
-            <tr bgcolor="#FFFFFF"> 
-              <td><div align="center"><input type="checkbox" id="patient_c"></div></td>
-			  <td>{$item.patient_id}</td>
-			  <td>{$item.security_code}</td>
-			  <td>{$item.production_unit}</td>
-			  <td>{$item.name}</td>
-			  <td>{if condition="$item.sex eq 1"}男{else /}女{/if}</td>
-			  <td>{$item.birthday}</td>
-			  <td>{$item.hospital}</td>
-			  <td>{$item.doctor}</td>
-			  <td>{$item.tooth_position}</td>
-			  <td>{$item.false_tooth_name}</td>
-			  <td>{$item.mobile}</td>
-            </tr>
-            {/volist}
-        </tbody></table>
+			{empty name="list"}
+				<tr bgcolor="#FFFFFF"> 
+				  <td colspan="7">尚无信息</td>
+				</tr>
+			{else /}
+				{volist name="list" id="items"}
+				   
+					<tr bgcolor="#FFFFFF"> 
+					  <td>{$items.id}</td>
+					  <td>{$items.type_name}</td>
+					  <td>{$items.credits}</td>
+					  <td>{$items.create_time}</td>
+					  <td>
+					  <table style="text-align:center" width="100%">
+					  </table>
+					  </td>
+					</tr>
+				{/volist}
+			{/empty}
+			
+        </tbody>
+			  
+			  </table>
+            <div align="center"> </div></td>
+        </tr>
+      </tbody></table> 
+    </td>
+  </tr>
+ 
+      </tbody></table></td>
+  </tr>
+</tbody></table>
     </td>
   </tr>
 </tbody></table>
@@ -375,10 +374,15 @@ function CheckAll(form)
 </div>
 <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/index/css/new/style.css">
 
+<!--
+        	作者：363248783@qq.com
+        	时间：2016-06-19
+        	描述：footer开始
+        -->
 	<div class="footer">
 		<div class="wrap">
 			<div class="f_logo fl">
-				<!-- <img src="./消息列表_files/footer_logo.png"> -->
+				<img src="{$Think.config.host_url}/public/static/index/css/new/footer_logo.png">
 			</div>
 			<div class="link fl">
 				<p>友情链接：</p>
@@ -388,35 +392,45 @@ function CheckAll(form)
 				<a href="http://yangcongbao.com/" target="_blank">洋葱报</a>
 				<a href="http://www.0731zkw.com/" target="_blank">湖南自考网</a>
 			</div>
-			<!-- <div class="wx t-cen fr">
-				<img src="./消息列表_files/wx.jpg">
+			<div class="wx t-cen fr">
+				<img src="./会员中心_files/wx.jpg">
 				<p>扫一扫，关注逐鹿网</p>
-			</div> -->
+			</div>
 		</div>
 
 		<div class="keep">
 			<div class="wrap">
 				<ul class="row">
 					<li>
-						<a href="http://www.zhulu.com/e/member/msg/#">关于逐鹿 </a>
+						<a href="http://www.zhulu.com/e/member/cp/#">关于逐鹿 </a>
 					</li>
 					<li>
-						<a href="http://www.zhulu.com/e/member/msg/#">加入我们</a>
+						<a href="http://www.zhulu.com/e/member/cp/#">加入我们</a>
 					</li>
 					<li>
-						<a href="http://www.zhulu.com/e/member/msg/#"> 联系方式 </a>
+						<a href="http://www.zhulu.com/e/member/cp/#"> 联系方式 </a>
 					</li>
 					<li>
-						<a href="http://www.zhulu.com/e/member/msg/#"> 合作伙伴</a>
+						<a href="http://www.zhulu.com/e/member/cp/#"> 合作伙伴</a>
 					</li>
 					<li>
 						<a href="http://www.zhulu.com/baiduSitemap.xml"> sitemap </a>
 					</li>
 				</ul>
 
-				<p class="t-cen">Copyright © 2017 沪鸽 All Rights Reserved 沪ICP备15001344号</p>
+				<p class="t-cen">Copyright © 2015 逐鹿网 All Rights Reserved 京ICP备15001344号-1</p>
 			</div>
 		</div>
 	</div>
+	<!--
+        	作者：363248783@qq.com
+        	时间：2016-06-19
+        	描述：footer结束
+        -->
+
+
+
+
+
 
 </body></html>

@@ -70,11 +70,17 @@ class Patient
 		$year_ary = range(1920,2050);
 		$month_ary = range(1,12);
 		$day_ary = range(1,31);
-
+		
+		// 获取省
+		$Region = Model("Region");
+		$province = $Region->get_region(1);
+		
 		$view = new View();
 		$view->assign('year', $year_ary);
 		$view->assign('month', $month_ary);
 		$view->assign('day', $day_ary);
+		$view->assign('province', $province);
+		$view->assign('province_id', 1);
 		$view->assign('patient', $res['data'][0]);
 		return $view->fetch('index/patient/edit_patient');
 	}

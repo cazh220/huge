@@ -17,4 +17,17 @@ class Region extends Model
 		
 		return $res['name'] ? $res['name'] : '';
 	}
+	
+	//获取区域
+	public function get_region($region_id)
+	{
+		$res = array();
+		if (!empty($region_id))
+		{
+			$res = Db::table('hg_region')->where('parent_id',$region_id)->select();
+
+		}
+		
+		return $res ? $res : array();
+	}
 }

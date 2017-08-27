@@ -17,6 +17,7 @@ class Shop
 		$goods_list = $Shop->goods_list($param);
 		//print_r($goods_list);die;
 		$view = new View();
+		$view->assign('user', Session::get('user.mobile'));
 		$view->assign('goods', $goods_list);
 		return $view->fetch('index');
 	}

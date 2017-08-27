@@ -20,7 +20,7 @@ class Shop extends Model
 	//加入购物车
 	public function add_cart($param)
 	{
-		$sql = "INSERT INTO hg_cart(user_id, goods_id, add_time)VALUES(".$param['user_id'].", ".$param['goods_id'].", NOW())";
+		$sql = "INSERT INTO hg_cart(user_id, goods_id, goods_num, add_time)VALUES(".$param['user_id'].", ".$param['goods_id'].", 1, NOW())";
 		$res = Db::execute($sql);
 		
 		return !empty($res) ? $res : 0;

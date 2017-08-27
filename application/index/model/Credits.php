@@ -13,6 +13,14 @@ class Credits extends Model
 		return $res;
 	}
 	
+	//查询积分明细
+	public function get_credits_detil($user_id)
+	{
+		$sql = "SELECT * FROM hg_credits_flow WHERE user_id = ".$user_id;
+		$res = Db::query($sql);
+		return $res;
+	}
+	
 	
 }
 

@@ -11,6 +11,7 @@
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/bootstrap.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/ckform.js"></script>
     <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/common.js"></script>
+    <script type="text/javascript" src="{$Think.config.host_url}/public/static/Js/my.js"></script>
 
  
 
@@ -74,10 +75,23 @@
 			</select>日
 			</td>
 		</tr>
-		<tr>
+		<!--<tr>
 			<td class="tableleft">城市：</td>
-			<td><input type="text" name="company_name" value=""/></td>
-		</tr>
+			<td>
+				<select id="province" name="province" onchange="select_province(this.value)">
+					<option value="">请选择</option>
+					{volist id="item" name="province"}
+					<option value="{$item.id}" {if condition="$item.id eq $province_id"}selected{/if}>{$item.name}</option>
+					{/volist}
+				</select>
+				<select id="city" name="city" onchange="select_city(this.value)">
+					<option value="">请选择</option>
+				</select>
+				<select id="district" name="district">
+					<option value="">请选择</option>
+				</select>
+			<!--<input type="text" name="company_name" value=""/>--></td>
+		</tr>-->
 		<tr>
 			<td class="tableleft">门诊医院：</td>
 			<td><input type="text" name="hospital" value="{$patient.hospital}"/></td>

@@ -54,6 +54,13 @@ class Member extends Model
 		return $res;
 	}
 	
+	//更新密码
+	public function update_pwd_byuserid($user_id, $password)
+	{
+		$res = Db::execute("UPDATE hg_user SET password = :password WHERE user_id = :user_id", ['user_id'=>$user_id, 'password'=>$password]);
+		return $res;
+	}
+	
 	//更新用户信息
 	public function update_user($data, $where)
 	{
@@ -67,8 +74,15 @@ class Member extends Model
 		}
 		$sql = rtrim($sql,',');
 		$sql .= " WHERE user_id = ".$where['user_id'];//echo $sql;die;
-		$res = Db::execute($sql);
-		return $res;
+		try
+		{
+			$res = Db::execute($sql);
+			return true;
+		}
+		catch(\Exception $e)
+		{
+			return false;
+		}
 	}
 	
 }

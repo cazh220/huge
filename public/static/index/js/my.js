@@ -174,7 +174,7 @@ function login_s()
 				}
 				else
 				{
-					window.location.href='index';
+					window.location.href='member/index';
 				}
 			}
 	});

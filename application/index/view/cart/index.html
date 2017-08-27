@@ -130,9 +130,173 @@
 		<script src="{$Think.config.host_url}/public/static/index/js/jquery.js"></script>
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 		<script lanuage="JScript">
-			function minus()
+			function minus(id, score)
 			{
-				alert('112');	
+				var num = $("#goods_num_"+id).val();
+				num--;
+				if(num <= 0)
+				{
+					num = 0;
+				}
+				
+				$("#goods_num_"+id).val(num);
+				//获取所需积分
+				var need = parseInt($("#need_credits").text());
+				need -= parseInt(score);
+				if(need <= 0)
+				{
+					need = 0;
+				}
+				$("#need_credits").html(need);
+				
+			}
+			
+			function plus(id, score)
+			{
+				var num = $("#goods_num_"+id).val();
+				num++;
+				$("#goods_num_"+id).val(num);
+				//获取所需积分
+				var need = parseInt($("#need_credits").text());
+				need += parseInt(score);
+				$("#need_credits").html(need);
+				//console.log(need);
+			}
+			
+			//删除购物车中商品
+			function delete_goods(id)
+			{
+				$.ajax({
+					type:"post",
+					url:"cart/delete_cart_goods",
+					data:'id='+id,
+					dataType:'json',
+					success:function(msg)
+					{
+						//console.log(msg);
+						alert(msg.message);
+						window.location.href="cart/index";
+					}
+				});
+			}
+			
+			//清空购物车
+			function clear_cart()
+			{
+				$.ajax({
+					type:"post",
+					url:"cart/clear_cart_goods",
+					dataType:'json',
+					success:function(msg)
+					{
+						//console.log(msg);
+						alert(msg.message);
+						window.location.href="cart/index";
+					}
+				});
+			}
+			
+			//兑换奖品
+			function create_order()
+			{
+				//检验地址
+				var province = $("#province").val();
+				var city = $("#city").val();
+				var district = $("#district").val();
+				if(province==''||city==''||district=='')
+				{
+					alert('请选择收货地址区域');
+					return false;
+				}
+				//邮编
+				var zipcode = $("#zip_code").val();
+				//收货人
+				var consignee = $("#consignee").val();
+				if(consignee == '')
+				{
+					alert('请填写收货人');
+					return false;
+				}
+				//收货电话：
+				var mobile = $("#mobile").val();
+				if(mobile=='')
+				{
+					alert('请填写收货电话');
+					return false;
+				}
+				//详细地址
+				var address = $("#address").val();
+				if(address=='')
+				{
+					alert('请填写详细收货地址');
+					return false;
+				}
+				
+				//传奖品数量
+				var data = new Array();
+				$(".goods_num").each(function(i){
+					goods_id = $(this).data('id');
+					num = $(this).val();
+					val = goods_id+':'+num;
+					data.push(val);
+				});
+				
+				var address_json;
+				address_json = {"province":province,"city":city,"district":district,"zipcode":zipcode,"consignee":consignee,"mobile":mobile,"address":address};
+				//console.log(address_json);
+				//return false;
+				$.ajax({
+					type:"post",
+					url:"http://huge.com/public/index.php/index/cart/order_create",
+					data:'detail='+JSON.stringify(data)+'&address='+JSON.stringify(address_json),
+					dataType:'json',
+					success:function(msg)
+					{
+						//console.log(msg);
+						alert(msg.message);
+						window.location.href="http://huge.com/public/index.php/index/cart/index";
+					}
+				});
+				
+			}
+			
+			//选择省获取市
+			function change_province(id)
+			{
+				$.ajax({
+					type:"get",
+					url:"http://huge.com/public/index.php/index/Region/get_region",
+					data:'id='+id,
+					dataType:'json',
+					success:function(msg)
+					{
+						var txt = "<option value=''>请选择</option>";
+					    $.each(msg, function(i,n){
+							txt += "<option value='"+n.id+"'>"+n.name+"</option>"
+						});
+						$("#city").html(txt);
+						//window.location.href="cart/index";
+					}
+				});
+			}
+			
+			//选择市获取区
+			function change_city(id)
+			{
+				$.ajax({
+					type:"get",
+					url:"http://huge.com/public/index.php/index/Region/get_region",
+					data:'id='+id,
+					dataType:'json',
+					success:function(msg)
+					{
+						var txt = "<option value=''>请选择</option>";
+					    $.each(msg, function(i,n){
+							txt += "<option value='"+n.id+"'>"+n.name+"</option>"
+						});
+						$("#district").html(txt);
+					}
+				});
 			}
 			
 			function DisplayImg(ss, imgname, phome) {
@@ -206,22 +370,30 @@
 		<header>
 		<div class="wrap">
 			<h1 class="logo fl">
-				<a href="http://huge.com/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
+				<a href="{$Think.config.host_url}/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
 			</h1>
+			
 			<div class="info fr">
 				<div class="login fr">
-					<a href="http://huge.com/public/index.php/index/index/register">注册</a><span>|</span>
-					<a href="http://huge.com/public/index.php/index/index/login">登录</a>
+					{if condition="$user neq ''"}
+					<font color="#ccc">欢迎您，{$user}! <span>|</span>
+					<!--<a href="http://huge.com/public/index.php/index/index/resetpwd">修改密码</a><span>|</span>-->
+					<a href="{$Think.config.host_url}/public/index.php/index/member/">会员中心</a><span>|</span>
+					<a href="{$Think.config.host_url}/public/index.php/index/index/logout">退出</a></font>
+					{else /}
+					<a href="{$Think.config.host_url}/public/index.php/index/index/register">注册</a><span>|</span>
+					<a href="{$Think.config.host_url}/public/index.php/index/index/login">登录</a>
 					<!-- 登录 -->
-
+					{/if}
 				</div>
 			</div>
+			
 		</div>
 	</header>
 	
 		<div class="wrap" style="margin-bottom:120px">
 			<div style="margin:10px 0">
-				<a href="http://www.zhulu.com/">首页</a>&nbsp;&gt;&nbsp;<a href="http://www.zhulu.com/e/member/cp/">会员中心</a>&nbsp;&gt;&nbsp;消息列表&nbsp;&nbsp;(<a href="http://www.zhulu.com/e/member/msg/AddMsg/?enews=AddMsg">发送消息</a>)			</div>
+				<a href="{$Think.config.host_url}/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="{$Think.config.host_url}/public/index.php/index/shop/index">积分商城</a>&nbsp;&gt;&nbsp;我的购物车		</div>
 			<table width="1200" border="0" align="center" cellpadding="12" cellspacing="1" bgcolor="#7fb926">
 				<tbody><tr>
 					<td width="20%" valign="top" bgcolor="#FFFFFF">
@@ -235,17 +407,17 @@
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="../member/edit_member">修改资料</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/member/edit_member">修改资料</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/EditInfo/EditSafeInfo.php">修改安全信息</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/member/edit_password">修改安全信息</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="../patient/">患者列表</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/patient/">患者列表</a>
 												</td>
 											</tr>
 										</tbody></table>
@@ -261,12 +433,12 @@
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="../credits/search_credits">积分查询</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/credits/search_credits">积分查询</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/msg/">积分明细</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/credits/detail">积分明细</a>
 												</td>
 											</tr>
 										</tbody></table>
@@ -275,36 +447,28 @@
 							</tbody>
 							
 							<tbody><tr class="header" id="domenuspaceid" onmouseup="turnit(domenuspace,&#39;menuspaceimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">会员空间</td>
+								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">积分商城</td>
 							</tr>
 							</tbody><tbody id="domenuspace" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-											<tbody><tr>
+											<tbody>
+											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/space/?userid=173">预览空间</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/shop/index">积分商城</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/SetSpace.php">设置空间</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/cart/index">我的购物车</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/ChangeStyle.php">选择模板</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/order/index">我的兑换订单</a>
 												</td>
 											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/gbook.php">管理留言</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/feedback.php">管理反馈</a>
-												</td>
 											</tr>
 										</tbody></table>
 									</td>
@@ -312,7 +476,7 @@
 							</tbody>
 							<tbody><tr class="header">
 								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/noadd.gif" width="20" height="9" border="0">
-									<a href="http://www.zhulu.com/e/member/doaction.php?enews=exit" onclick="return confirm(&#39;确认要退出?&#39;);">退出</a>
+									<a href="{$Think.config.host_url}/public/index.php/index/index/logout" onclick="return confirm(&#39;确认要退出?&#39;);">退出</a>
 								</td>
 							</tr>
 						</tbody></table>
@@ -330,40 +494,84 @@ function CheckAll(form)
 </script> 
         <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
             <tbody><tr>
-              <td width="50%" height="30" bgcolor="#FFFFFF">&nbsp;</td>
-              <td width="50%" bgcolor="#FFFFFF"><div align="right">[<a href="http://www.zhulu.com/e/member/msg/AddMsg/?enews=AddMsg">发送消息</a>]&nbsp;&nbsp;</div></td>
+              <td width="50%" height="30" bgcolor="#FFFFFF"><div align="left"><b>合计：</b>共<span id="total_c" style="color:red">{$num_goods}</span>件商品;消耗积分：<span id="need_credits" style="color:red">{$need_total_credits}</span></div></td>
+              <td width="50%" bgcolor="#FFFFFF"><div align="right"><input type="button" name="clear" onclick="clear_cart()" value="清空购物车" style="height:25px; width:70px" {empty name="goods"}disabled{/empty}>&nbsp;&nbsp;<input type="button" name="create_order" onclick="create_order()" value="兑换" style="height:25px; width:50px" {empty name="goods"}disabled{/empty}>&nbsp;&nbsp;</div></td>
             </tr>
         </tbody></table>
         <br>
         <table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder" style="text-align: center;">
           <form style="text-align: center;" name="listmsg" method="post" action="http://www.zhulu.com/e/member/doaction.php" onsubmit="return confirm(&#39;确认要删除?&#39;);"></form>
             <tbody><tr class="header"> 
-              <td width="8%" height="23"> <div align="center"></div></td>
               <td width="10%"><div align="center">序号</div></td>
-              <td width="15%"><div align="center">兑换奖品</div></td>
+              <td width="18%"><div align="center">兑换奖品</div></td>
               <td width="10%"><div align="center">奖品积分</div></td>
-              <td width="15%"><div align="center">奖品数量</div></td>
+              <td width="20%"><div align="center">奖品数量</div></td>
 			  <td width="10%"><div align="center">奖品单位</div></td>
 			  <td width="17%"><div align="center">奖品图片</div></td>
 			  <td width="15%"><div align="center">操作</div></td>
             </tr>
-            <tr bgcolor="#FFFFFF"> 
-              <td><div align="center"> <input type="checkbox" name="chkall" value="on" onclick="CheckAll(this.form)"></div></td>
-              <td colspan="12"><input type="submit" name="Submit2" value="删除选中"><input name="enews" type="hidden" value="DelMsg_all"></td>
-            </tr>
-			{volist name='goods' id='item'}
-            <tr bgcolor="#FFFFFF"> 
-              <td><div align="center"><input type="checkbox" id="patient_c"></div></td>
-			  <td>{$item.id}</td>
-			  <td>{$item.gift_name}</td>
-			  <td>{$item.credits}</td>
-			  <td><i class="fa fa-minus-square-o fa-2x" onclick="aa()"></i><input type="text" value="{$item.num}" size="3" id="goods_num"/><i class="fa fa-plus-square-o fa-2x" id="plus"></i></td>
-			  <td>份</td>
-			  <td><img src="{$Think.config.host_url}/public/uploads/{$item.gift_photo}" width="76px" height="50px" style="margin: 5px;"></td>
-			  <td>删除</td>
-            </tr>
-            {/volist}
+			{empty name="goods"}
+				<tr bgcolor="#FFFFFF"> 
+				  <td colspan="7">您的购物车内尚未选择商品！</td>
+				</tr>
+			{else /}
+				{volist name='goods' id='item'}
+				<tr bgcolor="#FFFFFF"> 
+				  <td>{$item.id}</td>
+				  <td>{$item.gift_name}</td>
+				  <td>{$item.credits}</td>
+				  <td><i class="fa fa-minus-square-o fa-2x" onclick="minus({$item.goods_id}, {$item.credits})" style="vertical-align:middle"></i>&nbsp;&nbsp;<input type="text" value="{$item.goods_num}" size="3" id="goods_num_{$item.goods_id}" data-id="{$item.goods_id}" class="goods_num" style="vertical-align:middle; line-height:20px" /><i class="fa fa-plus-square-o fa-2x" id="plus" onclick="plus({$item.goods_id}, {$item.credits})" style="vertical-align:middle"></i></td>
+				  <td>份</td>
+				  <td><img src="{$Think.config.host_url}/public/uploads/{$item.gift_photo}" width="76px" height="50px" style="margin: 5px;"></td>
+				  <td><a href="#" onclick="delete_goods({$item.goods_id})">移除</a></td>
+				</tr>
+				{/volist}
+			{/empty}
+			
         </tbody></table>
+		
+		<!--收货地址-->
+		<table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder" style="text-align: center;">
+            <tbody>
+				<tr class="header"> 
+					<td width="100%" colspan="2"><div align="left">收货地址</div></td>
+				</tr>
+				<tr bgcolor="#FFFFFF"> 
+					<td width="15%">区域：</td>
+					<td align="left">
+						<select id="province" name="province" onchange="change_province(this.value)">
+							<option value="">请选择</option>
+							{volist name='province' id='pitem'}
+							<option value="{$pitem.id}">{$pitem.name}</option>
+							{/volist}
+						</select>
+						<select id="city" name="city" onchange="change_city(this.value)">
+							<option value="">请选择</option>
+						</select>
+						<select id="district" name="district">
+							<option value="">请选择</option>
+						</select>
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF"> 
+					<td width="15%">邮编：</td>
+					<td align="left"><input type="text" id="zip_code" name="zip_code" value="" style="width:200px"></td>
+				</tr>
+				<tr bgcolor="#FFFFFF"> 
+					<td width="15%">收货人：</td>
+					<td align="left"><input type="text" id="consignee" name="consignee" value="" style="width:200px"></td>
+				</tr>
+				<tr bgcolor="#FFFFFF"> 
+					<td width="15%">收货电话：</td>
+					<td align="left"><input type="text" id="mobile" name="mobile" value="" style="width:200px"></td>
+				</tr>
+				<tr bgcolor="#FFFFFF"> 
+					<td width="15%">详细地址：</td>
+					<td align="left"><input type="text" id="address" name="address" value="" style="width:200px"></td>
+				</tr>
+			</tbody>
+		</table>
+		
     </td>
   </tr>
 </tbody></table>

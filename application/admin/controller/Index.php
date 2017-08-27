@@ -9,13 +9,14 @@ use think\Log;
 
 class Index extends Controller
 {
-	static $verify = 0;
+	static $verify = 1;
 	
     public function index()
     {
 		//print_r(Config::get('host'));die;
         $view = new View();
 		$view->assign('menu', Session::get('menu'));
+		$view->assign('username', Session::get('username'));
 		return $view->fetch();
     }
 	
@@ -34,7 +35,7 @@ class Index extends Controller
 		$username 	= !empty($username) ? addslashes(trim($username)) : '';
 		$password 	= !empty($password) ? addslashes(trim($password)) : '';
 		$code 		= !empty($code) ? addslashes(trim($code)) : '';
-
+		
 		if(!captcha_check($code) && self::$verify == 1)
 		{
 			header("Content-type:text/html;charset=utf-8");
@@ -100,7 +101,6 @@ class Index extends Controller
 		unset($_SESSION);
 		header("Location:http://huge.com/public/admin.php/admin/index/login");
 		exit();
-		//echo "1111111";
 	}
 	
 	

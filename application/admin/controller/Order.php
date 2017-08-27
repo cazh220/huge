@@ -33,16 +33,18 @@ class Order
 		$Region = Model("Region");
 		if(!empty($data['data']) && is_array($data['data']))
 		{
+			$ship_way = !empty($value['ship_way']) ? $value['ship_way'] : 0;
+			$ship_company = !empty($value['ship_company']) ? $value['ship_company'] : 1;
 			foreach($data['data'] as $key => $value)
 			{
 				$data['data'][$key]['province_name'] = $Region->get_area($value['province']);
 				$data['data'][$key]['city_name'] = $Region->get_area($value['city']);
 				$data['data'][$key]['district_name'] = $Region->get_area($value['district']);
-				$data['data'][$key]['ship_way_name'] = self::$ship_way[$value['ship_way']];
-				$data['data'][$key]['ship_company_name'] = self::$ship_company[$value['ship_company']];
+				$data['data'][$key]['ship_way_name'] = self::$ship_way[$ship_way];
+				$data['data'][$key]['ship_company_name'] = self::$ship_company[$ship_company];
 			}
 		}
-		
+
 		$view = new View();
 		$view->assign('order', $data);
 		$view->assign('page', $page);
@@ -95,8 +97,10 @@ class Order
 		{
 			foreach($res as $key => $val)
 			{
-				$res[$key]['ship_way_name'] = self::$ship_way[$val['ship_way']];
-				$res[$key]['ship_company_name'] = self::$ship_company[$val['ship_company']];
+				$ship_way = !empty($val['ship_way']) ? $val['ship_way'] : 0;
+				$ship_company = !empty($val['ship_company']) ? $val['ship_company'] : 1;
+				$res[$key]['ship_way_name'] = self::$ship_way[$ship_way];
+				$res[$key]['ship_company_name'] = self::$ship_company[$ship_company];
 			}
 		}
 

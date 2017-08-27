@@ -3,8 +3,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-		<title>
-			修改资料		</title>
+		<title>修改资料</title>
 		<style>
 			a {
 				text-decoration: none;
@@ -128,8 +127,47 @@
              }           
 
 		</style>
-
+		<script src="{$Think.config.host_url}/public/static/index/js/jquery.js"></script>
 		<script lanuage="JScript">
+			//选择省获取市
+			function change_province(id)
+			{
+				$.ajax({
+					type:"get",
+					url:"http://huge.com/public/index.php/index/Region/get_region",
+					data:'id='+id,
+					dataType:'json',
+					success:function(msg)
+					{
+						var txt = "<option value=''>请选择</option>";
+					    $.each(msg, function(i,n){
+							txt += "<option value='"+n.id+"'>"+n.name+"</option>"
+						});
+						$("#city").html(txt);
+						//window.location.href="cart/index";
+					}
+				});
+			}
+			
+			//选择市获取区
+			function change_city(id)
+			{
+				$.ajax({
+					type:"get",
+					url:"http://huge.com/public/index.php/index/Region/get_region",
+					data:'id='+id,
+					dataType:'json',
+					success:function(msg)
+					{
+						var txt = "<option value=''>请选择</option>";
+					    $.each(msg, function(i,n){
+							txt += "<option value='"+n.id+"'>"+n.name+"</option>"
+						});
+						$("#district").html(txt);
+					}
+				});
+			}
+			
 			function DisplayImg(ss, imgname, phome) {
 				if(imgname == "menumemberimg") {
 					img = todisplay(domenumember, phome);
@@ -201,14 +239,20 @@
 		<header>
 		<div class="wrap">
 			<h1 class="logo fl">
-				<a href="http://huge.com/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
+				<a href="{$Think.config.host_url}/public/index.php/index/index/"><img src="{$Think.config.host_url}/public/static/index/css/new/hg_logo.png" style="width:100px; height:45px"></a>
 			</h1>
 			<div class="info fr">
 				<div class="login fr">
-					<a href="http://huge.com/public/index.php/index/index/register">注册</a><span>|</span>
-					<a href="http://huge.com/public/index.php/index/index/login">登录</a>
+					{if condition="$users neq ''"}
+					<font color="#ccc">欢迎您，{$users}! <span>|</span>
+					<!--<a href="http://huge.com/public/index.php/index/index/resetpwd">修改密码</a><span>|</span>-->
+					<a href="{$Think.config.host_url}/public/index.php/index/member/">会员中心</a><span>|</span>
+					<a href="{$Think.config.host_url}/public/index.php/index/index/logout">退出</a></font>
+					{else /}
+					<a href="{$Think.config.host_url}/public/index.php/index/index/register">注册</a><span>|</span>
+					<a href="{$Think.config.host_url}/public/index.php/index/index/login">登录</a>
 					<!-- 登录 -->
-
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -217,7 +261,7 @@
 	
 		<div class="wrap" style="margin-bottom:120px">
 			<div style="margin:10px 0">
-				<a href="http://www.zhulu.com/">首页</a>&nbsp;&gt;&nbsp;<a href="http://www.zhulu.com/e/member/cp/">会员中心</a>&nbsp;&gt;&nbsp;修改资料			</div>
+				<a href="{$Think.config.host_url}/public/index.php/index/index/">首页</a>&nbsp;&gt;&nbsp;<a href="{$Think.config.host_url}/public/index.php/index/member/">会员中心</a>&nbsp;&gt;&nbsp;修改资料			</div>
 			<table width="960" border="0" align="center" cellpadding="12" cellspacing="1" bgcolor="#7fb926">
 				<tbody><tr>
 					<td width="20%" valign="top" bgcolor="#FFFFFF">
@@ -225,23 +269,23 @@
 							<tbody><tr class="header" id="domenumemberid" onmouseup="turnit(domenumember,&#39;menumemberimg&#39;);" style="CURSOR: hand" title="展开/收缩">
 								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menumemberimg" width="20" height="9" border="0">帐号</td>
 							</tr>
-							</tbody><tbody id="domenumember" style="display:none">
+							</tbody><tbody id="domenumember" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 											<tbody><tr>
 												<td height="32">
-													<a href="../member/edit_member">修改资料</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/member/edit_member">修改资料</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/EditInfo/EditSafeInfo.php">修改安全信息</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/member/edit_password">修改安全信息</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="../patient/">患者列表</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/patient/">患者列表</a>
 												</td>
 											</tr>
 										</tbody></table>
@@ -251,7 +295,7 @@
 							<tbody><tr class="header" id="domenumsgid" onmouseup="turnit(domenumsg,&#39;menumsgimg&#39;);" style="CURSOR: hand" title="展开/收缩">
 								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menumsgimg" width="20" height="9" border="0">积分管理</td>
 							</tr>
-							</tbody><tbody id="domenumsg" style="display:none">
+							</tbody><tbody id="domenumsg" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
@@ -261,12 +305,12 @@
 														<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
 															<tbody><tr>
 																<td height="32">
-																	<a href="../credits/search_credits">积分查询</a>
+																	<a href="{$Think.config.host_url}/public/index.php/index/credits/search_credits">积分查询</a>
 																</td>
 															</tr>
 															<tr>
 																<td height="32">
-																	<a href="http://www.zhulu.com/e/member/msg/">积分明细</a>
+																	<a href="{$Think.config.host_url}/public/index.php/index/credits/detail">积分明细</a>
 																</td>
 															</tr>
 														</tbody></table>
@@ -276,132 +320,30 @@
 									</td>
 								</tr>
 							</tbody>
-							<tbody><tr class="header" id="domenuinfoid" onmouseup="turnit(domenuinfo,&#39;menuinfoimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuinfoimg" width="20" height="9" border="0">投稿</td>
-							</tr>
-							</tbody><tbody id="domenuinfo" style="display:none">
-								<tr>
-									<td bgcolor="#FFFFFF">
-										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-																							<tbody><tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=1">
-															管理
-																新闻																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=1">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=2">
-															管理
-																软件																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=2">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=3">
-															管理
-																图片																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=3">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=4">
-															管理
-																FLASH																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=4">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=7">
-															管理
-																文章																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=7">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																								<tr>
-													<td width="74%" height="32">
-														<a href="http://www.zhulu.com/e/DoInfo/ListInfo.php?mid=8">
-															管理
-																分类信息																															</a>
-													</td>
-													<td width="26%">
-														<div align="right">
-															<a href="http://www.zhulu.com/e/DoInfo/ChangeClass.php?mid=8">
-																发布
-																																</a>
-														</div>
-													</td>
-												</tr>
-																						</tbody></table>
-									</td>
-								</tr>
-							</tbody>
+							
 							<tbody><tr class="header" id="domenuspaceid" onmouseup="turnit(domenuspace,&#39;menuspaceimg&#39;);" style="CURSOR: hand" title="展开/收缩">
-								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">会员空间</td>
+								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/add.gif" name="menuspaceimg" width="20" height="9" border="0">积分商城</td>
 							</tr>
-							</tbody><tbody id="domenuspace" style="display:none">
+							</tbody><tbody id="domenuspace" style="display:">
 								<tr>
 									<td bgcolor="#FFFFFF">
 										<table width="90%" border="0" align="right" cellpadding="3" cellspacing="1">
-											<tbody><tr>
+											<tbody>
+											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/space/?userid=173">预览空间</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/shop/index">积分商城</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/SetSpace.php">设置空间</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/cart/index">我的购物车</a>
 												</td>
 											</tr>
 											<tr>
 												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/ChangeStyle.php">选择模板</a>
+													<a href="{$Think.config.host_url}/public/index.php/index/order/index">我的兑换订单</a>
 												</td>
 											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/gbook.php">管理留言</a>
-												</td>
-											</tr>
-											<tr>
-												<td height="32">
-													<a href="http://www.zhulu.com/e/member/mspace/feedback.php">管理反馈</a>
-												</td>
 											</tr>
 										</tbody></table>
 									</td>
@@ -409,7 +351,7 @@
 							</tbody>
 							<tbody><tr class="header">
 								<td height="40"><img src="{$Think.config.host_url}/public/static/index/css/new/noadd.gif" width="20" height="9" border="0">
-									<a href="http://www.zhulu.com/e/member/doaction.php?enews=exit" onclick="return confirm(&#39;确认要退出?&#39;);">退出</a>
+									<a href="{$Think.config.host_url}/public/index.php/index/index/logout" onclick="return confirm(&#39;确认要退出?&#39;);">退出</a>
 								</td>
 							</tr>
 						</tbody></table>
@@ -417,7 +359,7 @@
 					<td width="80%" height="420" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="1" class="tableborder">
   <tbody><tr>
     <td width="50%" height="30" bgcolor="#FFFFFF">&nbsp;</td>
-    <td width="50%" bgcolor="#FFFFFF"><div align="right">[<a href="http://www.zhulu.com/e/member/EditInfo/EditSafeInfo.php">密码安全修改</a>]&nbsp;&nbsp;</div></td>
+    <td width="50%" bgcolor="#FFFFFF"><div align="right"></div></td>
   </tr>
 </tbody></table>
 <br>
@@ -503,24 +445,24 @@
 			<tr>
 				<td width="16%" height="25" bgcolor="ffffff">区域:</td>
 				<td bgcolor="ffffff">
-					<select id="year" name="year">
-						<option value="">请选择</option>
-						{volist name="year" id="_year"}
-						<option value="{$_year}" {if condition="$_year eq $year_s"}selected{/if}>{$_year}</option>
-						{/volist}
-					</select>
-					<select id="month" name="month">
-						<option value="">请选择</option>
-						{volist name="month" id="_month"}
-						<option value="{$_month}" {if condition="$_month eq $month_s"}selected{/if}>{$_month}</option>
-						{/volist}
-					</select>
-					<select id="day" name="day">
-						<option value="">请选择</option>
-						{volist name="day" id="_day"}
-						<option value="{$_day}" {if condition="$_day eq $day_s"}selected{/if}>{$_day}</option>
-						{/volist}
-					</select>
+					<select id="province" name="province" onchange="change_province(this.value)">
+							<option value="">请选择</option>
+							{volist name='province_list' id='pitem'}
+							<option value="{$pitem.id}" {if condition="$pitem.id eq $province_s"}selected{/if}>{$pitem.name}</option>
+							{/volist}
+						</select>
+						<select id="city" name="city" onchange="change_city(this.value)">
+							<option value="">请选择</option>
+							{volist name='city_list' id='citem'}
+							<option value="{$citem.id}" {if condition="$citem.id eq $city_s"}selected{/if}>{$citem.name}</option>
+							{/volist}
+						</select>
+						<select id="district" name="district">
+							<option value="">请选择</option>
+							{volist name='district_list' id='ditem'}
+							<option value="{$ditem.id}" {if condition="$ditem.id eq $district_s"}selected{/if}>{$ditem.name}</option>
+							{/volist}
+						</select>
 				</td>
 			</tr>
 			<tr>
