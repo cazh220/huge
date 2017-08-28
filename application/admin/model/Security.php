@@ -85,4 +85,47 @@ class Security extends Model
 		return $obj_data;
 	}
 	
+	//更新防伪码状态
+	public function stock_out_security_code($code='', $stock_no='')
+	{
+		if(!empty($code) &&!empty($stock_no))
+		{
+			//判断是否存在
+			$sql ="select * from hg_security_code where security_code LIKE '".$code."%'";
+			$res = Db::query($sql);
+			if($res)
+			{
+				//更新
+				$data = array('status'=>1, 'stock_no'=>$stock_no);
+				$res = Db::table('hg_security_code')->where('security_code', 'LIKE',$code.'%')->update($data);
+				if($res)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	//更新防伪码状态
+	public function update_security_code_status($status=0,$code_arr=array())
+	{
+		$in = '';
+		if($code_arr)
+		{
+			foreach($code_arr as $key => $val)
+			{
+				$in .= "'".$val."',";
+			}
+			$in = rtrim($in, ',');
+		}
+		$sql = "UPDATE hg_security_code SET status = ".$status." WHERE security_code IN ($in)";
+		echo $sql;die;
+		$res = Db::execute($sql);
+		
+		return $res ? $res : 0;
+	}
+	
+	
+	
 }
