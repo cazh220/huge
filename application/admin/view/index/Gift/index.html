@@ -27,6 +27,7 @@
 		<th><input type="checkbox" id="gift_id_all" name="gift_id_all" value=""/>全选</th>
         <th>礼品图片</th>
         <th>奖品名称</th>
+        <th>规格属性</th>
         <th>价格</th>
         <th>库存</th>
 		<th>总销量</th>
@@ -40,6 +41,7 @@
 			<td><input type="checkbox" class="gift_id" id="gift_id" name="gift_id[]" value="{$gift.gift_id}"/></td>
             <td><image src="../../../../public/uploads/{$gift.gift_photo}" width="25px" height="25px"></td>
             <td>{$gift.gift_name}</td>
+            <td>{$gift.attribute}</td>
             <td>{$gift.credits}</td>
             <td>{$gift.num}</td>
 			<td>{$gift.sales_num}</td>
@@ -47,7 +49,7 @@
 			<td>{$gift.status}</td>
             <td>
                 <a href="edit?gift_id={$gift.gift_id}">编辑奖品</a>&nbsp;&nbsp;   
-				<a href="#" data-clipboard-text="{$Think.config.host_url}copy?gift_id={$gift.gift_id}&admin_name={$gift.gift_name}" class="copy">复制链接</a>&nbsp;&nbsp;
+				<a href="#" data-clipboard-text="{$Think.config.host_url}/public/uploads/{$gift.gift_photo}" class="copy">复制链接</a>&nbsp;&nbsp;
             </td>
         </tr>
 	{/volist}		

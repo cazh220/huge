@@ -43,10 +43,14 @@ class User
 		$year = range(1920,2050);
 		$month = range(1,12);
 		$day = range(1,31);
+		
+		$year_now = date("Y", time());
+		
 		$view = new View();
 		$view->assign('year', $year);
 		$view->assign('month', $month);
 		$view->assign('day', $day);
+		$view->assign('year_now', $year_now);
 		return $view->fetch('index/user/add');
 	}
 	

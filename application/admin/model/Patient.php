@@ -8,9 +8,33 @@ use think\Paginator;
 class Patient extends Model
 {
 	//获取患者
-	public function get_patient()
+	public function get_patient($param=array())
 	{
 		$obj_data = Db::name('hg_patient')->alias('a')->join('hg_false_tooth b', 'a.false_tooth = b.false_tooth_id');
+		
+		if (!empty($param['keyword']))
+		{
+			$obj_data = $obj_data->where('name', 'like', '%'.$param['keyword'])->whereOr('hospital', 'like', '%'.$param['keyword'])->whereOr('production_unit', 'like', '%'.$param['keyword']);
+		}
+		
+		if (!empty($param['dental']))
+		{
+			$obj_data = $obj_data->where('production_unit', 'like', '%'.$param['dental']);
+		}
+		
+		if (!empty($param['hospital']))
+		{
+			$obj_data = $obj_data->where('hospital', 'like', '%'.$param['hospital']);
+		}
+		
+		if (!empty($param['start_time']) && !empty($param['end_time']))
+		{
+			$obj_data = $obj_data->where('create_time',['>=',$param['start_time']],['<=',$param['end_time']],'and');
+		}
+		
+		$obj_data = $obj_data->order('patient_id desc');
+		
+		
 		return $obj_data->paginate();
 	}
 	

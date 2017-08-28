@@ -24,8 +24,15 @@ class Order
     public function index()
     {
 		//筛选参数
+		$keyword = input("keyword");
+		$type = input("type");
+		$param = array(
+			'keyword'	=> $keyword ? trim($keyword) : '',
+			'type'		=> $type
+		);
+
 		$Order = Model("Order");
-		$res = $Order->get_order();
+		$res = $Order->get_order($param);
 		$page = $res->render();
 		
 		$data = $res->toArray();
@@ -237,6 +244,92 @@ class Order
 		$Order = Model("Order");
 		$result = $Order->update_order_status($order_status, $order_id);
 		echo "<script>window.location.href='index';</script>";
+	}
+	
+	//导出
+	public function export()
+	{
+		require_once VENDOR_PATH.'PHPExcel.php';
+		$objPHPExcel = new \PHPExcel();
+        $name = '订单';
+        $name = iconv('UTF-8', 'GBK', $name);
+        $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
+        
+		//获取列表
+		$Order = Model("Order");
+		$list = $Order->get_order()->toArray();
+		
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('J1')->getFont()->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
+        ->setCellValue('A1', '订单编号')
+//      ->setCellValue('B1', '奖品名称')
+//      ->setCellValue('C1', '奖品数量')
+        ->setCellValue('B1', '下单人')
+        ->setCellValue('C1', '配送地址')
+        ->setCellValue('D1', '快递公司')
+		->setCellValue('E1', '快递单号')
+		->setCellValue('F1', '总积分')
+		->setCellValue('G1', '订单状态')
+		->setCellValue('H1', '联系电话')
+		->setCellValue('I1', '收货人');
+		
+        $num = 0;
+        if (!empty($list['data']) && is_array($list['data']))
+        {
+            foreach($list['data'] as $k => $v){
+                $num=$k+2;
+				$ship_company = !empty($v['ship_company']) ? self::$ship_company[$v['ship_company']] : '';
+				
+				if ($v['order_status'] == 1)
+				{
+					$order_status_name = '待确认';
+				}
+				else if ($v['order_status'] == 2)
+				{
+					$order_status_name = '待发货';
+				}
+				else if ($v['order_status'] == 3)
+				{
+					$order_status_name = '已发货';
+				}
+				else if ($v['order_status'] == 4)
+				{
+					$order_status_name = '已完成';
+				}
+				else
+				{
+					$order_status_name = '未知';
+				}
+                $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
+                ->setCellValue('A'.$num, $v['order_no'])
+                ->setCellValue('B'.$num, $v['username'])
+                ->setCellValue('C'.$num, $v['address'])
+				->setCellValue('D'.$num, $ship_company)
+                ->setCellValue('E'.$num, $v['ship_no'])
+                ->setCellValue('F'.$num, $v['total_credits'])
+                ->setCellValue('G'.$num, $order_status_name)
+                ->setCellValue('H'.$num, $v['mobile'])
+				->setCellValue('I'.$num, $v['consignee']);
+            }
+        }
+
+        $objPHPExcel->getActiveSheet()->setTitle('订单');
+        $objPHPExcel->setActiveSheetIndex(0);
+        header('Content-Type: applicationnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+        header('Cache-Control: max-age=0');
+        $objWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
+        $objWriter->save('php://output');
+        exit;
 	}
 
 	

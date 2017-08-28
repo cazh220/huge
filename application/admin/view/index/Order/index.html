@@ -19,7 +19,7 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="" method="get">    
-    <input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="订单号/会员编号" value="{$Request.get.keyword}">&nbsp;&nbsp;<select id="type" name="type"><option value="">全部</option><option value="1">待确认</option><option value="2">待发货</option><option value="3">已发货</option><option value="4">已完成</option></select> 
+    <input type="text" name="keyword" id="keyword" class="abc input-default" placeholder="订单号/会员编号" value="{$Request.get.keyword}">&nbsp;&nbsp;<select id="type" name="type"><option value="">全部</option><option value="1" {if $Request.get.type eq 1}selected{/if}>待确认</option><option value="2" {if $Request.get.type eq 2}selected{/if}>待发货</option><option value="3" {if $Request.get.type eq 3}selected{/if}>已发货</option><option value="4" {if $Request.get.type eq 4}selected{/if}>已完成</option></select> 
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;<button type="button" class="btn btn-success" id="delete_user">删除</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
@@ -27,9 +27,9 @@
     <tr>
 		<th><input type="checkbox" id="all_user_id" name="all_user_id" value="">选择</th>
         <th>订单编号</th>
-        <th>奖品名称</th>
-        <th>奖品数量</th>
-        <th>会员编号</th>
+        <!--<th>奖品名称</th>
+        <th>奖品数量</th>-->
+        <th>会员名称</th>
 		<th>配送地址</th>
 		<th>配送名称</th>
 		<th>注册时间</th>
@@ -44,9 +44,9 @@
 	     <tr>
 			<td><input type="checkbox" class="c_user_id" id="c_order_id{$list.order_id}" name="order_id[]" value="{$list.order_id}"></td>
 			<td>{$list.order_no}</td>
-            <td>奖品名称</td>
-			<td>2</td>
-			<td>{$list.user_id}</td>
+            <!--<td>奖品名称</td>
+			<td>2</td>-->
+			<td>{$list.username}</td>
 			<td>{$list.province_name}-{$list.city_name}-{$list.district_name}</td>
 			<td>{$list.ship_way_name}</td>
 			<td>{$list.create_time}</td>
@@ -66,7 +66,7 @@
     $(function () {
         $('#export').click(function(){
 
-				window.location.href="export";
+				window.location.href="order/export";
 		 });
 
 		$('#addnew').click(function(){

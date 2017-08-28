@@ -20,7 +20,7 @@
 	<script src="{$Think.config.host_url}/public/static/upload/js/fileinput.js" type="text/javascript"></script>
 </head>
 <body>
-<form action="doEdit" method="post" class="definewidth m20">
+<form id="gift_form" action="doEdit" method="post" class="definewidth m20">
 <input type="hidden" id="gift_id" name="gift_id" value="{$data.gift_id}" />
 <input type="hidden" id="img_size" name="img_size" value="" />
 <table class="table table-bordered table-hover definewidth m10">
@@ -47,6 +47,10 @@
                 </div>
 				<input type="hidden" id="dtp_input2" value="" /><br/>
 		</td>
+    </tr>
+    <tr>
+        <td class="tableleft" style="line-height:27px; font-size:13px">规格属性：</td>
+        <td ><input type="text" name="attribute" id="attribute" value="{$data.attribute}" placeholder=""/></td>
     </tr>
     <tr>
         <td class="tableleft" style="line-height:27px; font-size:13px">奖品介绍：</td>

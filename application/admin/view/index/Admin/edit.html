@@ -82,7 +82,7 @@
         <tr>
             <td class="tableleft"></td>
             <td>
-                <button type="submit" class="btn btn-primary" type="button">保存</button>				 &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                <button type="submit" class="btn btn-primary" type="button" id="save">保存</button>				 &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
             </td>
         </tr>
     </table>
@@ -123,9 +123,34 @@
 		});
 		
 		$("#mobile").blur(function(){
+			var phone = $(this).val();
 			
+			if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){ 
+		        alert("手机号码不正确，请重填");  
+		        return false; 
+		    } 
 		});
 		
 
     });
+    
+    function check_admin()
+    {
+    	var username = $("#username").val();
+    	if(username == '')
+    	{
+    		alert('请填用户名');
+    		return false;
+    	}
+    	
+    	var mobile = $("#mobile").val();
+    	if(mobile == '')
+    	{
+    		alert('请填用手机号');
+    		return false;
+    	}
+    	
+    	//$("#save").attr("disabled", false);
+    	
+    }
 </script>

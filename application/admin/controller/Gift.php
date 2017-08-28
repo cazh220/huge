@@ -37,6 +37,7 @@ class Gift
 		$gift_intro = input('gift_intro');
 		$credit = input('credit');
 		$gift_pic = input('gift_pic');
+		$attribute = input('attribute');
 
 		$param = array(
 			'gift_name'		=> $gift_name,
@@ -49,6 +50,7 @@ class Gift
 			'status'		=> 0,
 			'update_time'	=> date("Y-m-d H:i:s", time()),
 			'validity_time'	=> date("Y-m-d H:i:s", time()),
+			'attribute'		=> $attribute,
 			'is_delete'		=> 0
 		);
 		$Gift = model('Gift');
@@ -97,7 +99,8 @@ class Gift
 			'update_time'	=> date("Y-m-d H:i:s", time()),
 			'validity_time'	=> date("Y-m-d H:i:s", time()),
 			'is_delete'		=> 0,
-			'gift_id'		=> $gift_id
+			'gift_id'		=> $gift_id,
+			'attribute'		=> $attribute,
 		);
 
 		$Gift = model('Gift');

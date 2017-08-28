@@ -77,4 +77,12 @@ class Security extends Model
 		return $obj_data;
 	}
 	
+	public function code_all()
+	{
+		$obj_data = $obj_data = Db::name('hg_security_code');
+		$obj_data = $obj_data->order('code_id desc')->paginate();
+		
+		return $obj_data;
+	}
+	
 }

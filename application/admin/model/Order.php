@@ -11,21 +11,16 @@ class Order extends Model
 	{
 		$obj_data = Db::name('hg_order');
 		
-		/*
 		if (!empty($param['keyword']))
 		{
-			$obj_data = $obj_data->where('username', 'like', '%'.$param['keyword'])->whereOr('mobile', 'like', '%'.$param['keyword'])->whereOr('company_name', 'like', '%'.$param['keyword']);
+			$obj_data = $obj_data->where('order_no', 'like', $param['keyword'].'%');
 		}
 		
-		if (!empty($param['dental']))
+		if(!empty($param['type']))
 		{
-			$obj_data = $obj_data->where('company_name', 'like', '%'.$param['dental']);
+			$obj_data = $obj_data->where('order_status', $param['type']);
 		}
-		
-		if (!empty($param['hospital']))
-		{
-			$obj_data = $obj_data->where('hospital', 'like', '%'.$param['hospital']);
-		}*/
+
 		
 		return $obj_data->paginate(10);
 	}

@@ -14,8 +14,8 @@ class Region extends Model
 			$res = Db::table('hg_region')->where('id',$region_id)->find();
 
 		}
-		
-		return $res['name'] ? $res['name'] : '';
+
+		return isset($res['name']) ? $res['name'] : '';
 	}
 	
 	//获取区域

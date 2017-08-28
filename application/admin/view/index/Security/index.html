@@ -50,7 +50,7 @@
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
 				<input type="hidden" id="dtp_input2" name="end_time" value="{$Request.get.end_time}" />  
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="import">导入</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出</button>
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="import">导入</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export">导出防伪码</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="export_qrcode">导出二维码专用</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
@@ -89,6 +89,10 @@
 		$('#addnew').click(function(){
 
 				window.location.href="add";
+		 });
+		 
+		 $("#export_qrcode").click(function(){
+		 	window.location.href="export_pdf";
 		 });
 
     });

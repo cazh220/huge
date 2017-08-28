@@ -39,7 +39,7 @@ class Index extends Controller
 		if(!captcha_check($code) && self::$verify == 1)
 		{
 			header("Content-type:text/html;charset=utf-8");
-            exit("<script>alert('验证码错误！');window.history.go(-1);</script>");
+            exit("<script>alert('验证码错误！');window.location.href='login?".time()."';</script>");
 		}
 		
 		$Admin = model('Admin');
@@ -49,7 +49,7 @@ class Index extends Controller
 		{
 			Log::error($username."用户名或密码错误！");
 			header("Content-type:text/html;charset=utf-8");
-            exit("<script>alert('用户名或密码错误！');window.history.go(-1);</script>");
+            exit("<script>alert('用户名或密码错误！');window.location.href='login?".time()."';</script>");
 		}
 		Log::info($username."登录成功;");
 		//写session

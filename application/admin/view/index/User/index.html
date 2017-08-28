@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>会员列表</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
@@ -81,7 +81,7 @@
 			<td>{$list.create_time}</td>
 			<td>{if condition="$list.status eq 1"}<font color="green">已审核</font>{elseif condition="$list.status eq 2"}未通过{else}<font color="red">未审核</font>{/if}</td>
 			<td>
-			<a href="history?user_id={$list.user_id}">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>&nbsp;&nbsp;<a href="#" onclick="pass({$list.user_id})">通过</a>&nbsp;&nbsp;<a href="#" onclick="refuse({$list.user_id})">拒绝</a>
+			<a href="history?user_id={$list.user_id}">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>&nbsp;&nbsp;{if condition="$list.status eq 0"}<a href="#" onclick="pass({$list.user_id})">通过</a>&nbsp;&nbsp;<a href="#" onclick="refuse({$list.user_id})">拒绝</a>{/if}
 			</td>
         </tr>
 		{/volist}		

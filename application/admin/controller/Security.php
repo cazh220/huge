@@ -237,5 +237,80 @@ class Security
 		
 		return $result;
 	}
+	
+	//导出二维码
+	public function export_pdf()
+	{
+		//获取列表
+		$Security = model('Security');
+		$list = $Security->code_all()->toArray();
+		$this->export_qrcode($list);
+	}
+	
+	public function export_qrcode($list)
+	{
+		//$path = ROOT_PATH.'data\\qrcode\\';
+		require_once VENDOR_PATH.'tcpdf\tcpdf_config.php';//加载配置
+        require_once VENDOR_PATH.'tcpdf\tcpdf.php';//引入PDF类
+        
+        $this->pdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);//实例化PDF类
+        //空就不要生成了
+        if (empty($list))
+        {
+            return true;
+        }
+        
+        $this->pdf->setCreator(PDF_CREATOR);
+        $this->pdf->setAuthor('huge');
+        $this->pdf->setTitle('防伪码二维码');
+        $this->pdf->setSubject('防伪码二维码');
+        $this->pdf->setKeywords('防伪码二维码');
+        
+        //设置页眉和页脚
+        $this->pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, '上海沪鸽', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+        $this->pdf->setFooterData(array(0,64,255), array(0,64,128));
+         
+        //设置页眉和页脚字体
+        $this->pdf->setHeaderFont(Array('stsongstdlight', '', '10'));
+        $this->pdf->setFooterFont(Array('helvetica', '', '8'));
+         
+        //设置默认等宽字体
+        $this->pdf->SetDefaultMonospacedFont('courier');
+         
+        // 设置间距
+        $this->pdf->setMargins(15, 20, 15);
+        $this->pdf->setHeaderMargin(5);
+        $this->pdf->setFooterMargin(10);
+         
+        //设置分页
+        $this->pdf->SetAutoPageBreak(TRUE, 25);
+        //set default font subsetting mode
+        $this->pdf->setFontSubsetting(true);
+         
+        //设置字体
+        $this->pdf->SetFont('cid0cs', 'B', 12);
+        //$pdf->SetFont('stsongstdlight', 'B', 24);
+        $this->pdf->AddPage();
+         
+        $subject = "防伪码二维码";
+        $this->pdf->Write(0, $subject, '', 0, 'C', true, 0, false, false, 0);
+         
+        $this->pdf->MultiCell(0, 10, '', $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0);
+         
+        $this->pdf->SetFont('stsongstdlight', '', 12);
+		
+		$table = "";
+		foreach($list['data'] as $key => $val)
+		{
+			$table .= '<div style="float:left; width:200px"><div>防伪码：'.$val["security_code"].'</div><div><img src="http://qr.liantu.com/api.php?text='.$val["security_code"].'" width="100px" height="100px"></div></div>';
+		}
+        
+        $this->pdf->writeHTML($table, true, false, false, false, '');
+        ob_end_clean();//清除缓冲区的内容
+
+        $file_path = date("Y-m-d H:i:s", time()).'_security_code.pdf';//echo $file_path;die;
+        //下载PDF
+        $this->pdf->Output($file_path, 'D');
+	}
 
 }

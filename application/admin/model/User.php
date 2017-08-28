@@ -41,6 +41,8 @@ class User extends Model
 			$obj_data = $obj_data->where('create_time',['>=',$param['start_time']],['<=',$param['end_time']],'and');
 		}
 		
+		$obj_data = $obj_data->order('user_id desc');
+		
 		return $obj_data->paginate(10);
 	}
 	

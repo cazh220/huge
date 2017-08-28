@@ -8,7 +8,7 @@ class Gift extends Model
 {
 	public function addGift($data=array())
 	{
-		$res = Db::execute("INSERT INTO hg_gift SET gift_name = :gift_name, gift_photo = :gift_photo, credits = :credits, num = :num, sales_num = :sales_num,gift_intro=:gift_intro,create_time = :create_time, status = :status, update_time = :update_time, validity_time = :validity_time, is_delete = :is_delete", $data);
+		$res = Db::execute("INSERT INTO hg_gift SET gift_name = :gift_name, gift_photo = :gift_photo, credits = :credits, num = :num, sales_num = :sales_num,gift_intro=:gift_intro,create_time = :create_time, status = :status, update_time = :update_time, validity_time = :validity_time, is_delete = :is_delete, attribute = :attribute", $data);
 		
 		return $res;
 	}
@@ -36,7 +36,7 @@ class Gift extends Model
 	{
 		$where_condition = "";
 		$where_ary = array();
-		//Æ´½Ó²ÎÊý
+		//Æ´ï¿½Ó²ï¿½ï¿½ï¿½
 		foreach($data as $key => $val)
 		{
 			array_push($where_ary, $key."= :".$key);
@@ -99,7 +99,7 @@ class Gift extends Model
 		return $res;
 	}
 	
-	//¸üÐÂÍ¼Æ¬
+	//ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
 	public function update_gift_photo($where=array())
 	{
 		$res = 0;
@@ -110,13 +110,13 @@ class Gift extends Model
 		return $res;
 	}
 	
-	//¸üÐÂ½±Æ·
+	//ï¿½ï¿½ï¿½Â½ï¿½Æ·
 	public function update_gift($data=array())
 	{
 		$res = 0;
 		if ($data)
 		{
-			$res = Db::execute("UPDATE hg_gift SET gift_name = :gift_name, gift_photo = :gift_photo, credits = :credits, num = :num, sales_num = :sales_num,gift_intro=:gift_intro,create_time = :create_time, status = :status, update_time = :update_time, validity_time = :validity_time, is_delete = :is_delete WHERE gift_id = :gift_id", $data);
+			$res = Db::execute("UPDATE hg_gift SET gift_name = :gift_name, gift_photo = :gift_photo, credits = :credits, num = :num, sales_num = :sales_num,gift_intro=:gift_intro,create_time = :create_time, status = :status, update_time = :update_time, validity_time = :validity_time, is_delete = :is_delete, attribute = :attribute WHERE gift_id = :gift_id", $data);
 		}
 		return $res;
 	}

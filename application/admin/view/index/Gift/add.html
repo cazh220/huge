@@ -20,11 +20,11 @@
 	<script src="{$Think.config.host_url}/public/static/upload/js/fileinput.js" type="text/javascript"></script>
 </head>
 <body>
-<form action="doAdd" method="post" class="definewidth m20">
+<form id="gift_form" action="doAdd" method="post" class="definewidth m20">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <td width="10%" class="tableleft" style="line-height:27px; font-size:13px">奖品名称：</td>
-        <td style="line-height:27px;"><input type="text" name="gift_name" value=""/></td>
+        <td style="line-height:27px;"><input type="text" name="gift_name" id="gift_name" value="" placeholder="请填写奖品名称"/></td>
     </tr>
     <tr>
         <td class="tableleft" style="line-height:27px; font-size:13px">奖品图片：</td>
@@ -47,19 +47,23 @@
 		</td>
     </tr>
     <tr>
+        <td class="tableleft" style="line-height:27px; font-size:13px">规格属性：</td>
+        <td ><input type="text" name="attribute" id="attribute" value="" placeholder="请填写规格属性"/></td>
+    </tr>
+    <tr>
         <td class="tableleft" style="line-height:27px; font-size:13px">奖品介绍：</td>
-        <td ><textarea name="gift_intro" cols="20" rows="5" ></textarea></td>
+        <td ><textarea name="gift_intro" cols="20" rows="5" placeholder="请填写奖品介绍"></textarea></td>
     </tr>
     <tr>
         <td class="tableleft" style="line-height:27px; font-size:13px">兑换需抵扣积分：</td>
         <td style="line-height:27px;">
-           <input type="text" id="credit" name="credit" value="">
+           <input type="text" id="credit" name="credit" value="" placeholder="请填写积分">
         </td>
     </tr>
     <tr>
         <td class="tableleft"></td>
         <td style="line-height:27px;">
-            <button id="save" type="submit" class="btn btn-primary" type="button" disabled>保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+            <button id="save" type="button" class="btn btn-primary" onclick="save_gift()" type="button" disabled>保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
         </td>
     </tr>
 </table>
@@ -67,6 +71,47 @@
 </body>
 </html>
 <script>
+	function save_gift()
+	{
+		var gift_name = $("#gift_name").val();
+		if(gift_name == '')
+		{
+			alert('名称不为空');
+			return false;
+		}
+		
+		var exchange_date = $("#dtp_input2").val();
+		if(exchange_date=='')
+		{
+			alert('请填写兑换日期');
+			return false;
+		}
+		
+		var attribute = $("#attribute").val();
+		if(attribute=='')
+		{
+			alert('请填写规格属性');
+			return false;
+		}
+		
+		var credit = $("#credit").val();
+		if(credit == '')
+		{
+			alert('兑换积分不为空');
+			return false;
+		}
+		else
+		{
+			if(isNaN(credit))
+			{
+				alert('请填写数字');
+				return false;
+			}
+		}
+		
+		$("#gift_form").submit();
+	}
+	
     $(function () {       
 		$('#backid').click(function(){
 				window.location.href="index.html";
