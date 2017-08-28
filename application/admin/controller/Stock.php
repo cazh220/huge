@@ -22,6 +22,7 @@ class Stock
 
 		$Stock = Model("Stock");
 		$res = $Stock->stock_list($param);
+		//print_r($res);die;
 		$data = $res->toArray();
 		$page = $res->render();
 
@@ -35,6 +36,9 @@ class Stock
 	public function add()
 	{
 		$view = new View();
+		//print_r($_SESSION);die;
+		$view->assign('record_time', date("Y-m-d H:i:s", time()));
+		$view->assign('username', Session::get('username'));
 		return $view->fetch('index/stock/create');
 	}
 	

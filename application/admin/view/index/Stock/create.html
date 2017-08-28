@@ -18,19 +18,23 @@
 <form action="doCreate" method="post" class="definewidth m20">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
-        <td width="10%" class="tableleft"  style="line-height:27px;">防伪码数量：</td>
-        <td  style="line-height:27px;"><input type="text" name="num"/></td>
+        <td width="10%" class="tableleft"  style="line-height:27px;">录入时间：</td>
+        <td  style="line-height:27px;"><input type="text" name="record_time" id="record_time" value="{$record_time}" disabled="disabled"/>(以实时录入时间为准)</td>
     </tr>
 	<tr>
-        <td class="tableleft"  style="line-height:27px;">位数：</td>
-        <td  style="line-height:27px;"><input type="text" name="size"/></td>
+        <td class="tableleft"  style="line-height:27px;">客户单位：</td>
+        <td style="line-height:27px;">
+        	<select id="company">
+        		<option value="">请选择</option>
+        	</select>
+        </td>
     </tr>
 	<tr>
-        <td class="tableleft"  style="line-height:27px;">前缀：</td>
-        <td  style="line-height:27px;"><input type="text" name="prefix"/></td>
+        <td class="tableleft"  style="line-height:27px;">操作人：</td>
+        <td  style="line-height:27px;"><input type="text" name="stoker" value="{$username}"/></td>
     </tr>
     <tr>
-        <td class="tableleft"  style="line-height:27px;">导出：</td>
+        <td class="tableleft"  style="line-height:27px;">录入防伪码：</td>
         <td  style="line-height:27px;"><input type="checkbox" name="export" value="1"/></td>
     </tr>
     <tr>
