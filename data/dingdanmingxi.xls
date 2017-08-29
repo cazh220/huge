@@ -1,0 +1,26 @@
+﻿<table class="table">
+	 
+			<tr class="mt">
+			 <TH>兑换订单号</TH><TH>奖品名称</TH><TH>积分</TH><TH>兑换数量</TH><TH>买家留言</TH><TH>收货人姓名/TH>
+                         <TH>收货地址</TH><TH>配送方式</TH><TH>联系电话 /手机</TH><TH>订单创建时间</TH>
+			</tr>
+					<tr>	  
+			 <TD style="text-align:center;">1464335856</TD><TD style="text-align:center;">沪鸽 30周年纪念版U盘</TD>
+			 <TD style="text-align:center;">9600</TD><TD style="text-align:center;">1</TD>
+			 <TD style="text-align:center;"></TD><TD style="text-align:center;">钟君</TD>
+			 <TD style="text-align:center;">云南省昆明市官渡区大板桥国际印刷包装城文博路546号</TD>
+					 <TD style="text-align:center;">随产品订单物流发货</TD><TD style="text-align:center;">18687151011</TD>
+			 <TD style="text-align:center;">2016-05-27</TD>
+					</tr>
+			
+					<tr>	  
+			 <TD style="text-align:center;">1479705796</TD><TD style="text-align:center;">沪鸽 背包</TD>
+			 <TD style="text-align:center;">18000</TD><TD style="text-align:center;">1</TD>
+			 <TD style="text-align:center;"></TD><TD style="text-align:center;">钟君</TD>
+			 <TD style="text-align:center;">云南省昆明市官渡区大板桥国际印刷包装城文博路546号</TD>
+					 <TD style="text-align:center;">随产品订单物流发货</TD><TD style="text-align:center;">18687151011</TD>
+			 <TD style="text-align:center;">2016-11-21</TD>
+					</tr>
+			
+		 
+		</table>
