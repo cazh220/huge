@@ -157,6 +157,77 @@ class Stock
 		}
 	}
 	
+	//导出
+	public function export()
+	{
+		//获取列表
+		$Stock = model('Stock');
+		$list = $Stock->stock_list()->toArray();
+		$this->export_excel($list);
+	}
+	
+	private function export_excel($list)
+	{
+		require_once VENDOR_PATH.'PHPExcel.php';
+		$objPHPExcel = new \PHPExcel();
+        $name = '出库列表';
+        $name = iconv('UTF-8', 'GBK', $name);
+        $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
+
+
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+        $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
+        ->setCellValue('A1', '序号')
+        ->setCellValue('B1', '出库单号')
+        ->setCellValue('C1', '出库数量')
+        ->setCellValue('D1', '出单人')
+        ->setCellValue('E1', '客户单位')
+        ->setCellValue('F1', '出库状态')
+        ->setCellValue('G1', '出库时间')
+		->setCellValue('H1', '出库的防伪码');
+		
+        $num = 0;
+        if (!empty($list['data']) && is_array($list['data']))
+        {
+            foreach($list['data'] as $k => $v){
+            	 if($v['status'] ==1)
+            	 {
+            	 	$status_name = '已出库';
+            	 }
+            	 else
+            	 {
+            	 	$status_name = '待出库';
+            	 }
+                $num=$k+2;
+                $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
+                ->setCellValue('A'.$num, $v['stock_id'])
+                ->setCellValue('B'.$num, $v['stock_no'])
+                ->setCellValue('C'.$num, $v['stock_num'])
+				->setCellValue('D'.$num, $v['user_name'])
+                ->setCellValue('E'.$num, $v['company_name'])
+                ->setCellValue('F'.$num, $status_name)
+                ->setCellValue('G'.$num, $v['stock_time'])
+                ->setCellValue('H'.$num, $v['code_list']);
+            }
+        }
+
+        $objPHPExcel->getActiveSheet()->setTitle('防伪码列表');
+        $objPHPExcel->setActiveSheetIndex(0);
+        header('Content-Type: applicationnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+        header('Cache-Control: max-age=0');
+        $objWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
+        $objWriter->save('php://output');
+        exit;
+	}
+	
 
 	
 }

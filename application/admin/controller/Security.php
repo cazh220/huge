@@ -21,10 +21,12 @@ class Security
 
 		$data = $Security->code_list($where);
 		$page = $data->render();
-		
+		//已使用数量
+		$count = $Security->used_num();
         $view = new View();
 		$view->assign('data', $data->toArray());
 		$view->assign('page', $page);
+		$view->assign('count', $count);
 		return $view->fetch('index/security/index');
     }
 	
@@ -124,15 +126,13 @@ class Security
         $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
         $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
         ->setCellValue('A1', 'ID')
         ->setCellValue('B1', '防伪码')
-        ->setCellValue('C1', '查询方式')
-        ->setCellValue('D1', '查询时间')
-        ->setCellValue('E1', '查询结果')
-        ->setCellValue('F1', '归属地')
-		->setCellValue('G1', '二维码');
+        ->setCellValue('C1', '最近查询时间')
+        ->setCellValue('D1', '出库单号')
+        ->setCellValue('E1', '客户单位')
+        ->setCellValue('F1', '出库时间');
 		
         $num = 0;
         if (!empty($list['data']) && is_array($list['data']))
@@ -142,11 +142,10 @@ class Security
                 $objPHPExcel->setActiveSheetIndex(0)//Excel的第A列，uid是你查出数组的键值，下面以此类推
                 ->setCellValue('A'.$num, $v['code_id'])
                 ->setCellValue('B'.$num, $v['security_code'])
-                ->setCellValue('C'.$num, '网站查询')
-				->setCellValue('D'.$num, $v['query_time'])
-                ->setCellValue('E'.$num, '真')
-                ->setCellValue('F'.$num, '上海')
-                ->setCellValue('G'.$num, '');
+                ->setCellValue('C'.$num, $v['query_time'])
+				->setCellValue('D'.$num, $v['stock_no'])
+                ->setCellValue('E'.$num, $v['company_name'])
+                ->setCellValue('F'.$num, $v['stock_time']);
             }
         }
 

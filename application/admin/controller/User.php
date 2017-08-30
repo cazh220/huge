@@ -73,6 +73,18 @@ class User
 		$day = input("day");
 		$person_num = input("person_num");
 		$zipcode = input("zipcode");
+		$company_info = input('company_info');
+		
+		$year_tooth_num = input('year_tooth_num');
+		$year_sales = input('year_sales');
+		$yhg_band = input('yhg_band');
+		$cf_band = input('cf_band');
+		$factory = input('factory');
+		$plan = input('plan');
+		$seats = input('seats');
+		$is_grow = input('is_grow');
+		$is_seats = input('is_seats');
+		$is_correct = input('is_correct');
 		
 		//生日验证
 		if ($month < 10)
@@ -90,9 +102,12 @@ class User
 			echo "<script>alert('生日日期选择错误');history.back();</script>";
 		}
 		
+		$pic = $this->upload();
+		$pic = date("Ymd", time())."/".$pic;
+		
 		$params = array(
 			'username'		=> $username,
-			'password'		=> md5($password),
+			'password'		=> $password,//md5($password),
 			'mobile'		=> $mobile,
 			'realname'		=> $realname,
 			'user_type'		=> $user_type,
@@ -106,8 +121,27 @@ class User
 			'birthday'		=> $year.$month.$day,
 			'persons_num'	=> $person_num,
 			'zipcode'		=> $zipcode,
-			'create_time'	=> date("Y-m-d H:i:s", time())
+			'create_time'	=> date("Y-m-d H:i:s", time()),
+			'company_info'	=> $company_info,
+			'head_img'		=> $pic
 		);
+		
+		if($user_type==1)
+		{
+			$params['year_tooth_num'] = intval($year_tooth_num);
+			$params['year_sales'] = intval($year_sales);
+			$params['yhg_band'] = ($yhg_band);
+			$params['cf_band'] = ($cf_band);
+			$params['factory'] = ($factory);
+			$params['plan'] = ($plan);
+		}
+		else
+		{
+			$params['seats'] = intval($seats);
+			$params['is_grow'] = intval($is_grow);
+			$params['is_seats'] = intval($is_seats);
+			$params['is_correct'] = intval($is_correct);
+		}
 		
 
 		$User = Model("User");
@@ -134,6 +168,22 @@ class User
 		
 	}
 	
+	public function upload()
+	{
+		$files = request()->file('logo');
+		// 移动到框架应用根目录/public/uploads/ 目录下
+		$info = $files->move(ROOT_PATH . 'public' . DS . 'uploads');
+		if($info){
+			return $info->getFilename();
+			// 成功上传后 获取上传信息
+			//return array('name'=>$info->getFilename(), 'status'=>1);
+		}else{
+			echo $files->getError();
+			// 上传失败获取错误信息
+			//return array('error'=>$files->getError(), 'status'=>0);
+		} 
+	}
+	
 	public function user_detail()
 	{
 		$user_id = input("user_id");
@@ -141,6 +191,10 @@ class User
 		
 		$User = Model("User");
 		$res = $User->user_detail($user_id);
+		if(isset($res[0]['birthday']))
+		{
+			$res[0]['birthday'] = substr($res[0]['birthday'],0,4).'年'.intval(substr($res[0]['birthday'],4,2)).'月'.intval(substr($res[0]['birthday'],6,2)).'日';
+		}
 		
 		$view = new View();
 		$view->assign('detail', $res[0]);

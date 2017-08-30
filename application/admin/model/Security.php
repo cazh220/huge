@@ -62,7 +62,7 @@ class Security extends Model
 	
 	public function code_list($param=array())
 	{
-		$obj_data = $obj_data = Db::name('hg_security_code');
+		$obj_data = $obj_data = Db::name('hg_security_code')->alias('a')->join('hg_stock b', 'a.stock_no = b.stock_no', 'LEFT');
 		if (!empty($param['_code']))
 		{
 			$obj_data = $obj_data->where('security_code', $param['_code']);
@@ -83,6 +83,13 @@ class Security extends Model
 		$obj_data = $obj_data->order('code_id desc')->paginate();
 		
 		return $obj_data;
+	}
+	
+	//防伪码已发放数量
+	public function used_num()
+	{
+		$count = $obj_data = Db::name('hg_security_code')->alias('a')->join('hg_stock b', 'a.stock_no = b.stock_no', 'LEFT')->where('a.status', '>', 0)->count();
+		return $count ? $count : 0;
 	}
 	
 	//更新防伪码状态

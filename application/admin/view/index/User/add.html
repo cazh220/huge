@@ -35,7 +35,7 @@
     </style>
 </head>
 <body>
-<form id="add_user" action="add_user" method="post" class="definewidth m20">
+<form id="add_user" action="add_user" method="post" enctype="multipart/form-data" class="definewidth m20">
 <table class="table table-bordered table-hover definewidth m10">
     <tr>
         <td width="10%" class="tableleft">会员账号</td>
@@ -59,7 +59,7 @@
     </tr>
     <tr>
         <td class="tableleft">用户类型：</td>
-        <td><select id="user_type" name="user_type">
+        <td><select id="user_type" name="user_type" onchange="select_usertype(this.value)">
 			<option value="1">技工所</option>
 			<option value="2">医生</option>
 			<!--<option value="3">其它</option>-->
@@ -122,11 +122,64 @@
         <td><input type="text" name="zipcode" id="zipcode"/></td>
     </tr>
     <tr>
+        <td class="tableleft">头像或Logo：</td>
+        <td><input type="file" name="logo" id="log"/></td>
+    </tr>
+    <tr>
+        <td class="tableleft">单位介绍：</td>
+        <td><textarea id="company_info" name="company_info" cols="40" rows="5" placeholder="请输入单位介绍，限制100字内"></textarea></td>
+    </tr>
+    <tr class="techer">
+        <td class="tableleft">年全瓷牙量</td>
+        <td><input type="text" name="year_tooth_num" id="year_tooth_num" placeholder="请填写年全瓷牙量"/></td>
+    </tr>
+    <tr class="techer">
+        <td class="tableleft">年营业额</td>
+        <td><input type="text" name="year_sales" id="year_sales" placeholder="请填写年营业额"/></td>
+    </tr>
+    <tr class="techer">
+        <td class="tableleft">在用氧化锆品牌</td>
+        <td><input type="text" name="yhg_band" id="yhg_band" placeholder="请填写在用氧化锆品牌"/></td>
+    </tr>
+    <tr class="techer">
+        <td class="tableleft">在用瓷粉品牌</td>
+        <td><input type="text" name="cf_band" id="cf_band" placeholder="请填写在用瓷粉品牌"/></td>
+    </tr>
+    <tr class="techer">
+        <td class="tableleft">厂房面积</td>
+        <td><input type="text" name="factory" id="factory" placeholder="请填写厂房面积"/></td>
+    </tr>
+    <tr class="techer">
+        <td class="tableleft">扩展计划</td>
+        <td><input type="text" name="plan" id="plan" placeholder="请填写扩展计划"/></td>
+    </tr>
+    
+    <tr class="doctor">
+        <td class="tableleft">椅位</td>
+        <td><input type="text" name="seats" id="seats" placeholder="请填写椅位"/></td>
+    </tr>
+    <tr class="doctor">
+        <td class="tableleft">是否开展种植</td>
+        <td><input type="radio" id="is_grow" name="is_grow" value="1" checked="checked">是<input type="radio" id="is_grow2" name="is_grow" value="2">否</td>
+    </tr>
+    <tr class="doctor">
+        <td class="tableleft">是否上椅旁系统</td>
+        <td><input type="radio" id="is_seats" name="is_seats" value="1" checked="checked">是<input type="radio" id="is_seats2" name="is_seats" value="2">否</td>
+    </tr>
+    <tr class="doctor">
+        <td class="tableleft">是否已开展正畸</td>
+        <td><input type="radio" id="is_correct" name="is_correct" value="1" checked="checked">是<input type="radio" id="is_correct2" name="is_correct" value="2">否</td>
+    </tr>
+    
+    
+    <tr>
         <td class="tableleft"></td>
         <td>
             <button class="btn btn-primary" type="button" onclick="save()">保存</button> &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
         </td>
     </tr>
+    
+    
 </table>
 </form>
 </body>
@@ -136,6 +189,8 @@
 		$('#backid').click(function(){
 				window.location.href="index.html";
 		 });
+		 
+		 $(".doctor").css("display", "none");
 
     });
     
@@ -219,5 +274,21 @@
     	
     	$("#add_user").submit();
     	
+    }
+    
+    function select_usertype(val)
+    {
+    	if(val==1)
+    	{
+    		//技工
+    		$(".techer").css("display","");
+    		$(".doctor").css("display","none");
+    	}
+    	else
+    	{
+    		//医生
+    		$(".techer").css("display","none");
+    		$(".doctor").css("display","");
+    	}
     }
 </script>

@@ -57,10 +57,10 @@
     <tr>
         <th>ID</th>
         <th>防伪码</th>
-        <th>查询方式</th>
-        <th>查询时间</th>
-		<th>查询结果</th>
-		<th>归属地</th>
+        <th>最近查询时间</th>
+		<th>出库单号</th>
+		<th>客户单位</th>
+		<th>出库时间</th>
 		<th>二维码</th>
     </tr>
     </thead>
@@ -68,13 +68,16 @@
 	     <tr>
 			<td>{$list.code_id}</td>
             <td>{$list.security_code}</td>
-			<td>网站查询</td>
 			<td>{$list.query_time}</td>
-			<td>真</td>
-			<td>上海</td>
+			<td>{$list.stock_no}</td>
+			<td>{$list.company_name}</td>
+			<td>{$list.stock_time}</td>
 			<td><img style="width:40px; height:40px" src="http://qr.liantu.com/api.php?text={$list.code_id}"/></td>
         </tr>
-		{/volist}		
+		{/volist}	
+	<tr>
+		<td colspan="7">已发放的防伪码数量为<font color="red">{$count}</font>个</td>
+	</tr>
 </table>
 {$page}
 </body>

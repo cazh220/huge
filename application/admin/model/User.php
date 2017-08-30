@@ -12,7 +12,15 @@ class User extends Model
 		$res = 0;
 		if (!empty($data))
 		{
-			$res = Db::execute("INSERT INTO hg_user SET username = :username, mobile = :mobile, realname = :realname, password = :password, user_type = :user_type, sex = :sex,email = :email, birthday = :birthday, company_name = :company_name, company_addr = :company_addr, company_phone = :company_phone, department = :department, position = :position, persons_num = :persons_num, zipcode = :zipcode, create_time = :create_time", $data);
+			$sql = "INSERT INTO hg_user SET ";
+			foreach($data as $key => $val)
+			{
+				$sql .= $key ." = '".$val."',";
+			}
+			$sql = rtrim($sql, ',');
+			//echo $sql;die;
+			$res = Db::execute($sql);
+			//$res = Db::execute("INSERT INTO hg_user SET username = :username, mobile = :mobile, realname = :realname, password = :password, user_type = :user_type, sex = :sex,email = :email, birthday = :birthday, company_name = :company_name, company_addr = :company_addr, company_phone = :company_phone, department = :department, position = :position, persons_num = :persons_num, zipcode = :zipcode, create_time = :create_time, company_info = :company_info, head_img = :head_img", $data);
 		}
 		return $res;
 	}
@@ -96,12 +104,33 @@ class User extends Model
 	
 	public function getHistory($user_id = 0)
 	{
-		$obj_data = Db::name('hg_user_actions');
+		$obj_data = Db::name('hg_user_actions')->alias('a')->join('hg_user b', 'a.user_id = b.user_id', 'LEFT');
 		if (!empty($user_id))
 		{
-			$obj_data = $obj_data->where('user_id', $user_id);
+			$obj_data = $obj_data->where('a.user_id', $user_id);
 		}
 		$res = $obj_data->order('id desc')->paginate();
+		return $res;
+	}
+	
+	//获取超过8小时未审核的用户
+	public function un_audited_user_list()
+	{
+		//8小时
+		$time = date('Y-m-d H:i:s', time()-3600*8);
+		$res = Db::name('hg_user')->where('create_time', '<', $time)->select();
+		//print_r($res);die;
+		return $res;
+	}
+	
+	//更新通过审核状态
+	public function pass($user_id=0)
+	{
+		$res = 0;
+		if($user_id)
+		{
+			$res = Db::execute("UPDATE hg_user SET status = :status, auto_check = :auto_check  WHERE user_id = :user_id", ['status'=>1,'auto_check'=>1,'user_id'=>$user_id]);
+		}
 		
 		return $res;
 	}

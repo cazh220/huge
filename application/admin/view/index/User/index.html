@@ -60,6 +60,7 @@
         <th>用户类型</th>
 		<th>单位名称</th>
 		<!--<th>单位地址</th>-->
+		<th>用户姓名</th>
 		<th>部门</th>
 		<th>邮箱</th>
 		<th>注册时间</th>
@@ -76,10 +77,11 @@
 			<td>{if condition="$list.user_type eq 1"}技工所{elseif condition="$list.user_type eq 2" /}医生{else/}其它{/if}</td>
 			<td>{$list.company_name}</td>
 			<!--<td>{$list.company_addr}</td>-->
+			<td>{$list.realname}</td>
 			<td>{$list.department}</td>
 			<td>{$list.email}</td>
 			<td>{$list.create_time}</td>
-			<td>{if condition="$list.status eq 1"}<font color="green">已审核</font>{elseif condition="$list.status eq 2"}未通过{else}<font color="red">未审核</font>{/if}</td>
+			<td>{if condition="$list.status eq 1"}<font color="green">已审核</font>{if condition="$list.auto_check eq 1"}(自动){/if}{elseif condition="$list.status eq 2"}未通过{else}<font color="red">未审核</font>{/if}</td>
 			<td>
 			<a href="history?user_id={$list.user_id}">历史记录</a>&nbsp;&nbsp;<a href="user_detail?user_id={$list.user_id}">详情</a>&nbsp;&nbsp;{if condition="$list.status eq 0"}<a href="#" onclick="pass({$list.user_id})">通过</a>&nbsp;&nbsp;<a href="#" onclick="refuse({$list.user_id})">拒绝</a>{/if}
 			</td>

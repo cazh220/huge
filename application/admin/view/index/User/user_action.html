@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>会员记录</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
@@ -39,11 +39,14 @@
 <form class="form-inline definewidth m20">    
     <button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
 </form>
-
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
-        <th>管理员账号</th>
+        <th>账号</th>
+        <th>手机号</th>
+        <th>登录密码</th>
+        <th>姓名</th>
+        <th>会员类型</th>
         <th>操作内容</th>
         <th>操作时间</th>
     </tr>
@@ -51,12 +54,17 @@
 		{volist id="items" name="list.data"}
 	     <tr>
             <td>{$items.username}</td>
+            <td>{$items.mobile}</td>
+            <td>{$items.password}</td>
+            <td>{$items.realname}</td>
+            <td>{if condition="$items.user_type eq 1"}技工{else}医生{/if}</td>
 			<td>{$items.content}</td>
 			<td>{$items.create_time}</td>
 			</td>
         </tr>
 		{/volist}		
 </table>
+
 {$page}
 </body>
 </html>

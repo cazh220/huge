@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>会员详情</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{$Think.config.host_url}/public/static/Css/bootstrap-responsive.css" />
@@ -94,6 +94,61 @@
 		<td colspan="5">上海市杨浦区大湖泊</td>
     </tr>
 </table>
+{if condition="$detail.user_type eq 1"}
+<table class="table table-bordered table-hover definewidth m10">
+    <tr>
+        <th width="10%">年全瓷牙量</th>
+		<td width="20%">{$detail.year_tooth_num}</td>
+		<th width="10%" rowspan="3" style="text-align: center; vertical-align: middle;">单位简介：</th>
+		<td width="60%" rowspan="3" style="text-align: left; vertical-align: middle;">{$detail.company_info}</td>
+    </tr>
+	<tr>
+		<th width="10%">年营业额</th>
+		<td>{$detail.year_sales}</td>
+	</tr>
+	<tr>
+		<th width="10%">在用氧化锆品牌</th>
+		<td>{$detail.yhg_band}</td>
+	</tr>
+	<tr>
+        <th width="10%">在用瓷粉品牌</th>
+		<td width="20%">{$detail.cf_band}</td>
+		<th width="10%" rowspan="3" style="text-align: center; vertical-align: middle;">单位头像：</th>
+		<td width="60%" rowspan="3" style="text-align: left; vertical-align: middle;"><img src="{$Think.config.host_url}/public/uploads/{$detail.head_img}" width="76px" height="76px"></td>
+    </tr>
+	<tr>
+		<th width="10%">厂房面积</th>
+		<td>{$detail.factory}</td>
+	</tr>
+	<tr>
+		<th width="10%">扩展计划</th>
+		<td>{$detail.year_sales}</td>
+	</tr>
+</table>
+{else /}
+<table class="table table-bordered table-hover definewidth m10">
+    <tr>
+        <th width="10%">椅位</th>
+		<td width="20%">{$detail.seats}</td>
+		<th width="10%" rowspan="2" style="text-align: center; vertical-align: middle;">单位简介：</th>
+		<td width="60%" rowspan="2" style="text-align: left; vertical-align: middle;">{$detail.company_info}</td>
+    </tr>
+	<tr>
+		<th width="10%">是否开展已种植</th>
+		<td>{if condition="$detail.is_grow eq 1"}是{else}否{/if}</td>
+	</tr>
+	<tr>
+        <th width="10%">是否上椅旁系统</th>
+		<td>{if condition="$detail.is_seats eq 1"}是{else}否{/if}</td>
+		<th width="10%" rowspan="2" style="text-align: center; vertical-align: middle;">单位头像：</th>
+		<td width="60%" rowspan="2" style="text-align: left; vertical-align: middle;"><img src="{$Think.config.host_url}/public/uploads/{$detail.head_img}" width="76px" height="76px"></td>
+    </tr>
+	<tr>
+		<th width="10%">是否已开展正畸</th>
+		<td>{if condition="$detail.is_correct eq 1"}是{else}否{/if}</td>
+	</tr>
+</table>
+{/if}
 </body>
 </html>
 <script>

@@ -40,7 +40,7 @@
   </tr>
     <tr>
         <td class="tableleft"  style="line-height:27px;">待出库防伪码：</td>
-        <td  style="line-height:27px;"><textarea id="code_list" name="code_list" cols="40" rows="5"  placeholder="请输入防伪码，多个以','隔开"></textarea></td>
+        <td  style="line-height:27px;"><textarea id="code_list" name="code_list" cols="40" rows="5"  placeholder="请输入防伪码，多个以','隔开"></textarea>(已录入<span id="code_num">0</span>个)</td>
     </tr>
     <tr>
         <td></td>
@@ -56,6 +56,15 @@
     $(function () {       
 		$('#backid').click(function(){
 				window.location.href="index.html";
+		 });
+		 
+		 
+		 $("#code_list").blur(function(){
+		 	var code = new Array();
+		 	var code_str = $(this).val();
+		 	code = code_str.split(',')
+		 	var len = code.length;
+		 	$("#code_num").html(len);
 		 });
 
     });
