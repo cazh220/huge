@@ -17,7 +17,7 @@ class Index extends Controller
         $view = new View();
 		$view->assign('menu', Session::get('menu'));
 		$view->assign('username', Session::get('username'));
-		return $view->fetch();
+		return $view->fetch('index');
     }
 	
 	public function login()
@@ -59,6 +59,7 @@ class Index extends Controller
 		//获取menu和权限列表
 		$Menu = model('Menu');
 		$menus = $Menu->getMenu(array('status'=>0, 'action_list'=>$admin_detail[0]['action_list']));
+
 		$menu_list = get_menu_list($menus);
 		Session::set('menu',$menu_list);
 		Session::set('action_list',$admin_detail[0]['action_list']);

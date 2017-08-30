@@ -1,0 +1,25 @@
+﻿<table>
+			<tr style="font-size:16px">
+			 <TH>序号</TH><TH>姓名</TH><TH>所属技工所</TH><TH>历史积分总额</TH>
+			 <TH>已兑积分</TH><TH>剩余积分</TH><TH>兑换日期</TH><TH>兑换订单号</TH>
+			 <TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH>
+			 <TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH><TH>&nbsp</TH>
+			</tr>
+					<tr style="font-size:16px">
+			 <TD  style="text-align:center;">53</TD>		  
+			 <TD style="text-align:center;">袁土（典冠）</TD><TD style="text-align:center;">袁土（典冠）</TD>
+			 <TD style="text-align:center;">35470</TD><TD style="text-align:center;">27600</TD>
+			 <TD style="text-align:center;">7870</TD><TD style="text-align:center;">2016-05-27</TD>
+			 <TD style="text-align:center;">1464335856</TD>
+
+			</tr>
+					<tr style="font-size:16px">
+			 <TD  style="text-align:center;">54</TD>		  
+			 <TD style="text-align:center;">袁土（典冠）</TD><TD style="text-align:center;">袁土（典冠）</TD>
+			 <TD style="text-align:center;">35470</TD><TD style="text-align:center;">27600</TD>
+			 <TD style="text-align:center;">7870</TD><TD style="text-align:center;">2016-11-21</TD>
+			 <TD style="text-align:center;">1479705796</TD>
+
+			</tr>
+		 
+</table>
