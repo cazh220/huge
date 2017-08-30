@@ -59,7 +59,7 @@ class Batch
 	{
 		require_once VENDOR_PATH.'PHPExcel.php';
 		//$PHPReader = new \PHPExcel();
-		$file_path = ROOT_PATH.'data\1.xlsx';
+		$file_path = ROOT_PATH.'data\fangwm.xlsx';
 		//echo $file_path;die;
 		/*
 		$PHPReader = new \PHPExcel_Reader_Excel2007();
@@ -101,12 +101,22 @@ class Batch
 		$allColumn = $currentSheet->getHighestColumn();
 		/**取得一共有多少行*/
 		$allRow = $currentSheet->getHighestRow();
-		//echo $allRow;die;
+		//echo $allColumn;die;
 		for($currentRow =2;$currentRow <= $allRow;$currentRow++){
 		/**从第A列开始输出*/
 			for($currentColumn= 'A';$currentColumn<= $allColumn; $currentColumn++){
+					var_dump($currentRow);var_dump(ord($currentColumn)-65);
     				$val = $currentSheet->getCellByColumnAndRow(ord($currentColumn) - 65,$currentRow)->getValue();/**ord()将字符转为十进制数*/
-    				echo $val;echo "<br>";
+    				if(ord($currentColumn)-65 == 14)
+    				{
+    					$t = 24*60*60;
+    					 echo gmdate("Y-m-d H:i:s",($val-25569)*$t);
+    				}
+    				else
+    				{
+    					echo $val;echo "<br>";
+    				}
+    				
     			}
     		}
 				
